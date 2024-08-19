@@ -28,8 +28,6 @@ async function createTranslationPromptAnthropic(
     model: model,
     messages: [{ role: "user", content: promptToVietnamese }],
   });
-  console.log(chatCompletionEnglish.content[0]);
-  console.log(chatCompletionVietnamese.content[0]);
   return {
     english: (chatCompletionEnglish.content[0] as TextBlock).text,
     vietnamese: (chatCompletionVietnamese.content[0] as TextBlock).text,

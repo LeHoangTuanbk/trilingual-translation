@@ -19,7 +19,6 @@ const Home = () => {
 
   const handleTranslate = useCallback(
     async (textToTranslate: string) => {
-      if (!textToTranslate.trim() || isLoading) return;
       if (!textToTranslate.trim()) {
         setInput("");
         setEnglish("");
@@ -82,6 +81,7 @@ const Home = () => {
   return (
     <div className="main">
       <h1>Trilingual Translator</h1>
+      <h2 className="title">Japanese</h2>
       <div className="input-container">
         <textarea
           value={input}
