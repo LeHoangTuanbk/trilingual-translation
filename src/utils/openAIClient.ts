@@ -5,7 +5,10 @@ const client = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-async function createTranslationPrompt(japaneseText: string, model: string) {
+async function createTranslationPromptOpenAI(
+  japaneseText: string,
+  model: string
+) {
   const promptToEnglish = promptTemplate(japaneseText, "English");
   const promptToVietnamese = promptTemplate(japaneseText, "Vietnamese");
   const chatCompletionEnglish = await client.chat.completions.create({
@@ -22,4 +25,4 @@ async function createTranslationPrompt(japaneseText: string, model: string) {
   };
 }
 
-export default createTranslationPrompt;
+export default createTranslationPromptOpenAI;

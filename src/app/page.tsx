@@ -8,7 +8,7 @@ import {
   useCallback,
 } from "react";
 import axios from "axios";
-import { models } from "@/utils/consts";
+import { MODELS } from "@/utils/consts";
 
 const Home = () => {
   const [input, setInput] = useState("");
@@ -100,7 +100,7 @@ const Home = () => {
         value={selectedModel}
         onChange={handleModelChange}
       >
-        {models.map((model) => (
+        {MODELS.map((model) => (
           <option key={model} value={model}>
             {model}
           </option>
