@@ -91,7 +91,7 @@ const Home = () => {
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
           onPaste={handlePaste}
-          placeholder="Enter Japanese text"
+          placeholder="Enter your Japanese paragraph here"
           className="text-input"
         />
       </div>
