@@ -17,17 +17,18 @@ async function createTranslationPromptAnthropic(
 ) {
   const promptToEnglish = promptTemplate(japaneseText, "English");
   const promptToVietnamese = promptTemplate(japaneseText, "Vietnamese");
-  const chatCompletionEnglish = await client.messages.create({
-    max_tokens: 4096,
-    messages: [{ role: "user", content: promptToEnglish }],
-    model: model,
-  });
-
-  const chatCompletionVietnamese = await client.messages.create({
-    max_tokens: 4096,
-    model: model,
-    messages: [{ role: "user", content: promptToVietnamese }],
-  });
+  const [chatCompletionEnglish, chatCompletionVietnamese] = await Promise.all([
+    client.messages.create({
+      max_tokens: 4096,
+      messages: [{ role: "user", content: promptToEnglish }],
+      model: model,
+    }),
+    client.messages.create({
+      max_tokens: 4096,
+      model: model,
+      messages: [{ role: "user", content: promptToVietnamese }],
+    }),
+  ]);
   return {
     english: (chatCompletionEnglish.content[0] as TextBlock).text,
     vietnamese: (chatCompletionVietnamese.content[0] as TextBlock).text,
