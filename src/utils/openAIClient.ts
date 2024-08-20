@@ -11,14 +11,16 @@ async function createTranslationPromptOpenAI(
 ) {
   const promptToEnglish = promptTemplate(japaneseText, "English");
   const promptToVietnamese = promptTemplate(japaneseText, "Vietnamese");
-  const chatCompletionEnglish = await client.chat.completions.create({
-    model: model,
-    messages: [{ role: "system", content: promptToEnglish }],
-  });
-  const chatCompletionVietnamese = await client.chat.completions.create({
-    model: model,
-    messages: [{ role: "system", content: promptToVietnamese }],
-  });
+  const [chatCompletionEnglish, chatCompletionVietnamese] = await Promise.all([
+    client.chat.completions.create({
+      model: model,
+      messages: [{ role: "system", content: promptToEnglish }],
+    }),
+    client.chat.completions.create({
+      model: model,
+      messages: [{ role: "system", content: promptToVietnamese }],
+    }),
+  ]);
   return {
     english: chatCompletionEnglish.choices[0].message.content,
     vietnamese: chatCompletionVietnamese.choices[0].message.content,

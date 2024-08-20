@@ -61,7 +61,7 @@ const Home = () => {
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === "Enter" && !e.shiftKey) {
+    if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
       e.preventDefault();
       handleTranslate(input);
     }
@@ -93,7 +93,9 @@ const Home = () => {
         />
       </div>
       <div className="note">
-        <p>Paste or press enter or click translate to translate</p>
+        <p>
+          Paste or press command/control + enter or click translate to translate
+        </p>
       </div>
       <select
         className="model-select"
