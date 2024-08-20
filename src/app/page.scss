@@ -32,4 +32,25 @@
       flex: 1;
     }
   }
+  .footer {
+    position: relative;
+    width: 100%;
+    text-align: center;
+    margin-top: 10rem;
+    margin-bottom: 1rem;
+    .footer-link {
+      color: #007bff;
+      text-decoration: none;
+      font-weight: 500;
+      text-underline-offset: 0.3em;
+      transition: color 0.3s ease, text-decoration 0.3s ease;
+      &:hover {
+        text-decoration: underline;
+        color: #0056b3;
+      }
+      &:active {
+        color: #003d80;
+      }
+    }
+  }
 }

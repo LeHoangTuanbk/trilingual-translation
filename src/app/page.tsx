@@ -126,6 +126,18 @@ const Home = () => {
           <textarea value={vietnamese} readOnly className="text-input" />
         </div>
       </div>
+      <footer className="footer">
+        <span>
+          Developed by{" "}
+          <a
+            className="footer-link"
+            href="https://www.linkedin.com/in/le-hoang-tuan-bk/"
+            target="_blank"
+          >
+            Tuan Le Hoang
+          </a>
+        </span>
+      </footer>
     </div>
   );
 };
