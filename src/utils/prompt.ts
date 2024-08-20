@@ -5,6 +5,7 @@ Context of the paragraph: In a IT company, the developers use this translation t
 Note: 
 + Your response should only include the translated paragraph, nothing else. Don't include any sentences like: Here is the English/Vietnamese translation of the Japanese paragraph, etc.
 + When translate the technical words, make sure to translate them to the correct technical word in the target language. Or Using all English technical words are also fine. Developers are familiar with them.
++ If the provided paragraph is not in Japanese, just return the original paragraph.
 
 Example 1:
 Japanese: 最近目にすることがあるRedisが少し気になったので、使用してみようと思います。 RedisはNoSQLの１つで、キー・バリューデータストアに分類されるものです。 NoSQLとは、Not Only SQLの略で、非リレーショナルなデータベースのことを指します。
