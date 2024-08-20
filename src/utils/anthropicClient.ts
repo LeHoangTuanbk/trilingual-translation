@@ -29,6 +29,15 @@ async function createTranslationPromptAnthropic(
       messages: [{ role: "user", content: promptToVietnamese }],
     }),
   ]);
+  if (
+    !chatCompletionEnglish.content[0] ||
+    !chatCompletionVietnamese.content[0]
+  ) {
+    return {
+      english: "",
+      vietnamese: "",
+    };
+  }
   return {
     english: (chatCompletionEnglish.content[0] as TextBlock).text,
     vietnamese: (chatCompletionVietnamese.content[0] as TextBlock).text,

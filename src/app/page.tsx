@@ -34,21 +34,24 @@ const Home = () => {
           japaneseText: textToTranslate,
           model: selectedModel,
         });
-        if (
-          res.data &&
-          res.data.result &&
-          res.data.result.english &&
-          res.data.result.vietnamese
-        ) {
-          setEnglish(res.data.result.english);
-          setVietnamese(res.data.result.vietnamese);
+        const { english: translatedEnglish, vietnamese: translatedVietnamese } =
+          res.data.result || {};
+        if (translatedEnglish && translatedVietnamese) {
+          setEnglish(translatedEnglish);
+          setVietnamese(translatedVietnamese);
         } else {
+          setEnglish("");
+          setVietnamese("");
           console.error("Translation data is missing or incomplete.");
         }
       } catch (error) {
         console.error("Translation Error:", error);
-        setEnglish("Error occurred during translation");
-        setVietnamese("Error occurred during translation");
+        setEnglish(
+          "Error occurred during translation. Please try again later or choose another model."
+        );
+        setVietnamese(
+          "Error occurred during translation. Please try again later or choose another model."
+        );
       } finally {
         setIsLoading(false);
       }
