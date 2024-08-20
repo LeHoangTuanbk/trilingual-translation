@@ -29,6 +29,20 @@ Vietnamese: Xin lỗi vì thông báo đột xuất.
 Do tình trạng sức khỏe không tốt, tôi sẽ nghỉ hôm nay. 
 Tôi rất xin lỗi vì sự bất tiện này, mong mọi người thông cảm.
 
+Example 4:
+Japanese: お疲れ様です！
+以下でお休みをいただきます。
+8月13日（火)
+ご迷惑おかけいたしますが、よろしくお願いいたします。
+English: Hello everyone! 
+I will be taking a break on the following dates: 
+Tuesday, August 13
+I apologize for the inconvenience, and thank you for your understanding.
+Vietnamese: Xin chào mọi người!
+Tôi sẽ nghỉ vào các ngày sau đây:
+Thứ ba, ngày 13 tháng 8
+Mong mọi người thông cảm vì sự bất tiện này, xin cảm ơn mọi người!
+
 ProvidedJapanese paragraph: ${japanese_paragraph}
 
 ${targetLanguage} paragraph output:`;
