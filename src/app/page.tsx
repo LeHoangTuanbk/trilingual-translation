@@ -14,7 +14,7 @@ const Home = () => {
   const [input, setInput] = useState("");
   const [english, setEnglish] = useState("");
   const [vietnamese, setVietnamese] = useState("");
-  const [selectedModel, setSelectedModel] = useState("claude-3-haiku-20240307");
+  const [selectedModel, setSelectedModel] = useState("gpt-4o-mini");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleTranslate = useCallback(
