@@ -27,7 +27,7 @@ I will be taking the day off today due to poor health.
 I apologize for the inconvenience, and thank you for your understanding.
 Vietnamese: Xin lỗi vì thông báo đột xuất.
 Do tình trạng sức khỏe không tốt, tôi sẽ nghỉ hôm nay. 
-Tôi rất xin lỗi vì sự bất tiện này, mong mọi người thông cảm.
+Mong mọi người thông cảm vì sự bất tiện này, xin cảm ơn mọi người!
 
 Example 4:
 Japanese: お疲れ様です！
