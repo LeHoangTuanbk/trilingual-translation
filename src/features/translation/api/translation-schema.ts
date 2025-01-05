@@ -11,6 +11,8 @@ export const TranslationFormSchema = z.object({
   originalLanguage: z.enum(Object.values(Languages) as [LanguageType]),
   targetedLanguage1: z.enum(Object.values(Languages) as [LanguageType]),
   targetedLanguage2: z.enum(Object.values(Languages) as [LanguageType]),
+  translation1: z.optional(z.string()),
+  translation2: z.optional(z.string()),
 });
 
 export type TranslationFormValues = z.infer<typeof TranslationFormSchema>;

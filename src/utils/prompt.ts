@@ -1,13 +1,16 @@
-const promptTemplate = (japanese_paragraph: string, targetLanguage: string) => {
-  const promtTemplate = `
-You're a translator from Japanese to ${targetLanguage}. You're given a Japanese paragraph and you're tasked with translating it to ${targetLanguage}.
-Context of the paragraph: In a IT company, the developers use this translation tool to translate Japanese technical documents or notifications or discussions or messages while working.
+const promptTemplate = (
+  input: string,
+  originalLanguage: string,
+  targetedLanguage: string
+) => {
+  const promptTemplate = `
+You're an excellent translator from ${originalLanguage} to ${targetedLanguage}. You're given a ${originalLanguage} text and you're tasked with translating it to ${targetedLanguage}.
+Context of the paragraph: In a IT company, the developers use this translation tool to translate ${originalLanguage} technical documents or notifications or discussions or messages while working.
 Note: 
-+ When it is a notification or discussion or message, keep the tone of the original paragraph when translating, but do not too formal.
-+ Your response should only include the translated paragraph, nothing else. Don't include any sentences like: Here is the English/Vietnamese translation of the Japanese paragraph, etc.
-+ When translate the technical words, make sure to translate them to the correct technical word in the target language. Or Using all English technical words are also fine. Developers are familiar with them.
-+ If the provided paragraph has only one sentence, you also translate it to the target language.
-+ If the provided paragraph is not in Japanese, just return an empty string.
++ When it is a notification or discussion or message, keep the tone of the original text when translating, but do not too formal.
++ Your response should only include the translated text, nothing else. Don't include any sentences like: Here is the English/Vietnamese translation of the Japanese paragraph, etc.
++ When translate the technical words, make sure to translate them to the correct technical words in the target language. Or Using all English technical words are also fine. Developers are familiar with them.
+
 
 Example 1:
 Japanese: 最近目にすることがあるRedisが少し気になったので、使用してみようと思います。 RedisはNoSQLの１つで、キー・バリューデータストアに分類されるものです。 NoSQLとは、Not Only SQLの略で、非リレーショナルなデータベースのことを指します。
@@ -44,10 +47,11 @@ Tôi sẽ nghỉ vào các ngày sau đây:
 Thứ ba, ngày 13 tháng 8
 Mong mọi người thông cảm vì sự bất tiện này, xin cảm ơn mọi người!
 
-ProvidedJapanese paragraph: ${japanese_paragraph}
+Provided ${originalLanguage} text: ${input}
 
-${targetLanguage} paragraph output:`;
-  return promtTemplate;
+${targetedLanguage} translation output:`;
+
+  return promptTemplate;
 };
 
 export default promptTemplate;

@@ -6,8 +6,8 @@ import {
   TranslationFormValues,
 } from "@/features/translation/api";
 import { Translation } from "./translation";
-import { MODELS, Languages } from "@/utils";
-import { useTranslation } from "@/features/translation/api"; // Your custom hook
+import { MODELS, Languages, DEFAULT_MODEL } from "@/utils";
+import { useTranslation } from "@/features/translation/api";
 
 export const TranslationContainer = () => {
   const {
@@ -20,33 +20,54 @@ export const TranslationContainer = () => {
     resolver: zodResolver(TranslationFormSchema),
     defaultValues: {
       input: "",
-      selectedModel: MODELS[0] ?? "",
+      selectedModel: DEFAULT_MODEL,
       originalLanguage: Languages.Japanese,
       targetedLanguage1: Languages.English,
       targetedLanguage2: Languages.Vietnamese,
+      translation1: "",
+      translation2: "",
     },
   });
 
-  const { english, vietnamese, isLoading, handleTranslate } = useTranslation();
+  const { isLoading, handleTranslate } = useTranslation();
 
   const inputValue = watch("input");
   const selectedModelValue = watch("selectedModel");
 
-  const onTranslationSubmit = (data: TranslationFormValues) => {
-    handleTranslate(data.input);
+  const onTranslationSubmit = async (data: TranslationFormValues) => {
+    setLoadingTranslation();
+    const result = await handleTranslate({
+      ...data,
+    });
+    updateTranslation(
+      result[data.targetedLanguage1],
+      result[data.targetedLanguage2]
+    );
   };
 
-  const handlePaste = (e: ClipboardEvent<HTMLTextAreaElement>) => {
+  const updateTranslation = (translation1: string, translation2: string) => {
+    setValue("translation1", translation1);
+    setValue("translation2", translation2);
+  };
+
+  const handlePaste = async (e: ClipboardEvent<HTMLTextAreaElement>) => {
     e.preventDefault();
     const pastedText = e.clipboardData.getData("text");
     setValue("input", pastedText);
-    handleTranslate(pastedText);
+    const formValues = watch();
+    onTranslationSubmit(formValues);
+  };
+
+  const setLoadingTranslation = () => {
+    setValue("translation1", "Loading...");
+    setValue("translation2", "Loading...");
   };
 
   const handleKeyDown = async (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
       e.preventDefault();
-      await handleSubmit(onTranslationSubmit)();
+      const formValues = watch();
+      onTranslationSubmit(formValues);
     }
   };
 
@@ -57,8 +78,6 @@ export const TranslationContainer = () => {
       input={inputValue}
       selectedModel={selectedModelValue}
       isLoading={isLoading}
-      english={english}
-      vietnamese={vietnamese}
       models={MODELS}
       onKeyDown={handleKeyDown}
       onPaste={handlePaste}

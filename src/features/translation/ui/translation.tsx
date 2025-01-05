@@ -22,12 +22,9 @@ import type { TranslationFormValues } from "@/features/translation/api";
 type TranslationPresenterProps = {
   register: UseFormRegister<TranslationFormValues>;
   errors: FieldErrors<TranslationFormValues>;
-
   input: string;
   selectedModel: string;
   isLoading: boolean;
-  english: string;
-  vietnamese: string;
   models: string[];
   onPaste: (e: ClipboardEvent<HTMLTextAreaElement>) => void;
   onKeyDown: (e: KeyboardEvent<HTMLTextAreaElement>) => void;
@@ -40,15 +37,14 @@ export const Translation = ({
   input,
   selectedModel,
   isLoading,
-  english,
-  vietnamese,
   models,
+
   onPaste,
   onKeyDown,
   onSubmit,
 }: TranslationPresenterProps) => {
-  const englishRef = useRef<HTMLTextAreaElement>(null);
-  const vietnameseRef = useRef<HTMLTextAreaElement>(null);
+  const translation1Ref = useRef<HTMLTextAreaElement>(null);
+  const translation2Ref = useRef<HTMLTextAreaElement>(null);
 
   const adjustHeight = (
     element1: HTMLTextAreaElement | null,
@@ -66,8 +62,8 @@ export const Translation = ({
   };
 
   useEffect(() => {
-    adjustHeight(englishRef.current, vietnameseRef.current);
-  }, [english, vietnamese]);
+    adjustHeight(translation1Ref.current, translation2Ref.current);
+  }, []);
 
   return (
     <Box padding="5">
@@ -148,8 +144,7 @@ export const Translation = ({
               </Select>
             </Heading>
             <Textarea
-              ref={englishRef}
-              value={english}
+              {...register("translation1")}
               readOnly
               minHeight="xs"
               overflowY="hidden"
@@ -173,9 +168,8 @@ export const Translation = ({
               </Select>
             </Heading>
             <Textarea
-              ref={vietnameseRef}
-              value={vietnamese}
               readOnly
+              {...register("translation2")}
               minHeight="xs"
               overflowY="hidden"
               height="auto"
