@@ -9,7 +9,13 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
-import { ClipboardEvent, FormEventHandler, KeyboardEvent } from "react";
+import {
+  ClipboardEvent,
+  FormEventHandler,
+  KeyboardEvent,
+  useEffect,
+  useRef,
+} from "react";
 import { Languages } from "@/utils";
 import type { TranslationFormValues } from "@/features/translation/api";
 
@@ -41,6 +47,31 @@ export const Translation = ({
   onKeyDown,
   onSubmit,
 }: TranslationPresenterProps) => {
+  const englishRef = useRef<HTMLTextAreaElement>(null);
+  const vietnameseRef = useRef<HTMLTextAreaElement>(null);
+
+  const adjustHeight = (
+    element1: HTMLTextAreaElement | null,
+    element2: HTMLTextAreaElement | null
+  ) => {
+    if (element1 && element2) {
+      // Reset heights to auto to get true scroll heights
+      element1.style.height = "auto";
+      element2.style.height = "auto";
+
+      // Get the maximum scroll height
+      const maxHeight = Math.max(element1.scrollHeight, element2.scrollHeight);
+
+      // Set both textareas to the maximum height
+      element1.style.height = `${maxHeight}px`;
+      element2.style.height = `${maxHeight}px`;
+    }
+  };
+
+  useEffect(() => {
+    adjustHeight(englishRef.current, vietnameseRef.current);
+  }, [english, vietnamese]);
+
   return (
     <Box padding="5">
       <form onSubmit={onSubmit}>
@@ -119,7 +150,14 @@ export const Translation = ({
                 ))}
               </Select>
             </Heading>
-            <Textarea value={english} readOnly height="xs" />
+            <Textarea
+              ref={englishRef}
+              value={english}
+              readOnly
+              minHeight="xs"
+              overflowY="hidden"
+              height="auto"
+            />
           </Box>
 
           <Box width="50%">
@@ -137,7 +175,14 @@ export const Translation = ({
                 ))}
               </Select>
             </Heading>
-            <Textarea value={vietnamese} readOnly height="xs" />
+            <Textarea
+              ref={vietnameseRef}
+              value={vietnamese}
+              readOnly
+              minHeight="xs"
+              overflowY="hidden"
+              height="auto"
+            />
           </Box>
         </Flex>
 
