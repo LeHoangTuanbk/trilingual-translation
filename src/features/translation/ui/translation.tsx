@@ -67,7 +67,7 @@ export const Translation = ({
           onPaste={onPaste}
           onKeyDown={onKeyDown}
           placeholder="Enter your paragraph here"
-          height="xs"
+          height="3xs"
           mb="2"
         />
         {errors.input && (
@@ -128,9 +128,7 @@ export const Translation = ({
               {...register("translation1")}
               readOnly
               minHeight="xs"
-              overflowY="hidden"
               height="auto"
-              ref={translation1Ref}
             />
           </Box>
 
@@ -158,9 +156,7 @@ export const Translation = ({
               readOnly
               {...register("translation2")}
               minHeight="xs"
-              overflowY="hidden"
               height="auto"
-              ref={translation2Ref}
             />
           </Box>
         </Flex>
