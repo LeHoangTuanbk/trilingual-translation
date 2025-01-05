@@ -143,6 +143,11 @@ export const Translation = ({
                 ))}
               </Select>
             </Heading>
+            {errors.targetedLanguage1 && (
+              <Text color="red.500" mb="2">
+                {errors.targetedLanguage1.message}
+              </Text>
+            )}
             <Textarea
               {...register("translation1")}
               readOnly
@@ -167,6 +172,11 @@ export const Translation = ({
                 ))}
               </Select>
             </Heading>
+            {errors.targetedLanguage2 && (
+              <Text color="red.500" mb="2">
+                {errors.targetedLanguage2.message}
+              </Text>
+            )}
             <Textarea
               readOnly
               {...register("translation2")}
