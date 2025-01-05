@@ -55,14 +55,11 @@ export const Translation = ({
     element2: HTMLTextAreaElement | null
   ) => {
     if (element1 && element2) {
-      // Reset heights to auto to get true scroll heights
       element1.style.height = "auto";
       element2.style.height = "auto";
 
-      // Get the maximum scroll height
       const maxHeight = Math.max(element1.scrollHeight, element2.scrollHeight);
 
-      // Set both textareas to the maximum height
       element1.style.height = `${maxHeight}px`;
       element2.style.height = `${maxHeight}px`;
     }
