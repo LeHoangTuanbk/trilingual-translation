@@ -13,7 +13,7 @@ export const TranslationContainer = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     setValue,
     watch,
   } = useForm<TranslationFormValues>({
@@ -29,7 +29,7 @@ export const TranslationContainer = () => {
     },
   });
 
-  const { isLoading, handleTranslate } = useTranslation();
+  const { handleTranslate } = useTranslation();
 
   const inputValue = watch("input");
   const selectedModelValue = watch("selectedModel");
@@ -45,6 +45,8 @@ export const TranslationContainer = () => {
     );
   };
 
+  const submitForm = handleSubmit(onTranslationSubmit);
+
   const updateTranslation = (translation1: string, translation2: string) => {
     setValue("translation1", translation1);
     setValue("translation2", translation2);
@@ -54,8 +56,7 @@ export const TranslationContainer = () => {
     e.preventDefault();
     const pastedText = e.clipboardData.getData("text");
     setValue("input", pastedText);
-    const formValues = watch();
-    onTranslationSubmit(formValues);
+    submitForm();
   };
 
   const setLoadingTranslation = () => {
@@ -63,11 +64,11 @@ export const TranslationContainer = () => {
     setValue("translation2", "Loading...");
   };
 
-  const handleKeyDown = async (e: KeyboardEvent<HTMLTextAreaElement>) => {
+  const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
       e.preventDefault();
       const formValues = watch();
-      onTranslationSubmit(formValues);
+      submitForm();
     }
   };
 
@@ -77,11 +78,11 @@ export const TranslationContainer = () => {
       errors={errors}
       input={inputValue}
       selectedModel={selectedModelValue}
-      isLoading={isLoading}
+      isLoading={isSubmitting}
       models={MODELS}
       onKeyDown={handleKeyDown}
       onPaste={handlePaste}
-      onSubmit={handleSubmit(onTranslationSubmit)}
+      onSubmit={submitForm}
     />
   );
 };
