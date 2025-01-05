@@ -1,60 +1,30 @@
-import { useState, useCallback } from "react";
+import { useCallback } from "react";
 import axios from "axios";
-import { DEFAULT_MODEL } from "@/utils";
 import { useToastHook } from "@/shared/toast";
-export const useTranslation = () => {
-  const [input, setInput] = useState("");
-  const [english, setEnglish] = useState("");
-  const [vietnamese, setVietnamese] = useState("");
-  const [selectedModel, setSelectedModel] = useState(DEFAULT_MODEL);
-  const [isLoading, setIsLoading] = useState(false);
+import { TranslationFormValues } from "./translation-schema";
+export const useTranslation = <T extends TranslationFormValues>() => {
   const { errorToast } = useToastHook();
 
   const handleTranslate = useCallback(
-    async (textToTranslate: string) => {
-      if (!textToTranslate.trim()) {
-        setInput("");
-        setEnglish("");
-        setVietnamese("");
+    async (data: TranslationFormValues) => {
+      if (!data.input.trim()) {
         return;
       }
 
-      setIsLoading(true);
-      setEnglish("Loading...");
-      setVietnamese("Loading...");
       try {
         const res = await axios.post("/api/translate", {
-          japaneseText: textToTranslate,
-          model: selectedModel,
+          ...data,
         });
-        const { english: translatedEnglish, vietnamese: translatedVietnamese } =
-          res.data.result || {};
-        if (translatedEnglish && translatedVietnamese) {
-          setEnglish(translatedEnglish);
-          setVietnamese(translatedVietnamese);
-        } else {
-          setEnglish("");
-          setVietnamese("");
-        }
+        return res.data.result || {};
       } catch (error) {
         errorToast("Error", "Please try again later or choose another model");
-        setEnglish("");
-        setVietnamese("");
       } finally {
-        setIsLoading(false);
       }
     },
-    [selectedModel, errorToast]
+    [errorToast]
   );
 
   return {
-    input,
-    setInput,
-    english,
-    vietnamese,
-    selectedModel,
-    isLoading,
-    setSelectedModel,
     handleTranslate,
   };
 };

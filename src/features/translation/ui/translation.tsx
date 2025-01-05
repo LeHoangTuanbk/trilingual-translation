@@ -8,98 +8,173 @@ import {
   Heading,
   Flex,
 } from "@chakra-ui/react";
-import { ChangeEvent, KeyboardEvent, ClipboardEvent } from "react";
+import { FieldErrors, UseFormRegister } from "react-hook-form";
+import { ClipboardEvent, FormEventHandler, KeyboardEvent } from "react";
+import { Languages } from "@/utils";
+import type { TranslationFormValues } from "@/features/translation/api";
 
 type TranslationPresenterProps = {
+  register: UseFormRegister<TranslationFormValues>;
+  errors: FieldErrors<TranslationFormValues>;
   input: string;
-  english: string;
-  vietnamese: string;
   selectedModel: string;
   isLoading: boolean;
   models: string[];
-  onInputChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
-  onKeyDown: (e: KeyboardEvent<HTMLTextAreaElement>) => void;
   onPaste: (e: ClipboardEvent<HTMLTextAreaElement>) => void;
-  onModelChange: (e: ChangeEvent<HTMLSelectElement>) => void;
-  onTranslate: (text: string) => void;
+  onKeyDown: (e: KeyboardEvent<HTMLTextAreaElement>) => void;
+  onSubmit: FormEventHandler<HTMLFormElement>;
+  translation1Ref: React.RefObject<HTMLTextAreaElement | null>;
+  translation2Ref: React.RefObject<HTMLTextAreaElement | null>;
 };
 
 export const Translation = ({
+  register,
+  errors,
   input,
-  english,
-  vietnamese,
   selectedModel,
   isLoading,
   models,
-  onInputChange,
-  onKeyDown,
+
   onPaste,
-  onModelChange,
-  onTranslate,
+  onKeyDown,
+  onSubmit,
+  translation1Ref,
+  translation2Ref,
 }: TranslationPresenterProps) => {
   return (
     <Box padding="5">
-      <Heading as="h1" size="lg" mb="4">
-        Trilingual Translator
-      </Heading>
-      <Heading as="h2" size="md" mb="2">
-        Japanese
-      </Heading>
-      <Textarea
-        value={input}
-        onChange={onInputChange}
-        onKeyDown={onKeyDown}
-        onPaste={onPaste}
-        placeholder="Enter your Japanese paragraph here"
-        height="xs"
-        mb="4"
-      />
-      <Text fontSize="sm" mb="4">
-        Paste or press Ctrl+Enter (or Cmd+Enter) to translate
-      </Text>
-      <Flex align="center" mb="4" w="30%">
-        <Select value={selectedModel} onChange={onModelChange} flex="1" mr="4">
-          {models.map((model) => (
-            <option key={model} value={model}>
-              {model}
-            </option>
-          ))}
-        </Select>
-        <Button
-          colorScheme="blackAlpha"
-          onClick={() => onTranslate(input)}
-          disabled={isLoading}
-        >
-          Translate
-        </Button>
-      </Flex>
-      <Flex direction="row" gap="4">
-        <Box width="50%">
-          <Heading as="h2" size="md" mb="2">
-            English
-          </Heading>
-          <Textarea value={english} readOnly height="xs" />
-        </Box>
-        <Box width="50%">
-          <Heading as="h2" size="md" mb="2">
-            Vietnamese
-          </Heading>
-          <Textarea value={vietnamese} readOnly height="xs" />
-        </Box>
-      </Flex>
-      <Box as="footer" textAlign="center" mt="16" py="4">
-        <Text>
-          Developed by{" "}
-          <Link
-            href="https://www.linkedin.com/in/le-hoang-tuan-bk/"
-            color="blue.500"
-            fontWeight="medium"
-            target="_blank"
-          >
-            Tuan Le Hoang
-          </Link>
+      <form onSubmit={onSubmit}>
+        <Heading as="h1" size="lg" mb="4">
+          Trilingual Translator
+        </Heading>
+
+        <Heading as="h2" size="md" mb="2" w="100%">
+          <Box display="flex" alignItems="center" gap="2">
+            <Text>Original Language</Text>
+            <Select {...register("originalLanguage")} w="15%">
+              {Object.values(Languages).map((language) => (
+                <option key={language} value={language}>
+                  {language}
+                </option>
+              ))}
+            </Select>
+          </Box>
+        </Heading>
+
+        <Textarea
+          {...register("input")}
+          value={input}
+          onPaste={onPaste}
+          onKeyDown={onKeyDown}
+          placeholder="Enter your paragraph here"
+          height="3xs"
+          mb="2"
+        />
+        {errors.input && (
+          <Text color="red.500" mb="2">
+            {errors.input.message}
+          </Text>
+        )}
+
+        <Text fontSize="sm" mb="4">
+          Paste or press Ctrl+Enter (or Cmd+Enter) to translate
         </Text>
-      </Box>
+
+        <Flex align="center" mb="4" w="30%">
+          <Select
+            {...register("selectedModel")}
+            value={selectedModel}
+            flex="1"
+            mr="4"
+          >
+            {models.map((model) => (
+              <option key={model} value={model}>
+                {model}
+              </option>
+            ))}
+          </Select>
+
+          <Button type="submit" colorScheme="blackAlpha" disabled={isLoading}>
+            Translate
+          </Button>
+        </Flex>
+
+        <Heading as="h2" size="md" mb="2">
+          Targeted Language
+        </Heading>
+
+        <Flex direction="row" gap="4">
+          <Box width="50%">
+            <Heading as="h2" size="md" mb="2">
+              <Select
+                {...register("targetedLanguage1")}
+                flex="1"
+                mr="4"
+                w="20%"
+              >
+                {Object.values(Languages).map((language) => (
+                  <option key={language} value={language}>
+                    {language}
+                  </option>
+                ))}
+              </Select>
+            </Heading>
+            {errors.targetedLanguage1 && (
+              <Text color="red.500" mb="2">
+                {errors.targetedLanguage1.message}
+              </Text>
+            )}
+            <Textarea
+              {...register("translation1")}
+              readOnly
+              minHeight="xs"
+              height="auto"
+            />
+          </Box>
+
+          <Box width="50%">
+            <Heading as="h2" size="md" mb="2">
+              <Select
+                {...register("targetedLanguage2")}
+                flex="1"
+                mr="4"
+                w="20%"
+              >
+                {Object.values(Languages).map((language) => (
+                  <option key={language} value={language}>
+                    {language}
+                  </option>
+                ))}
+              </Select>
+            </Heading>
+            {errors.targetedLanguage2 && (
+              <Text color="red.500" mb="2">
+                {errors.targetedLanguage2.message}
+              </Text>
+            )}
+            <Textarea
+              readOnly
+              {...register("translation2")}
+              minHeight="xs"
+              height="auto"
+            />
+          </Box>
+        </Flex>
+        {/* Todo: need to refactor this footer */}
+        <Box as="footer" textAlign="center" mt="16" py="4">
+          <Text>
+            Developed by{" "}
+            <Link
+              href="https://www.linkedin.com/in/le-hoang-tuan-bk/"
+              color="blue.500"
+              fontWeight="medium"
+              target="_blank"
+            >
+              Tuan Le Hoang
+            </Link>
+          </Text>
+        </Box>
+      </form>
     </Box>
   );
 };
