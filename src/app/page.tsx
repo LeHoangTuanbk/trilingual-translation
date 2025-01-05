@@ -106,13 +106,13 @@ const Home = () => {
         onKeyDown={handleKeyDown}
         onPaste={handlePaste}
         placeholder="Enter your Japanese paragraph here"
-        height="250px"
+        height="xs"
         mb="4"
       />
-      <Text fontSize="sm" color="gray.600" mb="4">
+      <Text fontSize="sm" mb="4">
         Paste or press Ctrl+Enter (or Cmd+Enter) to translate
       </Text>
-      <Flex align="center" mb="4">
+      <Flex align="center" mb="4" w="30%">
         <Select
           value={selectedModel}
           onChange={handleModelChange}
