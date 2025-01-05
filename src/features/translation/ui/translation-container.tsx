@@ -3,7 +3,6 @@ import { ChangeEvent, KeyboardEvent, ClipboardEvent } from "react";
 
 import { MODELS } from "@/utils";
 import { useTranslation } from "@/features/translation/api";
-import { Languages } from "next/dist/lib/metadata/types/alternative-urls-types";
 import { LanguageType } from "@/utils/consts";
 
 export const TranslationContainer = () => {
@@ -18,6 +17,10 @@ export const TranslationContainer = () => {
     handleTranslate,
     originalLanguage,
     setOriginalLanguage,
+    targetedLanguage1,
+    setTargetedLanguage1,
+    targetedLanguage2,
+    setTargetedLanguage2,
   } = useTranslation();
 
   const handleModelChange = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -46,12 +49,12 @@ export const TranslationContainer = () => {
     setOriginalLanguage(e.target.value as LanguageType);
   };
 
-  const handleTargetLanguage1Change = (e: ChangeEvent<HTMLSelectElement>) => {
-    setTargetLanguage1(e.target.value as LanguageType);
+  const handleTargetedLanguage1Change = (e: ChangeEvent<HTMLSelectElement>) => {
+    setTargetedLanguage1(e.target.value as LanguageType);
   };
 
-  const handleTargetLanguage2Change = (e: ChangeEvent<HTMLSelectElement>) => {
-    setTargetLanguage2(e.target.value as LanguageType);
+  const handleTargetedLanguage2Change = (e: ChangeEvent<HTMLSelectElement>) => {
+    setTargetedLanguage2(e.target.value as LanguageType);
   };
 
   return (
@@ -69,6 +72,10 @@ export const TranslationContainer = () => {
       onTranslate={handleTranslate}
       onLanguageChange={handleOriginalLanguageChange}
       originalLanguage={originalLanguage}
+      targetedLanguage1={targetedLanguage1}
+      targetedLanguage2={targetedLanguage2}
+      onTargetedLanguage1Change={handleTargetedLanguage1Change}
+      onTargetedLanguage2Change={handleTargetedLanguage2Change}
     />
   );
 };

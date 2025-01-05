@@ -4,4 +4,5 @@ export {
   MODELS,
   DEFAULT_MODEL,
   Languages,
+  type LanguageType,
 } from "./consts";

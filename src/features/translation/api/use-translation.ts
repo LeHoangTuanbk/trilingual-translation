@@ -12,6 +12,12 @@ export const useTranslation = () => {
   const [originalLanguage, setOriginalLanguage] = useState<LanguageType>(
     Languages.Japanese
   );
+  const [targetedLanguage1, setTargetedLanguage1] = useState<LanguageType>(
+    Languages.English
+  );
+  const [targetedLanguage2, setTargetedLanguage2] = useState<LanguageType>(
+    Languages.Vietnamese
+  );
   const { errorToast } = useToastHook();
 
   const handleTranslate = useCallback(
@@ -62,5 +68,9 @@ export const useTranslation = () => {
     handleTranslate,
     originalLanguage,
     setOriginalLanguage,
+    targetedLanguage1,
+    setTargetedLanguage1,
+    targetedLanguage2,
+    setTargetedLanguage2,
   };
 };

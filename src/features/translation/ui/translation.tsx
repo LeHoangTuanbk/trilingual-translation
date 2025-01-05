@@ -9,7 +9,7 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import { ChangeEvent, KeyboardEvent, ClipboardEvent } from "react";
-import { Languages } from "@/utils";
+import { Languages, type LanguageType } from "@/utils";
 
 type TranslationPresenterProps = {
   input: string;
@@ -24,7 +24,11 @@ type TranslationPresenterProps = {
   onModelChange: (e: ChangeEvent<HTMLSelectElement>) => void;
   onLanguageChange: (e: ChangeEvent<HTMLSelectElement>) => void;
   onTranslate: (text: string) => void;
-  originalLanguage: string;
+  originalLanguage: LanguageType;
+  targetedLanguage1: LanguageType;
+  targetedLanguage2: LanguageType;
+  onTargetedLanguage1Change: (e: ChangeEvent<HTMLSelectElement>) => void;
+  onTargetedLanguage2Change: (e: ChangeEvent<HTMLSelectElement>) => void;
 };
 
 export const Translation = ({
@@ -40,7 +44,11 @@ export const Translation = ({
   onModelChange,
   onTranslate,
   onLanguageChange,
+  onTargetedLanguage1Change,
+  onTargetedLanguage2Change,
   originalLanguage,
+  targetedLanguage1,
+  targetedLanguage2,
 }: TranslationPresenterProps) => {
   return (
     <Box padding="5">
@@ -87,16 +95,43 @@ export const Translation = ({
           Translate
         </Button>
       </Flex>
+      <Heading as="h2" size="md" mb="2">
+        Targeted Language
+      </Heading>
       <Flex direction="row" gap="4">
         <Box width="50%">
           <Heading as="h2" size="md" mb="2">
-            English
+            <Select
+              value={targetedLanguage1}
+              onChange={onTargetedLanguage1Change}
+              flex="1"
+              mr="4"
+              w="20%"
+            >
+              {Object.values(Languages).map((language) => (
+                <option key={language} value={language}>
+                  {language}
+                </option>
+              ))}
+            </Select>
           </Heading>
           <Textarea value={english} readOnly height="xs" />
         </Box>
         <Box width="50%">
           <Heading as="h2" size="md" mb="2">
-            Vietnamese
+            <Select
+              value={targetedLanguage2}
+              onChange={onTargetedLanguage2Change}
+              flex="1"
+              mr="4"
+              w="20%"
+            >
+              {Object.values(Languages).map((language) => (
+                <option key={language} value={language}>
+                  {language}
+                </option>
+              ))}
+            </Select>
           </Heading>
           <Textarea value={vietnamese} readOnly height="xs" />
         </Box>
