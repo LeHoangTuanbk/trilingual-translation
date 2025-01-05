@@ -1,13 +1,17 @@
 import { useState, useCallback } from "react";
 import axios from "axios";
-import { DEFAULT_MODEL } from "@/utils";
+import { DEFAULT_MODEL, Languages } from "@/utils";
 import { useToastHook } from "@/shared/toast";
+import { LanguageType } from "@/utils/consts";
 export const useTranslation = () => {
   const [input, setInput] = useState("");
   const [english, setEnglish] = useState("");
   const [vietnamese, setVietnamese] = useState("");
   const [selectedModel, setSelectedModel] = useState(DEFAULT_MODEL);
   const [isLoading, setIsLoading] = useState(false);
+  const [originalLanguage, setOriginalLanguage] = useState<LanguageType>(
+    Languages.Japanese
+  );
   const { errorToast } = useToastHook();
 
   const handleTranslate = useCallback(
@@ -56,5 +60,7 @@ export const useTranslation = () => {
     isLoading,
     setSelectedModel,
     handleTranslate,
+    originalLanguage,
+    setOriginalLanguage,
   };
 };

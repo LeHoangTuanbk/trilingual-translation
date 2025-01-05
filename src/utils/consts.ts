@@ -12,8 +12,17 @@ const Languages = {
   Japanese: "Japanese",
 } as const;
 
+type LanguageType = (typeof Languages)[keyof typeof Languages];
+
 const DEFAULT_MODEL = "gpt-4o";
 
 const MODELS = [...OPENAI_MODELS, ...ANTHROPIC_MODELS];
 
-export { OPENAI_MODELS, ANTHROPIC_MODELS, MODELS, DEFAULT_MODEL, Languages };
+export {
+  OPENAI_MODELS,
+  ANTHROPIC_MODELS,
+  MODELS,
+  DEFAULT_MODEL,
+  Languages,
+  type LanguageType,
+};

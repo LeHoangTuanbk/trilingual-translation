@@ -3,6 +3,8 @@ import { ChangeEvent, KeyboardEvent, ClipboardEvent } from "react";
 
 import { MODELS } from "@/utils";
 import { useTranslation } from "@/features/translation/api";
+import { Languages } from "next/dist/lib/metadata/types/alternative-urls-types";
+import { LanguageType } from "@/utils/consts";
 
 export const TranslationContainer = () => {
   const {
@@ -14,6 +16,8 @@ export const TranslationContainer = () => {
     isLoading,
     setSelectedModel,
     handleTranslate,
+    originalLanguage,
+    setOriginalLanguage,
   } = useTranslation();
 
   const handleModelChange = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -37,6 +41,19 @@ export const TranslationContainer = () => {
   const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setInput(e.target.value);
   };
+
+  const handleOriginalLanguageChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    setOriginalLanguage(e.target.value as LanguageType);
+  };
+
+  const handleTargetLanguage1Change = (e: ChangeEvent<HTMLSelectElement>) => {
+    setTargetLanguage1(e.target.value as LanguageType);
+  };
+
+  const handleTargetLanguage2Change = (e: ChangeEvent<HTMLSelectElement>) => {
+    setTargetLanguage2(e.target.value as LanguageType);
+  };
+
   return (
     <Translation
       input={input}
@@ -50,6 +67,8 @@ export const TranslationContainer = () => {
       onPaste={handlePaste}
       onModelChange={handleModelChange}
       onTranslate={handleTranslate}
+      onLanguageChange={handleOriginalLanguageChange}
+      originalLanguage={originalLanguage}
     />
   );
 };
