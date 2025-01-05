@@ -1,13 +1,14 @@
 import { useState, useCallback } from "react";
 import axios from "axios";
 import { DEFAULT_MODEL } from "@/utils";
-
+import { useToastHook } from "@/shared/toast";
 export const useTranslation = () => {
   const [input, setInput] = useState("");
   const [english, setEnglish] = useState("");
   const [vietnamese, setVietnamese] = useState("");
   const [selectedModel, setSelectedModel] = useState(DEFAULT_MODEL);
   const [isLoading, setIsLoading] = useState(false);
+  const { errorToast } = useToastHook();
 
   const handleTranslate = useCallback(
     async (textToTranslate: string) => {
@@ -34,21 +35,16 @@ export const useTranslation = () => {
         } else {
           setEnglish("");
           setVietnamese("");
-          console.error("Translation data is missing or incomplete.");
         }
       } catch (error) {
-        console.error("Translation Error:", error);
-        setEnglish(
-          "Error occurred during translation. Please try again later or choose another model."
-        );
-        setVietnamese(
-          "Error occurred during translation. Please try again later or choose another model."
-        );
+        errorToast("Error", "Please try again later or choose another model");
+        setEnglish("");
+        setVietnamese("");
       } finally {
         setIsLoading(false);
       }
     },
-    [selectedModel]
+    [selectedModel, errorToast]
   );
 
   return {
