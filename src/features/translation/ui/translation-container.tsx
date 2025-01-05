@@ -67,7 +67,7 @@ export const TranslationContainer = () => {
     },
     [translation2RegisterRef]
   );
-
+  // Todo: need to do the automatic resize of the textarea
   const translation1RefObject = useRef<HTMLTextAreaElement | null>(null);
   const translation2RefObject = useRef<HTMLTextAreaElement | null>(null);
 

@@ -160,7 +160,7 @@ export const Translation = ({
             />
           </Box>
         </Flex>
-
+        {/* Todo: need to refactor this footer */}
         <Box as="footer" textAlign="center" mt="16" py="4">
           <Text>
             Developed by{" "}
