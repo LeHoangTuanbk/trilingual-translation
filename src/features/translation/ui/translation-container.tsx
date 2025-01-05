@@ -32,7 +32,7 @@ export const TranslationContainer = () => {
   const inputValue = watch("input");
   const selectedModelValue = watch("selectedModel");
 
-  const onSubmit = (data: TranslationFormValues) => {
+  const onTranslationSubmit = (data: TranslationFormValues) => {
     handleTranslate(data.input);
   };
 
@@ -43,29 +43,26 @@ export const TranslationContainer = () => {
     handleTranslate(pastedText);
   };
 
-  const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
+  const handleKeyDown = async (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
       e.preventDefault();
-      void handleSubmit(onSubmit)();
+      await handleSubmit(onTranslationSubmit)();
     }
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Translation
-        // React Hook Form bindings
-        register={register}
-        errors={errors}
-        // Watched/derived values
-        input={inputValue}
-        selectedModel={selectedModelValue}
-        isLoading={isLoading}
-        english={english}
-        vietnamese={vietnamese}
-        models={MODELS}
-        onKeyDown={handleKeyDown}
-        onPaste={handlePaste}
-      />
-    </form>
+    <Translation
+      register={register}
+      errors={errors}
+      input={inputValue}
+      selectedModel={selectedModelValue}
+      isLoading={isLoading}
+      english={english}
+      vietnamese={vietnamese}
+      models={MODELS}
+      onKeyDown={handleKeyDown}
+      onPaste={handlePaste}
+      onSubmit={handleSubmit(onTranslationSubmit)}
+    />
   );
 };
