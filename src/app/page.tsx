@@ -129,18 +129,18 @@ const Home = () => {
           Translate
         </Button>
       </Flex>
-      <Flex direction="column" gap="4">
-        <Box>
+      <Flex direction="row" gap="4">
+        <Box width="50%">
           <Heading as="h2" size="md" mb="2">
             English
           </Heading>
-          <Textarea value={english} readOnly height="250px" />
+          <Textarea value={english} readOnly height="xs" />
         </Box>
-        <Box>
+        <Box width="50%">
           <Heading as="h2" size="md" mb="2">
             Vietnamese
           </Heading>
-          <Textarea value={vietnamese} readOnly height="250px" />
+          <Textarea value={vietnamese} readOnly height="xs" />
         </Box>
       </Flex>
       <Box as="footer" textAlign="center" mt="16" py="4">
@@ -150,6 +150,7 @@ const Home = () => {
             href="https://www.linkedin.com/in/le-hoang-tuan-bk/"
             color="blue.500"
             fontWeight="medium"
+            target="_blank"
           >
             Tuan Le Hoang
           </Link>
