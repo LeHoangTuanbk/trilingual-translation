@@ -50,6 +50,7 @@ export const useTranslation = () => {
         errorToast("Error", "Please try again later or choose another model");
         setEnglish("");
         setVietnamese("");
+        console.log(error);
       } finally {
         setIsLoading(false);
       }

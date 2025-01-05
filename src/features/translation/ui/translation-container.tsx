@@ -1,81 +1,71 @@
+import React, { ClipboardEvent, KeyboardEvent } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  TranslationFormSchema,
+  TranslationFormValues,
+} from "@/features/translation/api";
 import { Translation } from "./translation";
-import { ChangeEvent, KeyboardEvent, ClipboardEvent } from "react";
-
-import { MODELS } from "@/utils";
-import { useTranslation } from "@/features/translation/api";
-import { LanguageType } from "@/utils/consts";
+import { MODELS, Languages } from "@/utils";
+import { useTranslation } from "@/features/translation/api"; // Your custom hook
 
 export const TranslationContainer = () => {
   const {
-    input,
-    setInput,
-    english,
-    vietnamese,
-    selectedModel,
-    isLoading,
-    setSelectedModel,
-    handleTranslate,
-    originalLanguage,
-    setOriginalLanguage,
-    targetedLanguage1,
-    setTargetedLanguage1,
-    targetedLanguage2,
-    setTargetedLanguage2,
-  } = useTranslation();
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    watch,
+  } = useForm<TranslationFormValues>({
+    resolver: zodResolver(TranslationFormSchema),
+    defaultValues: {
+      input: "",
+      selectedModel: MODELS[0] ?? "",
+      originalLanguage: Languages.Japanese,
+      targetedLanguage1: Languages.English,
+      targetedLanguage2: Languages.Vietnamese,
+    },
+  });
 
-  const handleModelChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    setSelectedModel(e.target.value);
-  };
+  const { english, vietnamese, isLoading, handleTranslate } = useTranslation();
 
-  const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
-      e.preventDefault();
-      handleTranslate(input);
-    }
+  const inputValue = watch("input");
+  const selectedModelValue = watch("selectedModel");
+
+  const onSubmit = (data: TranslationFormValues) => {
+    handleTranslate(data.input);
   };
 
   const handlePaste = (e: ClipboardEvent<HTMLTextAreaElement>) => {
     e.preventDefault();
     const pastedText = e.clipboardData.getData("text");
-    setInput(pastedText);
+    setValue("input", pastedText);
     handleTranslate(pastedText);
   };
 
-  const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setInput(e.target.value);
-  };
-
-  const handleOriginalLanguageChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    setOriginalLanguage(e.target.value as LanguageType);
-  };
-
-  const handleTargetedLanguage1Change = (e: ChangeEvent<HTMLSelectElement>) => {
-    setTargetedLanguage1(e.target.value as LanguageType);
-  };
-
-  const handleTargetedLanguage2Change = (e: ChangeEvent<HTMLSelectElement>) => {
-    setTargetedLanguage2(e.target.value as LanguageType);
+  const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
+      e.preventDefault();
+      void handleSubmit(onSubmit)();
+    }
   };
 
   return (
-    <Translation
-      input={input}
-      english={english}
-      vietnamese={vietnamese}
-      selectedModel={selectedModel}
-      isLoading={isLoading}
-      models={MODELS}
-      onInputChange={handleInputChange}
-      onKeyDown={handleKeyDown}
-      onPaste={handlePaste}
-      onModelChange={handleModelChange}
-      onTranslate={handleTranslate}
-      onLanguageChange={handleOriginalLanguageChange}
-      originalLanguage={originalLanguage}
-      targetedLanguage1={targetedLanguage1}
-      targetedLanguage2={targetedLanguage2}
-      onTargetedLanguage1Change={handleTargetedLanguage1Change}
-      onTargetedLanguage2Change={handleTargetedLanguage2Change}
-    />
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <Translation
+        // React Hook Form bindings
+        register={register}
+        errors={errors}
+        // Watched/derived values
+        input={inputValue}
+        selectedModel={selectedModelValue}
+        isLoading={isLoading}
+        english={english}
+        vietnamese={vietnamese}
+        models={MODELS}
+        onKeyDown={handleKeyDown}
+        onPaste={handlePaste}
+      />
+    </form>
   );
 };

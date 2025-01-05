@@ -8,57 +8,47 @@ import {
   Heading,
   Flex,
 } from "@chakra-ui/react";
-import { ChangeEvent, KeyboardEvent, ClipboardEvent } from "react";
-import { Languages, type LanguageType } from "@/utils";
+import { FieldErrors, UseFormRegister } from "react-hook-form";
+import { ClipboardEvent, KeyboardEvent } from "react";
+import { Languages } from "@/utils";
+import type { TranslationFormValues } from "@/features/translation/api";
 
 type TranslationPresenterProps = {
+  register: UseFormRegister<TranslationFormValues>;
+  errors: FieldErrors<TranslationFormValues>;
+
   input: string;
-  english: string;
-  vietnamese: string;
   selectedModel: string;
   isLoading: boolean;
+  english: string;
+  vietnamese: string;
   models: string[];
-  onInputChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
-  onKeyDown: (e: KeyboardEvent<HTMLTextAreaElement>) => void;
   onPaste: (e: ClipboardEvent<HTMLTextAreaElement>) => void;
-  onModelChange: (e: ChangeEvent<HTMLSelectElement>) => void;
-  onLanguageChange: (e: ChangeEvent<HTMLSelectElement>) => void;
-  onTranslate: (text: string) => void;
-  originalLanguage: LanguageType;
-  targetedLanguage1: LanguageType;
-  targetedLanguage2: LanguageType;
-  onTargetedLanguage1Change: (e: ChangeEvent<HTMLSelectElement>) => void;
-  onTargetedLanguage2Change: (e: ChangeEvent<HTMLSelectElement>) => void;
+  onKeyDown: (e: KeyboardEvent<HTMLTextAreaElement>) => void;
 };
 
 export const Translation = ({
+  register,
+  errors,
   input,
-  english,
-  vietnamese,
   selectedModel,
   isLoading,
+  english,
+  vietnamese,
   models,
-  onInputChange,
-  onKeyDown,
   onPaste,
-  onModelChange,
-  onTranslate,
-  onLanguageChange,
-  onTargetedLanguage1Change,
-  onTargetedLanguage2Change,
-  originalLanguage,
-  targetedLanguage1,
-  targetedLanguage2,
+  onKeyDown,
 }: TranslationPresenterProps) => {
   return (
     <Box padding="5">
       <Heading as="h1" size="lg" mb="4">
         Trilingual Translator
       </Heading>
+
       <Heading as="h2" size="md" mb="2" w="100%">
         <Box display="flex" alignItems="center" gap="2">
           <Text>Original Language</Text>
-          <Select onChange={onLanguageChange} value={originalLanguage} w="10%">
+          <Select {...register("originalLanguage")} w="15%">
             {Object.values(Languages).map((language) => (
               <option key={language} value={language}>
                 {language}
@@ -67,47 +57,56 @@ export const Translation = ({
           </Select>
         </Box>
       </Heading>
+
       <Textarea
+        {...register("input")}
         value={input}
-        onChange={onInputChange}
-        onKeyDown={onKeyDown}
         onPaste={onPaste}
-        placeholder="Enter your Japanese paragraph here"
+        onKeyDown={onKeyDown}
+        placeholder="Enter your paragraph here"
         height="xs"
-        mb="4"
+        mb="2"
       />
+      {errors.input && (
+        <Text color="red.500" mb="2">
+          {errors.input.message}
+        </Text>
+      )}
+
       <Text fontSize="sm" mb="4">
         Paste or press Ctrl+Enter (or Cmd+Enter) to translate
       </Text>
+
       <Flex align="center" mb="4" w="30%">
-        <Select value={selectedModel} onChange={onModelChange} flex="1" mr="4">
+        {/* Model selection with React Hook Form */}
+        <Select
+          {...register("selectedModel")}
+          value={selectedModel} // optional
+          flex="1"
+          mr="4"
+        >
           {models.map((model) => (
             <option key={model} value={model}>
               {model}
             </option>
           ))}
         </Select>
-        <Button
-          colorScheme="blackAlpha"
-          onClick={() => onTranslate(input)}
-          disabled={isLoading}
-        >
+
+        {/* Button with type="submit" to trigger form submission */}
+        <Button type="submit" colorScheme="blackAlpha" disabled={isLoading}>
           Translate
         </Button>
       </Flex>
+
       <Heading as="h2" size="md" mb="2">
         Targeted Language
       </Heading>
+
       <Flex direction="row" gap="4">
         <Box width="50%">
           <Heading as="h2" size="md" mb="2">
-            <Select
-              value={targetedLanguage1}
-              onChange={onTargetedLanguage1Change}
-              flex="1"
-              mr="4"
-              w="20%"
-            >
+            {/* Example: if using React Hook Form for targetedLanguage1 */}
+            <Select {...register("targetedLanguage1")} flex="1" mr="4" w="20%">
               {Object.values(Languages).map((language) => (
                 <option key={language} value={language}>
                   {language}
@@ -117,15 +116,11 @@ export const Translation = ({
           </Heading>
           <Textarea value={english} readOnly height="xs" />
         </Box>
+
         <Box width="50%">
           <Heading as="h2" size="md" mb="2">
-            <Select
-              value={targetedLanguage2}
-              onChange={onTargetedLanguage2Change}
-              flex="1"
-              mr="4"
-              w="20%"
-            >
+            {/* Example: if using React Hook Form for targetedLanguage2 */}
+            <Select {...register("targetedLanguage2")} flex="1" mr="4" w="20%">
               {Object.values(Languages).map((language) => (
                 <option key={language} value={language}>
                   {language}
@@ -136,6 +131,7 @@ export const Translation = ({
           <Textarea value={vietnamese} readOnly height="xs" />
         </Box>
       </Flex>
+
       <Box as="footer" textAlign="center" mt="16" py="4">
         <Text>
           Developed by{" "}
