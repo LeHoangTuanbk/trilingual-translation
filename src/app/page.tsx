@@ -1,5 +1,4 @@
 "use client";
-import "./page.scss";
 import {
   useState,
   ChangeEvent,
@@ -7,14 +6,26 @@ import {
   ClipboardEvent,
   useCallback,
 } from "react";
+
+import {
+  Box,
+  Button,
+  Textarea,
+  Select,
+  Text,
+  Link,
+  Heading,
+  Flex,
+} from "@chakra-ui/react";
+
 import axios from "axios";
-import { MODELS } from "@/utils/consts";
+import { MODELS, DEFAULT_MODEL } from "@/utils";
 
 const Home = () => {
   const [input, setInput] = useState("");
   const [english, setEnglish] = useState("");
   const [vietnamese, setVietnamese] = useState("");
-  const [selectedModel, setSelectedModel] = useState("claude-3-haiku-20240307");
+  const [selectedModel, setSelectedModel] = useState(DEFAULT_MODEL);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleTranslate = useCallback(
@@ -56,7 +67,7 @@ const Home = () => {
         setIsLoading(false);
       }
     },
-    [selectedModel, isLoading]
+    [selectedModel]
   );
 
   const handleModelChange = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -82,66 +93,74 @@ const Home = () => {
   };
 
   return (
-    <div className="main">
-      <h1>Trilingual Translator</h1>
-      <h2 className="title">Japanese</h2>
-      <div className="input-container">
-        <textarea
-          value={input}
-          onChange={handleInputChange}
-          onKeyDown={handleKeyDown}
-          onPaste={handlePaste}
-          placeholder="Enter your Japanese paragraph here"
-          className="text-input"
-        />
-      </div>
-      <div className="note">
-        <p>
-          Paste or press command/control + enter or click translate to translate
-        </p>
-      </div>
-      <select
-        className="model-select"
-        value={selectedModel}
-        onChange={handleModelChange}
-      >
-        {MODELS.map((model) => (
-          <option key={model} value={model}>
-            {model}
-          </option>
-        ))}
-      </select>
-      <button
-        className="translate-button"
-        onClick={() => handleTranslate(input)}
-        disabled={isLoading}
-      >
-        {isLoading ? "Translating..." : "Translate"}
-      </button>
-
-      <div className="translation-container">
-        <div className="translation-item">
-          <h2 className="title">English</h2>
-          <textarea value={english} readOnly className="text-input" />
-        </div>
-        <div className="translation-item">
-          <h2 className="title">Vietnamese</h2>
-          <textarea value={vietnamese} readOnly className="text-input" />
-        </div>
-      </div>
-      <footer className="footer">
-        <span>
+    <Box padding="5">
+      <Heading as="h1" size="lg" mb="4">
+        Trilingual Translator
+      </Heading>
+      <Heading as="h2" size="md" mb="2">
+        Japanese
+      </Heading>
+      <Textarea
+        value={input}
+        onChange={handleInputChange}
+        onKeyDown={handleKeyDown}
+        onPaste={handlePaste}
+        placeholder="Enter your Japanese paragraph here"
+        height="xs"
+        mb="4"
+      />
+      <Text fontSize="sm" mb="4">
+        Paste or press Ctrl+Enter (or Cmd+Enter) to translate
+      </Text>
+      <Flex align="center" mb="4" w="30%">
+        <Select
+          value={selectedModel}
+          onChange={handleModelChange}
+          flex="1"
+          mr="4"
+        >
+          {MODELS.map((model) => (
+            <option key={model} value={model}>
+              {model}
+            </option>
+          ))}
+        </Select>
+        <Button
+          colorScheme="blackAlpha"
+          onClick={() => handleTranslate(input)}
+          disabled={isLoading}
+        >
+          Translate
+        </Button>
+      </Flex>
+      <Flex direction="row" gap="4">
+        <Box width="50%">
+          <Heading as="h2" size="md" mb="2">
+            English
+          </Heading>
+          <Textarea value={english} readOnly height="xs" />
+        </Box>
+        <Box width="50%">
+          <Heading as="h2" size="md" mb="2">
+            Vietnamese
+          </Heading>
+          <Textarea value={vietnamese} readOnly height="xs" />
+        </Box>
+      </Flex>
+      <Box as="footer" textAlign="center" mt="16" py="4">
+        <Text>
           Developed by{" "}
-          <a
-            className="footer-link"
+          <Link
             href="https://www.linkedin.com/in/le-hoang-tuan-bk/"
+            color="blue.500"
+            fontWeight="medium"
             target="_blank"
           >
             Tuan Le Hoang
-          </a>
-        </span>
-      </footer>
-    </div>
+          </Link>
+        </Text>
+      </Box>
+    </Box>
   );
 };
 
