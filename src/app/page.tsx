@@ -19,13 +19,13 @@ import {
 } from "@chakra-ui/react";
 
 import axios from "axios";
-import { MODELS } from "@/utils/consts";
+import { MODELS, DEFAULT_MODEL } from "@/utils";
 
 const Home = () => {
   const [input, setInput] = useState("");
   const [english, setEnglish] = useState("");
   const [vietnamese, setVietnamese] = useState("");
-  const [selectedModel, setSelectedModel] = useState("claude-3-haiku-20240307");
+  const [selectedModel, setSelectedModel] = useState(DEFAULT_MODEL);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleTranslate = useCallback(
@@ -125,7 +125,11 @@ const Home = () => {
             </option>
           ))}
         </Select>
-        <Button colorScheme="blue" onClick={() => handleTranslate(input)}>
+        <Button
+          colorScheme="blackAlpha"
+          onClick={() => handleTranslate(input)}
+          disabled={isLoading}
+        >
           Translate
         </Button>
       </Flex>
