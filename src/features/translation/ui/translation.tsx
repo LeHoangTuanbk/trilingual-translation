@@ -9,6 +9,7 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import { ChangeEvent, KeyboardEvent, ClipboardEvent } from "react";
+import { Languages } from "@/utils";
 
 type TranslationPresenterProps = {
   input: string;
@@ -21,7 +22,9 @@ type TranslationPresenterProps = {
   onKeyDown: (e: KeyboardEvent<HTMLTextAreaElement>) => void;
   onPaste: (e: ClipboardEvent<HTMLTextAreaElement>) => void;
   onModelChange: (e: ChangeEvent<HTMLSelectElement>) => void;
+  onLanguageChange: (e: ChangeEvent<HTMLSelectElement>) => void;
   onTranslate: (text: string) => void;
+  originalLanguage: string;
 };
 
 export const Translation = ({
@@ -36,14 +39,25 @@ export const Translation = ({
   onPaste,
   onModelChange,
   onTranslate,
+  onLanguageChange,
+  originalLanguage,
 }: TranslationPresenterProps) => {
   return (
     <Box padding="5">
       <Heading as="h1" size="lg" mb="4">
         Trilingual Translator
       </Heading>
-      <Heading as="h2" size="md" mb="2">
-        Japanese
+      <Heading as="h2" size="md" mb="2" w="100%">
+        <Box display="flex" alignItems="center" gap="2">
+          <Text>Original Language</Text>
+          <Select onChange={onLanguageChange} value={originalLanguage} w="10%">
+            {Object.values(Languages).map((language) => (
+              <option key={language} value={language}>
+                {language}
+              </option>
+            ))}
+          </Select>
+        </Box>
       </Heading>
       <Textarea
         value={input}
