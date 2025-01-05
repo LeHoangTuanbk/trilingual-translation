@@ -1,4 +1,10 @@
-import React, { ClipboardEvent, KeyboardEvent } from "react";
+import React, {
+  ClipboardEvent,
+  KeyboardEvent,
+  useEffect,
+  useRef,
+  useCallback,
+} from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -34,6 +40,37 @@ export const TranslationContainer = () => {
   const inputValue = watch("input");
   const selectedModelValue = watch("selectedModel");
 
+  const translation1 = watch("translation1");
+  const translation2 = watch("translation2");
+
+  const { ref: translation1RegisterRef, ...translation1Register } =
+    register("translation1");
+  const { ref: translation2RegisterRef, ...translation2Register } =
+    register("translation2");
+
+  const translation1Ref = useCallback(
+    (element: HTMLTextAreaElement | null) => {
+      translation1RegisterRef(element);
+      if (translation1RefObject.current !== element) {
+        translation1RefObject.current = element;
+      }
+    },
+    [translation1RegisterRef]
+  );
+
+  const translation2Ref = useCallback(
+    (element: HTMLTextAreaElement | null) => {
+      translation2RegisterRef(element);
+      if (translation2RefObject.current !== element) {
+        translation2RefObject.current = element;
+      }
+    },
+    [translation2RegisterRef]
+  );
+
+  const translation1RefObject = useRef<HTMLTextAreaElement | null>(null);
+  const translation2RefObject = useRef<HTMLTextAreaElement | null>(null);
+
   const onTranslationSubmit = async (data: TranslationFormValues) => {
     setLoadingTranslation();
     const result = await handleTranslate({
@@ -67,10 +104,28 @@ export const TranslationContainer = () => {
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
       e.preventDefault();
-      const formValues = watch();
       submitForm();
     }
   };
+
+  const adjustHeight = (
+    element1: HTMLTextAreaElement | null,
+    element2: HTMLTextAreaElement | null
+  ) => {
+    if (element1 && element2) {
+      element1.style.height = "auto";
+      element2.style.height = "auto";
+
+      const maxHeight = Math.max(element1.scrollHeight, element2.scrollHeight);
+
+      element1.style.height = `${maxHeight}px`;
+      element2.style.height = `${maxHeight}px`;
+    }
+  };
+
+  useEffect(() => {
+    adjustHeight(translation1RefObject.current, translation2RefObject.current);
+  }, [translation1, translation2]);
 
   return (
     <Translation
@@ -83,6 +138,8 @@ export const TranslationContainer = () => {
       onKeyDown={handleKeyDown}
       onPaste={handlePaste}
       onSubmit={submitForm}
+      translation1Ref={translation1RefObject}
+      translation2Ref={translation2RefObject}
     />
   );
 };

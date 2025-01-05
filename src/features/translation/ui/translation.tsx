@@ -9,13 +9,7 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
-import {
-  ClipboardEvent,
-  FormEventHandler,
-  KeyboardEvent,
-  useEffect,
-  useRef,
-} from "react";
+import { ClipboardEvent, FormEventHandler, KeyboardEvent } from "react";
 import { Languages } from "@/utils";
 import type { TranslationFormValues } from "@/features/translation/api";
 
@@ -29,6 +23,8 @@ type TranslationPresenterProps = {
   onPaste: (e: ClipboardEvent<HTMLTextAreaElement>) => void;
   onKeyDown: (e: KeyboardEvent<HTMLTextAreaElement>) => void;
   onSubmit: FormEventHandler<HTMLFormElement>;
+  translation1Ref: React.RefObject<HTMLTextAreaElement | null>;
+  translation2Ref: React.RefObject<HTMLTextAreaElement | null>;
 };
 
 export const Translation = ({
@@ -42,29 +38,9 @@ export const Translation = ({
   onPaste,
   onKeyDown,
   onSubmit,
+  translation1Ref,
+  translation2Ref,
 }: TranslationPresenterProps) => {
-  const translation1Ref = useRef<HTMLTextAreaElement>(null);
-  const translation2Ref = useRef<HTMLTextAreaElement>(null);
-
-  const adjustHeight = (
-    element1: HTMLTextAreaElement | null,
-    element2: HTMLTextAreaElement | null
-  ) => {
-    if (element1 && element2) {
-      element1.style.height = "auto";
-      element2.style.height = "auto";
-
-      const maxHeight = Math.max(element1.scrollHeight, element2.scrollHeight);
-
-      element1.style.height = `${maxHeight}px`;
-      element2.style.height = `${maxHeight}px`;
-    }
-  };
-
-  useEffect(() => {
-    adjustHeight(translation1Ref.current, translation2Ref.current);
-  }, []);
-
   return (
     <Box padding="5">
       <form onSubmit={onSubmit}>
@@ -154,6 +130,7 @@ export const Translation = ({
               minHeight="xs"
               overflowY="hidden"
               height="auto"
+              ref={translation1Ref}
             />
           </Box>
 
@@ -183,6 +160,7 @@ export const Translation = ({
               minHeight="xs"
               overflowY="hidden"
               height="auto"
+              ref={translation2Ref}
             />
           </Box>
         </Flex>
