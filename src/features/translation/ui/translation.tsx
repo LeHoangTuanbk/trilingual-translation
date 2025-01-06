@@ -8,6 +8,7 @@ import {
   Heading,
   Flex,
   HStack,
+  Stack,
 } from "@chakra-ui/react";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
 import {
@@ -61,7 +62,7 @@ export const Translation = ({
     if (ref.current) {
       await navigator.clipboard.writeText(ref.current.value);
       setCopied(true);
-      setTimeout(() => setCopied(false), 3000);
+      setTimeout(() => setCopied(false), 2000);
     }
   };
   return (
@@ -74,7 +75,11 @@ export const Translation = ({
         <Heading as="h2" size="md" mb="2" w="100%">
           <Box display="flex" alignItems="center" gap="2">
             <Text>Original Language</Text>
-            <Select {...register("originalLanguage")} w="15%">
+            <Select
+              {...register("originalLanguage")}
+              w="fit-content"
+              minW="150px"
+            >
               {Object.values(Languages).map((language) => (
                 <option key={language} value={language}>
                   {language}
@@ -103,12 +108,14 @@ export const Translation = ({
           Paste or press Ctrl+Enter (or Cmd+Enter) to translate
         </Text>
 
-        <Flex align="center" mb="4" w="30%">
+        <Stack direction={{ base: "column", md: "row" }} mb="4" w="30%" gap="4">
           <Select
             {...register("selectedModel")}
             value={selectedModel}
             flex="1"
             mr="4"
+            w="fit-content"
+            minW="200px"
           >
             {models.map((model) => (
               <option key={model} value={model}>
@@ -117,10 +124,16 @@ export const Translation = ({
             ))}
           </Select>
 
-          <Button type="submit" colorScheme="blackAlpha" disabled={isLoading}>
+          <Button
+            type="submit"
+            colorScheme="blackAlpha"
+            disabled={isLoading}
+            w="fit-content"
+            minW="100px"
+          >
             Translate
           </Button>
-        </Flex>
+        </Stack>
 
         <Heading as="h2" size="md" mb="2">
           Targeted Language
@@ -129,12 +142,16 @@ export const Translation = ({
         <Flex direction="row" gap="4">
           <Box width="50%">
             <Heading as="h2" size="md" mb="2">
-              <HStack>
+              <Stack
+                direction={{ base: "column", md: "row" }}
+                width="100%"
+                spacing={{ base: 2, md: 4 }}
+                align={{ base: "start", md: "center" }}
+              >
                 <Select
                   {...register("targetedLanguage1")}
-                  flex="1"
-                  mr="4"
-                  w="20%"
+                  w={{ base: "100%", md: "fit-content" }}
+                  minW="150px"
                 >
                   {Object.values(Languages).map((language) => (
                     <option key={language} value={language}>
@@ -147,11 +164,13 @@ export const Translation = ({
                   borderRadius="md"
                   _hover={{ background: "none" }}
                   onClick={() => handleCopy(translation1Ref, setIsCopied1)}
+                  alignSelf="flex-start"
+                  w="auto"
                 >
                   <Box mr="2">{isCopied1 ? <FaCheck /> : <FaRegCopy />}</Box>
                   <Text>{isCopied1 ? "Copied" : "Copy"}</Text>
                 </Button>
-              </HStack>
+              </Stack>
             </Heading>
             {errors.targetedLanguage1 && (
               <Text color="red.500" mb="2">
@@ -169,8 +188,17 @@ export const Translation = ({
 
           <Box width="50%">
             <Heading as="h2" size="md" mb="2">
-              <HStack>
-                <Select flex="1" mr="4" w="20%">
+              <Stack
+                direction={{ base: "column", md: "row" }}
+                width="100%"
+                spacing={{ base: 2, md: 4 }}
+                align={{ base: "start", md: "center" }}
+              >
+                <Select
+                  {...register("targetedLanguage2")}
+                  w={{ base: "100%", md: "fit-content" }}
+                  minW="150px"
+                >
                   {Object.values(Languages).map((language) => (
                     <option key={language} value={language}>
                       {language}
@@ -182,11 +210,13 @@ export const Translation = ({
                   borderRadius="md"
                   _hover={{ background: "none" }}
                   onClick={() => handleCopy(translation2Ref, setIsCopied2)}
+                  w="auto"
+                  alignSelf="flex-start"
                 >
                   <Box mr="2">{isCopied2 ? <FaCheck /> : <FaRegCopy />}</Box>
                   <Text>{isCopied2 ? "Copied" : "Copy"}</Text>
                 </Button>
-              </HStack>
+              </Stack>
             </Heading>
             {errors.targetedLanguage2 && (
               <Text color="red.500" mb="2">

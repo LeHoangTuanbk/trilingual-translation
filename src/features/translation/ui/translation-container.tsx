@@ -40,7 +40,6 @@ export const TranslationContainer = () => {
   const inputValue = watch("input");
   const selectedModelValue = watch("selectedModel");
 
-  // Todo: need to do the automatic resize of the textarea
   const translation1RefObject = useRef<HTMLTextAreaElement>(null);
   const translation2RefObject = useRef<HTMLTextAreaElement>(null);
 
