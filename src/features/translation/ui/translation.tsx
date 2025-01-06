@@ -10,10 +10,15 @@ import {
   HStack,
 } from "@chakra-ui/react";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
-import { ClipboardEvent, FormEventHandler, KeyboardEvent } from "react";
+import {
+  ClipboardEvent,
+  FormEventHandler,
+  KeyboardEvent,
+  useState,
+} from "react";
 import { Languages } from "@/utils";
 import type { TranslationFormValues } from "@/features/translation/api";
-import { FaRegCopy } from "react-icons/fa6";
+import { FaRegCopy, FaCheck } from "react-icons/fa6";
 
 type TranslationPresenterProps = {
   register: UseFormRegister<TranslationFormValues>;
@@ -46,6 +51,19 @@ export const Translation = ({
   translation1Ref,
   translation2Ref,
 }: TranslationPresenterProps) => {
+  const [isCopied1, setIsCopied1] = useState(false);
+  const [isCopied2, setIsCopied2] = useState(false);
+
+  const handleCopy = async (
+    ref: React.RefObject<HTMLTextAreaElement>,
+    setCopied: (value: boolean) => void
+  ) => {
+    if (ref.current) {
+      await navigator.clipboard.writeText(ref.current.value);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 3000);
+    }
+  };
   return (
     <Box padding="5">
       <form onSubmit={onSubmit}>
@@ -128,18 +146,10 @@ export const Translation = ({
                   background="none"
                   borderRadius="md"
                   _hover={{ background: "none" }}
-                  onClick={() => {
-                    if (translation1Ref.current) {
-                      navigator.clipboard.writeText(
-                        translation1Ref.current.value
-                      );
-                    }
-                  }}
+                  onClick={() => handleCopy(translation1Ref, setIsCopied1)}
                 >
-                  <Box mr="2">
-                    <FaRegCopy />
-                  </Box>
-                  <Text> Copy</Text>
+                  <Box mr="2">{isCopied1 ? <FaCheck /> : <FaRegCopy />}</Box>
+                  <Text>{isCopied1 ? "Copied" : "Copy"}</Text>
                 </Button>
               </HStack>
             </Heading>
@@ -171,18 +181,10 @@ export const Translation = ({
                   background="none"
                   borderRadius="md"
                   _hover={{ background: "none" }}
-                  onClick={() => {
-                    if (translation2Ref.current) {
-                      navigator.clipboard.writeText(
-                        translation2Ref.current.value
-                      );
-                    }
-                  }}
+                  onClick={() => handleCopy(translation2Ref, setIsCopied2)}
                 >
-                  <Box mr="2">
-                    <FaRegCopy />
-                  </Box>
-                  <Text> Copy</Text>
+                  <Box mr="2">{isCopied2 ? <FaCheck /> : <FaRegCopy />}</Box>
+                  <Text>{isCopied2 ? "Copied" : "Copy"}</Text>
                 </Button>
               </HStack>
             </Heading>
