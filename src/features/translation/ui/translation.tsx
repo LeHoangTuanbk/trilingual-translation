@@ -123,10 +123,9 @@ export const Translation = ({
           <Select
             {...register("selectedModel")}
             value={selectedModel}
-            flex="1"
             mr="4"
             w="fit-content"
-            minW="200px"
+            minW="300px"
           >
             {models.map((model) => (
               <option key={model} value={model}>
