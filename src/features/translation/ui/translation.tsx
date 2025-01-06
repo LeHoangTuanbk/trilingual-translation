@@ -7,7 +7,6 @@ import {
   Link,
   Heading,
   Flex,
-  HStack,
   Stack,
 } from "@chakra-ui/react";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
@@ -16,6 +15,7 @@ import {
   FormEventHandler,
   KeyboardEvent,
   useState,
+  useEffect,
 } from "react";
 import { Languages } from "@/utils";
 import type { TranslationFormValues } from "@/features/translation/api";
@@ -65,6 +65,17 @@ export const Translation = ({
       setTimeout(() => setCopied(false), 2000);
     }
   };
+
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
+  if (!hasMounted) {
+    return null;
+  }
+
   return (
     <Box padding="5">
       <form onSubmit={onSubmit}>
@@ -129,9 +140,9 @@ export const Translation = ({
             colorScheme="blackAlpha"
             disabled={isLoading}
             w="fit-content"
-            minW="100px"
+            minW="150px"
           >
-            Translate
+            {isLoading ? <Text>Translating</Text> : <Text>Translate</Text>}
           </Button>
         </Stack>
 

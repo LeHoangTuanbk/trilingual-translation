@@ -1,5 +1,3 @@
-"use client";
-
 import { TranslationContainer } from "@/features";
 
 const Home = () => {
