@@ -146,7 +146,7 @@ export const Translation = ({
                 direction={{ base: "column", md: "row" }}
                 width="100%"
                 spacing={{ base: 2, md: 4 }}
-                align={{ base: "flex-start", md: "center" }}
+                align={{ base: "start", md: "center" }}
               >
                 <Select
                   {...register("targetedLanguage1")}
@@ -164,7 +164,8 @@ export const Translation = ({
                   borderRadius="md"
                   _hover={{ background: "none" }}
                   onClick={() => handleCopy(translation1Ref, setIsCopied1)}
-                  w={{ base: "100%", md: "auto" }}
+                  alignSelf="flex-start"
+                  w="auto"
                 >
                   <Box mr="2">{isCopied1 ? <FaCheck /> : <FaRegCopy />}</Box>
                   <Text>{isCopied1 ? "Copied" : "Copy"}</Text>
@@ -191,7 +192,7 @@ export const Translation = ({
                 direction={{ base: "column", md: "row" }}
                 width="100%"
                 spacing={{ base: 2, md: 4 }}
-                align={{ base: "flex-start", md: "center" }}
+                align={{ base: "start", md: "center" }}
               >
                 <Select
                   {...register("targetedLanguage2")}
@@ -209,7 +210,8 @@ export const Translation = ({
                   borderRadius="md"
                   _hover={{ background: "none" }}
                   onClick={() => handleCopy(translation2Ref, setIsCopied2)}
-                  w={{ base: "100%", md: "auto" }}
+                  w="auto"
+                  alignSelf="flex-start"
                 >
                   <Box mr="2">{isCopied2 ? <FaCheck /> : <FaRegCopy />}</Box>
                   <Text>{isCopied2 ? "Copied" : "Copy"}</Text>
