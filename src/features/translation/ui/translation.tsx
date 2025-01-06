@@ -74,7 +74,11 @@ export const Translation = ({
         <Heading as="h2" size="md" mb="2" w="100%">
           <Box display="flex" alignItems="center" gap="2">
             <Text>Original Language</Text>
-            <Select {...register("originalLanguage")} w="15%">
+            <Select
+              {...register("originalLanguage")}
+              w="fit-content"
+              minW="150px"
+            >
               {Object.values(Languages).map((language) => (
                 <option key={language} value={language}>
                   {language}
@@ -109,6 +113,8 @@ export const Translation = ({
             value={selectedModel}
             flex="1"
             mr="4"
+            w="fit-content"
+            minW="200px"
           >
             {models.map((model) => (
               <option key={model} value={model}>
@@ -117,7 +123,13 @@ export const Translation = ({
             ))}
           </Select>
 
-          <Button type="submit" colorScheme="blackAlpha" disabled={isLoading}>
+          <Button
+            type="submit"
+            colorScheme="blackAlpha"
+            disabled={isLoading}
+            w="fit-content"
+            minW="100px"
+          >
             Translate
           </Button>
         </Flex>
@@ -132,9 +144,9 @@ export const Translation = ({
               <HStack>
                 <Select
                   {...register("targetedLanguage1")}
-                  flex="1"
                   mr="4"
-                  w="20%"
+                  w="fit-content"
+                  minW="150px"
                 >
                   {Object.values(Languages).map((language) => (
                     <option key={language} value={language}>
@@ -170,7 +182,12 @@ export const Translation = ({
           <Box width="50%">
             <Heading as="h2" size="md" mb="2">
               <HStack>
-                <Select flex="1" mr="4" w="20%">
+                <Select
+                  {...register("targetedLanguage2")}
+                  mr="4"
+                  w="fit-content"
+                  minW="150px"
+                >
                   {Object.values(Languages).map((language) => (
                     <option key={language} value={language}>
                       {language}
