@@ -3,7 +3,7 @@ import React, {
   KeyboardEvent,
   useEffect,
   useRef,
-  useCallback,
+  useState,
 } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -30,46 +30,19 @@ export const TranslationContainer = () => {
       originalLanguage: Languages.Japanese,
       targetedLanguage1: Languages.English,
       targetedLanguage2: Languages.Vietnamese,
-      translation1: "",
-      translation2: "",
     },
   });
+  const [translation1, setTranslation1] = useState("");
+  const [translation2, setTranslation2] = useState("");
 
   const { handleTranslate } = useTranslation();
 
   const inputValue = watch("input");
   const selectedModelValue = watch("selectedModel");
 
-  const translation1 = watch("translation1");
-  const translation2 = watch("translation2");
-
-  const { ref: translation1RegisterRef, ...translation1Register } =
-    register("translation1");
-  const { ref: translation2RegisterRef, ...translation2Register } =
-    register("translation2");
-
-  const translation1Ref = useCallback(
-    (element: HTMLTextAreaElement | null) => {
-      translation1RegisterRef(element);
-      if (translation1RefObject.current !== element) {
-        translation1RefObject.current = element;
-      }
-    },
-    [translation1RegisterRef]
-  );
-
-  const translation2Ref = useCallback(
-    (element: HTMLTextAreaElement | null) => {
-      translation2RegisterRef(element);
-      if (translation2RefObject.current !== element) {
-        translation2RefObject.current = element;
-      }
-    },
-    [translation2RegisterRef]
-  );
   // Todo: need to do the automatic resize of the textarea
-  const translation1RefObject = useRef<HTMLTextAreaElement | null>(null);
-  const translation2RefObject = useRef<HTMLTextAreaElement | null>(null);
+  const translation1RefObject = useRef<HTMLTextAreaElement>(null);
+  const translation2RefObject = useRef<HTMLTextAreaElement>(null);
 
   const onTranslationSubmit = async (data: TranslationFormValues) => {
     setLoadingTranslation();
@@ -85,8 +58,8 @@ export const TranslationContainer = () => {
   const submitForm = handleSubmit(onTranslationSubmit);
 
   const updateTranslation = (translation1: string, translation2: string) => {
-    setValue("translation1", translation1);
-    setValue("translation2", translation2);
+    setTranslation1(translation1);
+    setTranslation2(translation2);
   };
 
   const handlePaste = async (e: ClipboardEvent<HTMLTextAreaElement>) => {
@@ -97,8 +70,8 @@ export const TranslationContainer = () => {
   };
 
   const setLoadingTranslation = () => {
-    setValue("translation1", "Loading...");
-    setValue("translation2", "Loading...");
+    setTranslation1("Loading...");
+    setTranslation2("Loading...");
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
@@ -138,6 +111,8 @@ export const TranslationContainer = () => {
       onKeyDown={handleKeyDown}
       onPaste={handlePaste}
       onSubmit={submitForm}
+      translation1={translation1}
+      translation2={translation2}
       translation1Ref={translation1RefObject}
       translation2Ref={translation2RefObject}
     />

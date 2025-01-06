@@ -7,11 +7,18 @@ import {
   Link,
   Heading,
   Flex,
+  HStack,
 } from "@chakra-ui/react";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
-import { ClipboardEvent, FormEventHandler, KeyboardEvent } from "react";
+import {
+  ClipboardEvent,
+  FormEventHandler,
+  KeyboardEvent,
+  useState,
+} from "react";
 import { Languages } from "@/utils";
 import type { TranslationFormValues } from "@/features/translation/api";
+import { FaRegCopy, FaCheck } from "react-icons/fa6";
 
 type TranslationPresenterProps = {
   register: UseFormRegister<TranslationFormValues>;
@@ -23,8 +30,10 @@ type TranslationPresenterProps = {
   onPaste: (e: ClipboardEvent<HTMLTextAreaElement>) => void;
   onKeyDown: (e: KeyboardEvent<HTMLTextAreaElement>) => void;
   onSubmit: FormEventHandler<HTMLFormElement>;
-  translation1Ref: React.RefObject<HTMLTextAreaElement | null>;
-  translation2Ref: React.RefObject<HTMLTextAreaElement | null>;
+  translation1: string;
+  translation2: string;
+  translation1Ref: React.RefObject<HTMLTextAreaElement>;
+  translation2Ref: React.RefObject<HTMLTextAreaElement>;
 };
 
 export const Translation = ({
@@ -34,13 +43,27 @@ export const Translation = ({
   selectedModel,
   isLoading,
   models,
-
   onPaste,
   onKeyDown,
   onSubmit,
+  translation1,
+  translation2,
   translation1Ref,
   translation2Ref,
 }: TranslationPresenterProps) => {
+  const [isCopied1, setIsCopied1] = useState(false);
+  const [isCopied2, setIsCopied2] = useState(false);
+
+  const handleCopy = async (
+    ref: React.RefObject<HTMLTextAreaElement>,
+    setCopied: (value: boolean) => void
+  ) => {
+    if (ref.current) {
+      await navigator.clipboard.writeText(ref.current.value);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 3000);
+    }
+  };
   return (
     <Box padding="5">
       <form onSubmit={onSubmit}>
@@ -106,18 +129,29 @@ export const Translation = ({
         <Flex direction="row" gap="4">
           <Box width="50%">
             <Heading as="h2" size="md" mb="2">
-              <Select
-                {...register("targetedLanguage1")}
-                flex="1"
-                mr="4"
-                w="20%"
-              >
-                {Object.values(Languages).map((language) => (
-                  <option key={language} value={language}>
-                    {language}
-                  </option>
-                ))}
-              </Select>
+              <HStack>
+                <Select
+                  {...register("targetedLanguage1")}
+                  flex="1"
+                  mr="4"
+                  w="20%"
+                >
+                  {Object.values(Languages).map((language) => (
+                    <option key={language} value={language}>
+                      {language}
+                    </option>
+                  ))}
+                </Select>
+                <Button
+                  background="none"
+                  borderRadius="md"
+                  _hover={{ background: "none" }}
+                  onClick={() => handleCopy(translation1Ref, setIsCopied1)}
+                >
+                  <Box mr="2">{isCopied1 ? <FaCheck /> : <FaRegCopy />}</Box>
+                  <Text>{isCopied1 ? "Copied" : "Copy"}</Text>
+                </Button>
+              </HStack>
             </Heading>
             {errors.targetedLanguage1 && (
               <Text color="red.500" mb="2">
@@ -125,27 +159,34 @@ export const Translation = ({
               </Text>
             )}
             <Textarea
-              {...register("translation1")}
+              value={translation1}
               readOnly
               minHeight="xs"
               height="auto"
+              ref={translation1Ref}
             />
           </Box>
 
           <Box width="50%">
             <Heading as="h2" size="md" mb="2">
-              <Select
-                {...register("targetedLanguage2")}
-                flex="1"
-                mr="4"
-                w="20%"
-              >
-                {Object.values(Languages).map((language) => (
-                  <option key={language} value={language}>
-                    {language}
-                  </option>
-                ))}
-              </Select>
+              <HStack>
+                <Select flex="1" mr="4" w="20%">
+                  {Object.values(Languages).map((language) => (
+                    <option key={language} value={language}>
+                      {language}
+                    </option>
+                  ))}
+                </Select>
+                <Button
+                  background="none"
+                  borderRadius="md"
+                  _hover={{ background: "none" }}
+                  onClick={() => handleCopy(translation2Ref, setIsCopied2)}
+                >
+                  <Box mr="2">{isCopied2 ? <FaCheck /> : <FaRegCopy />}</Box>
+                  <Text>{isCopied2 ? "Copied" : "Copy"}</Text>
+                </Button>
+              </HStack>
             </Heading>
             {errors.targetedLanguage2 && (
               <Text color="red.500" mb="2">
@@ -153,10 +194,11 @@ export const Translation = ({
               </Text>
             )}
             <Textarea
+              value={translation2}
               readOnly
-              {...register("translation2")}
               minHeight="xs"
               height="auto"
+              ref={translation2Ref}
             />
           </Box>
         </Flex>
