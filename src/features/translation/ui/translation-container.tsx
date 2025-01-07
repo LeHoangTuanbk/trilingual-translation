@@ -2,6 +2,7 @@
 import React, {
   ClipboardEvent,
   KeyboardEvent,
+  useCallback,
   useEffect,
   useRef,
   useState,
@@ -13,8 +14,9 @@ import {
   TranslationFormValues,
 } from "@/features/translation/api";
 import { Translation } from "./translation";
-import { MODELS, Languages, DEFAULT_MODEL } from "@/utils";
+import { MODELS, Languages, DEFAULT_MODEL, TranslationMode } from "@/utils";
 import { useTranslation } from "@/features/translation/api";
+import { TranslationModeKeysType } from "@/utils";
 
 export const TranslationContainer = () => {
   const {
@@ -100,6 +102,17 @@ export const TranslationContainer = () => {
     adjustHeight(translation1RefObject.current, translation2RefObject.current);
   }, [translation1, translation2]);
 
+  const handleLanguageShortcut = useCallback(
+    (mode: TranslationModeKeysType) => {
+      if (TranslationMode[mode]) {
+        setValue("originalLanguage", TranslationMode[mode].originalLanguage);
+        setValue("targetedLanguage1", TranslationMode[mode].targetLanguage1);
+        setValue("targetedLanguage2", TranslationMode[mode].targetLanguage2);
+      }
+    },
+    [setValue]
+  );
+
   return (
     <Translation
       register={register}
@@ -115,6 +128,7 @@ export const TranslationContainer = () => {
       translation2={translation2}
       translation1Ref={translation1RefObject}
       translation2Ref={translation2RefObject}
+      onLanguageShortcut={handleLanguageShortcut}
     />
   );
 };

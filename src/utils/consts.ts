@@ -18,11 +18,37 @@ const DEFAULT_MODEL = "gpt-4o";
 
 const MODELS = [...OPENAI_MODELS, ...ANTHROPIC_MODELS];
 
+const TranslationMode = {
+  "1": {
+    originalLanguage: Languages.Japanese,
+    targetLanguage1: Languages.English,
+    targetLanguage2: Languages.Vietnamese,
+  },
+  "2": {
+    originalLanguage: Languages.Vietnamese,
+    targetLanguage1: Languages.Japanese,
+    targetLanguage2: Languages.English,
+  },
+  "3": {
+    originalLanguage: Languages.English,
+    targetLanguage1: Languages.Vietnamese,
+    targetLanguage2: Languages.Japanese,
+  },
+} as const;
+
+const TranslationModeKeysType = Object.keys(
+  TranslationMode
+) as (keyof typeof TranslationMode)[];
+
+type TranslationModeKeysType = (typeof TranslationModeKeysType)[number];
+
 export {
   OPENAI_MODELS,
   ANTHROPIC_MODELS,
   MODELS,
   DEFAULT_MODEL,
   Languages,
+  TranslationMode,
   type LanguageType,
+  type TranslationModeKeysType,
 };

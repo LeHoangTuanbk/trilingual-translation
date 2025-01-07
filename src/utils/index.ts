@@ -5,4 +5,6 @@ export {
   DEFAULT_MODEL,
   Languages,
   type LanguageType,
+  TranslationMode,
+  type TranslationModeKeysType,
 } from "./consts";
