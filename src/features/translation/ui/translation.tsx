@@ -16,6 +16,7 @@ import {
   KeyboardEvent,
   useState,
   useEffect,
+  useRef,
 } from "react";
 import { Languages, TranslationModeKeysType } from "@/utils";
 import type { TranslationFormValues } from "@/features/translation/api";
@@ -91,6 +92,14 @@ export const Translation = ({
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [onLanguageShortcut]);
 
+  const inputRef = useRef<HTMLTextAreaElement | null>(null);
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [hasMounted]);
+
   if (!hasMounted) {
     return null;
   }
@@ -132,6 +141,10 @@ export const Translation = ({
           placeholder="Enter your paragraph here"
           height="3xs"
           mb="2"
+          ref={(e) => {
+            register("input").ref(e); // Kết hợp register và ref
+            inputRef.current = e; // Gắn ref vào inputRef
+          }}
         />
         {errors.input && (
           <Text color="red.500" mb="2">
