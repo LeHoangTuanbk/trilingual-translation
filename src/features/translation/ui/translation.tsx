@@ -81,7 +81,9 @@ export const Translation = ({
       const modifierKey = isMac ? e.metaKey : e.ctrlKey;
       if (modifierKey) {
         onLanguageShortcut(e.key as TranslationModeKeysType);
-        e.preventDefault();
+        if (TranslationMode[e.key as TranslationModeKeysType]) {
+          e.preventDefault();
+        }
       }
     };
 
