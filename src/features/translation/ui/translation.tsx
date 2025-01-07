@@ -118,6 +118,7 @@ export const Translation = ({
             </Select>
           </Box>
         </Heading>
+        <Text>Translation mode:</Text>
         <Text fontSize="sm" mb="4">
           Ctrl (Cmd) + 1: Japanese, Ctrl (Cmd) + 2: Vietnamese, Ctrl (Cmd) + 3:
           English
