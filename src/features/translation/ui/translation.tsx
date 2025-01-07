@@ -142,8 +142,8 @@ export const Translation = ({
           height="3xs"
           mb="2"
           ref={(e) => {
-            register("input").ref(e); // Kết hợp register và ref
-            inputRef.current = e; // Gắn ref vào inputRef
+            register("input").ref(e);
+            inputRef.current = e;
           }}
         />
         {errors.input && (
