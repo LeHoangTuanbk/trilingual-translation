@@ -20,6 +20,7 @@ import {
 import { Languages } from "@/utils";
 import type { TranslationFormValues } from "@/features/translation/api";
 import { FaRegCopy, FaCheck } from "react-icons/fa6";
+import { TranslationMode } from "@/utils";
 
 type TranslationPresenterProps = {
   register: UseFormRegister<TranslationFormValues>;
@@ -35,6 +36,7 @@ type TranslationPresenterProps = {
   translation2: string;
   translation1Ref: React.RefObject<HTMLTextAreaElement>;
   translation2Ref: React.RefObject<HTMLTextAreaElement>;
+  onLanguageShortcut: (mode: string) => void;
 };
 
 export const Translation = ({
@@ -51,6 +53,7 @@ export const Translation = ({
   translation2,
   translation1Ref,
   translation2Ref,
+  onLanguageShortcut,
 }: TranslationPresenterProps) => {
   const [isCopied1, setIsCopied1] = useState(false);
   const [isCopied2, setIsCopied2] = useState(false);
@@ -71,6 +74,21 @@ export const Translation = ({
   useEffect(() => {
     setHasMounted(true);
   }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (e: globalThis.KeyboardEvent) => {
+      const isMac = /Mac|iPod|iPhone|iPad/.test(navigator.userAgent);
+      const modifierKey = isMac ? e.metaKey : e.ctrlKey;
+
+      if (modifierKey) {
+        onLanguageShortcut(e.key);
+        e.preventDefault();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [onLanguageShortcut]);
 
   if (!hasMounted) {
     return null;
@@ -99,6 +117,10 @@ export const Translation = ({
             </Select>
           </Box>
         </Heading>
+        <Text fontSize="sm" mb="4">
+          Ctrl (Cmd) + 1: Japanese, Ctrl (Cmd) + 2: Vietnamese, Ctrl (Cmd) + 3:
+          English
+        </Text>
 
         <Textarea
           {...register("input")}

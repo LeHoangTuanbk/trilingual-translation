@@ -13,7 +13,7 @@ import {
   TranslationFormValues,
 } from "@/features/translation/api";
 import { Translation } from "./translation";
-import { MODELS, Languages, DEFAULT_MODEL } from "@/utils";
+import { MODELS, Languages, DEFAULT_MODEL, TranslationMode } from "@/utils";
 import { useTranslation } from "@/features/translation/api";
 
 export const TranslationContainer = () => {
@@ -100,6 +100,23 @@ export const TranslationContainer = () => {
     adjustHeight(translation1RefObject.current, translation2RefObject.current);
   }, [translation1, translation2]);
 
+  const handleLanguageShortcut = (mode: string) => {
+    console.log(mode);
+    console.log(TranslationMode[mode as keyof typeof TranslationMode]);
+    setValue(
+      "originalLanguage",
+      TranslationMode[mode as keyof typeof TranslationMode].originalLanguage
+    );
+    setValue(
+      "targetedLanguage1",
+      TranslationMode[mode as keyof typeof TranslationMode].targetLanguage1
+    );
+    setValue(
+      "targetedLanguage2",
+      TranslationMode[mode as keyof typeof TranslationMode].targetLanguage2
+    );
+  };
+
   return (
     <Translation
       register={register}
@@ -115,6 +132,7 @@ export const TranslationContainer = () => {
       translation2={translation2}
       translation1Ref={translation1RefObject}
       translation2Ref={translation2RefObject}
+      onLanguageShortcut={handleLanguageShortcut}
     />
   );
 };
