@@ -17,7 +17,7 @@ import {
   useState,
   useEffect,
 } from "react";
-import { Languages } from "@/utils";
+import { Languages, TranslationModeKeysType } from "@/utils";
 import type { TranslationFormValues } from "@/features/translation/api";
 import { FaRegCopy, FaCheck } from "react-icons/fa6";
 import { TranslationMode } from "@/utils";
@@ -36,7 +36,7 @@ type TranslationPresenterProps = {
   translation2: string;
   translation1Ref: React.RefObject<HTMLTextAreaElement>;
   translation2Ref: React.RefObject<HTMLTextAreaElement>;
-  onLanguageShortcut: (mode: string) => void;
+  onLanguageShortcut: (mode: TranslationModeKeysType) => void;
 };
 
 export const Translation = ({
@@ -79,9 +79,8 @@ export const Translation = ({
     const handleKeyDown = (e: globalThis.KeyboardEvent) => {
       const isMac = /Mac|iPod|iPhone|iPad/.test(navigator.userAgent);
       const modifierKey = isMac ? e.metaKey : e.ctrlKey;
-
       if (modifierKey) {
-        onLanguageShortcut(e.key);
+        onLanguageShortcut(e.key as TranslationModeKeysType);
         e.preventDefault();
       }
     };

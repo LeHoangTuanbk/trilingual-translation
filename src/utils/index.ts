@@ -6,4 +6,5 @@ export {
   Languages,
   type LanguageType,
   TranslationMode,
+  type TranslationModeKeysType,
 } from "./consts";

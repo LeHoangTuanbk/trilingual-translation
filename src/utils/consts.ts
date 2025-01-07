@@ -36,6 +36,12 @@ const TranslationMode = {
   },
 } as const;
 
+const TranslationModeKeysType = Object.keys(
+  TranslationMode
+) as (keyof typeof TranslationMode)[];
+
+type TranslationModeKeysType = (typeof TranslationModeKeysType)[number];
+
 export {
   OPENAI_MODELS,
   ANTHROPIC_MODELS,
@@ -44,4 +50,5 @@ export {
   Languages,
   TranslationMode,
   type LanguageType,
+  type TranslationModeKeysType,
 };

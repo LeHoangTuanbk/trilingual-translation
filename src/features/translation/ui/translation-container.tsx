@@ -2,6 +2,7 @@
 import React, {
   ClipboardEvent,
   KeyboardEvent,
+  useCallback,
   useEffect,
   useRef,
   useState,
@@ -15,6 +16,7 @@ import {
 import { Translation } from "./translation";
 import { MODELS, Languages, DEFAULT_MODEL, TranslationMode } from "@/utils";
 import { useTranslation } from "@/features/translation/api";
+import { TranslationModeKeysType } from "@/utils";
 
 export const TranslationContainer = () => {
   const {
@@ -100,22 +102,16 @@ export const TranslationContainer = () => {
     adjustHeight(translation1RefObject.current, translation2RefObject.current);
   }, [translation1, translation2]);
 
-  const handleLanguageShortcut = (mode: string) => {
-    console.log(mode);
-    console.log(TranslationMode[mode as keyof typeof TranslationMode]);
-    setValue(
-      "originalLanguage",
-      TranslationMode[mode as keyof typeof TranslationMode].originalLanguage
-    );
-    setValue(
-      "targetedLanguage1",
-      TranslationMode[mode as keyof typeof TranslationMode].targetLanguage1
-    );
-    setValue(
-      "targetedLanguage2",
-      TranslationMode[mode as keyof typeof TranslationMode].targetLanguage2
-    );
-  };
+  const handleLanguageShortcut = useCallback(
+    (mode: TranslationModeKeysType) => {
+      if (TranslationMode[mode]) {
+        setValue("originalLanguage", TranslationMode[mode].originalLanguage);
+        setValue("targetedLanguage1", TranslationMode[mode].targetLanguage1);
+        setValue("targetedLanguage2", TranslationMode[mode].targetLanguage2);
+      }
+    },
+    [setValue]
+  );
 
   return (
     <Translation
