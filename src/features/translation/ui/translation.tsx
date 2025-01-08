@@ -274,6 +274,9 @@ export const Translation = ({
                   <Box mr="2">{isCopied2 ? <FaCheck /> : <FaRegCopy />}</Box>
                   <Text>{isCopied2 ? "Copied" : "Copy"}</Text>
                 </Button>
+                <Checkbox visibility="hidden" isDisabled>
+                  Auto copy
+                </Checkbox>
               </Stack>
             </Text>
             {errors.targetedLanguage2 && (
