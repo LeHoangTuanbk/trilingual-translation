@@ -8,6 +8,7 @@ import {
   Heading,
   Flex,
   Stack,
+  Checkbox,
 } from "@chakra-ui/react";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
 import {
@@ -38,6 +39,8 @@ type TranslationPresenterProps = {
   translation1Ref: React.RefObject<HTMLTextAreaElement>;
   translation2Ref: React.RefObject<HTMLTextAreaElement>;
   onLanguageShortcut: (mode: TranslationModeKeysType) => void;
+  onAutoCopyChange1: (checked: boolean) => void;
+  isAutoCopy1: boolean;
 };
 
 export const Translation = ({
@@ -55,6 +58,8 @@ export const Translation = ({
   translation1Ref,
   translation2Ref,
   onLanguageShortcut,
+  onAutoCopyChange1,
+  isAutoCopy1,
 }: TranslationPresenterProps) => {
   const [isCopied1, setIsCopied1] = useState(false);
   const [isCopied2, setIsCopied2] = useState(false);
@@ -188,7 +193,7 @@ export const Translation = ({
 
         <Flex direction="row" gap="4">
           <Box width="50%">
-            <Heading as="h2" size="md" mb="2">
+            <Text as="h2" size="md" mb="2">
               <Stack
                 direction={{ base: "column", md: "row" }}
                 width="100%"
@@ -217,8 +222,11 @@ export const Translation = ({
                   <Box mr="2">{isCopied1 ? <FaCheck /> : <FaRegCopy />}</Box>
                   <Text>{isCopied1 ? "Copied" : "Copy"}</Text>
                 </Button>
+                <Checkbox onChange={() => onAutoCopyChange1(!isAutoCopy1)}>
+                  Auto copy
+                </Checkbox>
               </Stack>
-            </Heading>
+            </Text>
             {errors.targetedLanguage1 && (
               <Text color="red.500" mb="2">
                 {errors.targetedLanguage1.message}
@@ -234,7 +242,7 @@ export const Translation = ({
           </Box>
 
           <Box width="50%">
-            <Heading as="h2" size="md" mb="2">
+            <Text as="h2" size="md" mb="2">
               <Stack
                 direction={{ base: "column", md: "row" }}
                 width="100%"
@@ -264,7 +272,7 @@ export const Translation = ({
                   <Text>{isCopied2 ? "Copied" : "Copy"}</Text>
                 </Button>
               </Stack>
-            </Heading>
+            </Text>
             {errors.targetedLanguage2 && (
               <Text color="red.500" mb="2">
                 {errors.targetedLanguage2.message}
