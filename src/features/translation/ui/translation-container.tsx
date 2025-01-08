@@ -38,7 +38,7 @@ export const TranslationContainer = () => {
   });
   const [translation1, setTranslation1] = useState("");
   const [translation2, setTranslation2] = useState("");
-  const [isAutoCopy1, setIsAutoCopy1] = useState(false);
+  const [isAutoCopy1, setIsAutoCopy1] = useState(true);
 
   const { handleTranslate } = useTranslation();
   const { successToast } = useToastHook();

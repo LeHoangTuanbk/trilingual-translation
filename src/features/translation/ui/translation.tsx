@@ -222,7 +222,10 @@ export const Translation = ({
                   <Box mr="2">{isCopied1 ? <FaCheck /> : <FaRegCopy />}</Box>
                   <Text>{isCopied1 ? "Copied" : "Copy"}</Text>
                 </Button>
-                <Checkbox onChange={() => onAutoCopyChange1(!isAutoCopy1)}>
+                <Checkbox
+                  onChange={() => onAutoCopyChange1(!isAutoCopy1)}
+                  defaultChecked={isAutoCopy1}
+                >
                   Auto copy
                 </Checkbox>
               </Stack>
