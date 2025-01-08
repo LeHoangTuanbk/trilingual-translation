@@ -10,6 +10,9 @@ const Languages = {
   English: "English",
   Vietnamese: "Vietnamese",
   Japanese: "Japanese",
+  Korean: "Korean",
+  Chinese: "Chinese",
+  Spanish: "Spanish",
 } as const;
 
 type LanguageType = (typeof Languages)[keyof typeof Languages];
