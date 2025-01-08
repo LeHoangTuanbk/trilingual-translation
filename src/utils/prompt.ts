@@ -57,8 +57,11 @@ Japanese: https://trilintran.vercel.app/
 English: https://trilintran.vercel.app/
 Vietnamese: https://trilintran.vercel.app/
 
-
-
+Example 7:  
+English: Hello
+Korean: 안녕하세요
+Chinese: 你好
+Spanish: Hola
 
 Provided ${originalLanguage} text: ${input}
 
