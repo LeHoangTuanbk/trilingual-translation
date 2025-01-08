@@ -11,7 +11,7 @@ Note:
 + Your response should only include the translated text, nothing else. Don't include any sentences like: Here is the English/Vietnamese translation of the Japanese paragraph, etc.
 + When translate the technical words, make sure to translate them to the correct technical words in the target language. Or Using all English technical words are also fine. Developers are familiar with them.
 + Keep the original text format, including the line breaks, spaces, and other formatting elements.
-
++ If the input text is random characters or not a valid ${originalLanguage} text or the text that you can't translate, just return the original text.
 
 Example 1:
 Japanese: 最近目にすることがあるRedisが少し気になったので、使用してみようと思います。 RedisはNoSQLの１つで、キー・バリューデータストアに分類されるものです。 NoSQLとは、Not Only SQLの略で、非リレーショナルなデータベースのことを指します。
@@ -47,6 +47,18 @@ Vietnamese: Xin chào mọi người!
 Tôi sẽ nghỉ vào các ngày sau đây:
 Thứ ba, ngày 13 tháng 8
 Mong mọi người thông cảm vì sự bất tiện này, xin cảm ơn mọi người!
+
+Example 5:
+English: adsfdsfgsadfsdfdsf
+Vietnamese: adsfdsfgsadfsdfdsf
+
+Example 6:
+Japanese: https://trilintran.vercel.app/
+English: https://trilintran.vercel.app/
+Vietnamese: https://trilintran.vercel.app/
+
+
+
 
 Provided ${originalLanguage} text: ${input}
 
