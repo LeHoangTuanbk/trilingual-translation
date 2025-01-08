@@ -17,6 +17,7 @@ import { Translation } from "./translation";
 import { MODELS, Languages, DEFAULT_MODEL, TranslationMode } from "@/utils";
 import { useTranslation } from "@/features/translation/api";
 import { TranslationModeKeysType } from "@/utils";
+import { useToastHook } from "@/shared/toast";
 
 export const TranslationContainer = () => {
   const {
@@ -37,8 +38,10 @@ export const TranslationContainer = () => {
   });
   const [translation1, setTranslation1] = useState("");
   const [translation2, setTranslation2] = useState("");
+  const [isAutoCopy1, setIsAutoCopy1] = useState(true);
 
   const { handleTranslate } = useTranslation();
+  const { successToast } = useToastHook();
 
   const inputValue = watch("input");
   const selectedModelValue = watch("selectedModel");
@@ -51,10 +54,16 @@ export const TranslationContainer = () => {
     const result = await handleTranslate({
       ...data,
     });
-    updateTranslation(
-      result[data.targetedLanguage1],
-      result[data.targetedLanguage2]
-    );
+
+    const translation1Text = result[data.targetedLanguage1];
+    const translation2Text = result[data.targetedLanguage2];
+
+    updateTranslation(translation1Text, translation2Text);
+
+    if (isAutoCopy1) {
+      await navigator.clipboard.writeText(translation1Text);
+      successToast("Copied to clipboard");
+    }
   };
 
   const submitForm = handleSubmit(onTranslationSubmit);
@@ -113,6 +122,10 @@ export const TranslationContainer = () => {
     [setValue]
   );
 
+  const handleAutoCopyChange1 = (checked: boolean) => {
+    setIsAutoCopy1(checked);
+  };
+
   return (
     <Translation
       register={register}
@@ -129,6 +142,8 @@ export const TranslationContainer = () => {
       translation1Ref={translation1RefObject}
       translation2Ref={translation2RefObject}
       onLanguageShortcut={handleLanguageShortcut}
+      onAutoCopyChange1={handleAutoCopyChange1}
+      isAutoCopy1={isAutoCopy1}
     />
   );
 };
