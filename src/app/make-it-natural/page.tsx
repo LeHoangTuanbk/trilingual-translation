@@ -9,7 +9,16 @@ import {
   Checkbox,
 } from "@chakra-ui/react";
 import { Languages } from "@/utils";
+import { useEffect, useState } from "react";
 export default function MakeItNaturalPage() {
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
+  if (!hasMounted) return null;
+
   return (
     <Box p={5}>
       <form>
