@@ -23,6 +23,7 @@ export default function MakeItNaturalPage() {
 
   return (
     <Box p={5}>
+      {/* Todo: need to add form control, form label, form error here */}
       <form>
         <VStack mb="4" gap="4" alignItems="flex-start" w="100%">
           <Heading as="h1" size="lg">
