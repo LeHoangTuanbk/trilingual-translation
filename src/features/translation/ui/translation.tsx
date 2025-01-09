@@ -293,20 +293,6 @@ export const Translation = ({
             />
           </Box>
         </Flex>
-        {/* Todo: need to refactor this footer */}
-        <Box as="footer" textAlign="center" mt="16" py="4">
-          <Text>
-            Developed by{" "}
-            <Link
-              href="https://www.linkedin.com/in/le-hoang-tuan-bk/"
-              color="blue.500"
-              fontWeight="medium"
-              target="_blank"
-            >
-              Tuan Le Hoang
-            </Link>
-          </Text>
-        </Box>
       </form>
     </Box>
   );
