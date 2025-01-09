@@ -1,5 +1,5 @@
 import { Box, Text, Link } from "@chakra-ui/react";
-export const Header = () => {
+export const Footer = () => {
   return (
     <Box as="footer" textAlign="center" mt="16" py="4">
       <Text>

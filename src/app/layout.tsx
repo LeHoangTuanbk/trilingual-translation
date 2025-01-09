@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.scss";
 const inter = Inter({ subsets: ["latin"] });
 import { Providers } from "./providers";
-import { Header } from "@/components";
+import { Footer } from "@/components";
 
 export const metadata: Metadata = {
   title: "Trilingual translator",
@@ -20,7 +20,7 @@ export default function RootLayout({
       <body>
         <Providers>
           {children}
-          <Header />
+          <Footer />
         </Providers>
       </body>
     </html>
