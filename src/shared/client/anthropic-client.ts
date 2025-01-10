@@ -1,5 +1,5 @@
 import Anthropic from "@anthropic-ai/sdk";
-import promptTemplate from "../../utils/prompt";
+import { promptTemplate, makeItNaturalPromptTemplate } from "@/utils/prompt";
 
 const client = new Anthropic({
   apiKey: process.env["ANTHROPIC_API_KEY"],
