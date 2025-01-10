@@ -1,7 +1,6 @@
 "use client";
 import {
   Box,
-  Heading,
   Textarea,
   Button,
   VStack,
@@ -13,7 +12,6 @@ import {
   HStack,
   Stack,
   FormErrorMessage,
-  FormHelperText,
 } from "@chakra-ui/react";
 import { DEFAULT_MODEL, Languages, MODELS } from "@/utils";
 import { useEffect, useState } from "react";

@@ -7,6 +7,7 @@ export async function POST(request: NextRequest) {
   const body: MakeItNaturalRequest = await request.json();
   const { text, context, language, selectedModel } = body;
   try {
+    // Todo: need to solve anthropic model
     const result: MakeItNaturalResponse = await createMakeItNaturalPOpenAI({
       text,
       context,
