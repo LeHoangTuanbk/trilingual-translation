@@ -4,7 +4,7 @@ export default function MakeItNaturalPage() {
   return (
     <Box p={5}>
       <Box mb="4">
-        <Heading as="h1" size="lg">
+        <Heading as="h1" size="lg" mb="4">
           Make it natural
         </Heading>
         <VStack alignItems="flex-start" gap="1">
@@ -17,7 +17,6 @@ export default function MakeItNaturalPage() {
           </Text>
         </VStack>
       </Box>
-
       <MakeItNaturalContainer />
     </Box>
   );
