@@ -18,7 +18,10 @@ import {
 import { Languages } from "@/utils";
 import { useEffect, useState } from "react";
 import { FaRegCopy, FaCheck } from "react-icons/fa6";
-import { useMakeItNaturalForm } from "@/features/make-it-natural/api";
+import {
+  useMakeItNaturalForm,
+  useMakeItNaturalQuery,
+} from "@/features/make-it-natural/api";
 import { MakeItNaturalFormValues } from "../api/zod-schema";
 
 export const MakeItNatural = () => {
@@ -28,13 +31,20 @@ export const MakeItNatural = () => {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useMakeItNaturalForm();
   useEffect(() => {
     setHasMounted(true);
   }, []);
 
+  const { mutate } = useMakeItNaturalQuery();
+
   const handleMakeItNatural = (data: MakeItNaturalFormValues) => {
-    // Send data to the server and return the result
+    mutate(data, {
+      onSuccess: (data) => {
+        setValue("result", data);
+      },
+    });
   };
 
   if (!hasMounted) return null;
