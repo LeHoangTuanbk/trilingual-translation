@@ -1,5 +1,10 @@
 export type MakeItNaturalRequest = {
   text: string;
-  context?: string;
+  context: string;
   language: string;
+  selectedModel: string;
+};
+
+export type MakeItNaturalResponse = {
+  result: string | null;
 };

@@ -15,7 +15,7 @@ import {
   FormErrorMessage,
   FormHelperText,
 } from "@chakra-ui/react";
-import { Languages } from "@/utils";
+import { DEFAULT_MODEL, Languages, MODELS } from "@/utils";
 import { useEffect, useState } from "react";
 import { FaRegCopy, FaCheck } from "react-icons/fa6";
 import {
@@ -62,13 +62,29 @@ export const MakeItNatural = () => {
               <FormErrorMessage>{errors.text.message}</FormErrorMessage>
             )}
           </FormControl>
-
+          <FormControl>
+            <FormLabel>Model</FormLabel>
+            <Select
+              {...register("selectedModel")}
+              value={DEFAULT_MODEL}
+              mr="4"
+              w="fit-content"
+              minW="300px"
+            >
+              {MODELS.map((model) => (
+                <option key={model} value={model}>
+                  {model}
+                </option>
+              ))}
+            </Select>
+          </FormControl>
           <FormControl>
             <FormLabel>Context of your text (optional)</FormLabel>
             <Textarea
               placeholder="Enter context here"
               height="50px"
               {...register("context")}
+              defaultValue="business context"
             />
           </FormControl>
           <Stack
