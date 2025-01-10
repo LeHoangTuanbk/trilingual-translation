@@ -12,6 +12,7 @@ import {
   FormControl,
   FormLabel,
   HStack,
+  Stack,
 } from "@chakra-ui/react";
 import { Languages } from "@/utils";
 import { useEffect, useState } from "react";
@@ -51,7 +52,12 @@ export default function MakeItNaturalPage() {
             <FormLabel>Context of the text</FormLabel>
             <Textarea placeholder="Enter context here" height="50px" />
           </FormControl>
-          <HStack>
+          <Stack
+            direction={{ base: "column", md: "row" }}
+            gap="4"
+            justifyContent={{ base: "flex-start", md: "center" }}
+            alignItems={{ base: "flex-start", md: "center" }}
+          >
             <Text>Your text is in</Text>
             <Select mr="4" w="fit-content" minW="300px">
               {Object.values(Languages).map((language) => (
@@ -61,7 +67,7 @@ export default function MakeItNaturalPage() {
               ))}
             </Select>
             <Button type="submit">Make it natural</Button>
-          </HStack>
+          </Stack>
           <HStack gap="4">
             <Text>Result</Text>
             <Checkbox>Auto copy</Checkbox>
