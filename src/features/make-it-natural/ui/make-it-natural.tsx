@@ -23,6 +23,7 @@ import {
   useMakeItNaturalQuery,
 } from "@/features/make-it-natural/api";
 import { MakeItNaturalFormValues } from "../api/zod-schema";
+import { useToastHook } from "@/shared/toast";
 
 export const MakeItNatural = () => {
   const [hasMounted, setHasMounted] = useState(false);
@@ -32,17 +33,27 @@ export const MakeItNatural = () => {
     handleSubmit,
     formState: { errors },
     setValue,
-  } = useMakeItNaturalForm();
+  } = useMakeItNaturalForm({
+    text: "",
+    context: "business context",
+    language: Languages.English,
+    selectedModel: DEFAULT_MODEL,
+  });
   useEffect(() => {
     setHasMounted(true);
   }, []);
 
-  const { mutate } = useMakeItNaturalQuery();
+  const { mutate, isPending } = useMakeItNaturalQuery();
+  const { successToast } = useToastHook();
 
   const handleMakeItNatural = (data: MakeItNaturalFormValues) => {
     mutate(data, {
       onSuccess: (data) => {
         setValue("result", data);
+        if (isCopied) {
+          navigator.clipboard.writeText(data);
+          successToast("Copied to clipboard");
+        }
       },
     });
   };
@@ -63,28 +74,34 @@ export const MakeItNatural = () => {
             )}
           </FormControl>
           <FormControl>
-            <FormLabel>Model</FormLabel>
-            <Select
-              {...register("selectedModel")}
-              value={DEFAULT_MODEL}
-              mr="4"
-              w="fit-content"
-              minW="300px"
+            <Stack
+              direction={{ base: "column", md: "row" }}
+              alignItems={{ base: "flex-start", md: "center" }}
             >
-              {MODELS.map((model) => (
-                <option key={model} value={model}>
-                  {model}
-                </option>
-              ))}
-            </Select>
+              <FormLabel>Model</FormLabel>
+              <Select
+                {...register("selectedModel")}
+                mr="4"
+                w="fit-content"
+                minW="300px"
+              >
+                {MODELS.map((model) => (
+                  <option key={model} value={model}>
+                    {model}
+                  </option>
+                ))}
+              </Select>
+            </Stack>
           </FormControl>
           <FormControl>
-            <FormLabel>Context of your text (optional)</FormLabel>
+            <FormLabel>
+              Context of your text (optional) : business, academic, casual
+              conversation, etc.
+            </FormLabel>
             <Textarea
               placeholder="Enter context here"
               height="50px"
               {...register("context")}
-              defaultValue="business context"
             />
           </FormControl>
           <Stack
@@ -107,11 +124,15 @@ export const MakeItNatural = () => {
                 </option>
               ))}
             </Select>
-            <Button type="submit">Make it natural</Button>
+            <Button type="submit" isLoading={isPending} w="150px">
+              Make it natural
+            </Button>
           </Stack>
           <HStack gap="4">
             <Text>Result</Text>
-            <Checkbox>Auto copy</Checkbox>
+            <Checkbox onChange={() => setIsCopied(!isCopied)}>
+              Auto copy
+            </Checkbox>
             <Button
               background="none"
               borderRadius="md"
