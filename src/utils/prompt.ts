@@ -1,4 +1,4 @@
-const promptTemplate = (
+export const promptTemplate = (
   input: string,
   originalLanguage: string,
   targetedLanguage: string
@@ -70,4 +70,40 @@ ${targetedLanguage} translation output:`;
   return promptTemplate;
 };
 
-export default promptTemplate;
+export const makeItNaturalPromptTemplate = (
+  input: string,
+  language: string,
+  context?: string
+) => {
+  return `
+You're a language expert. You're given a ${language} text and you're tasked with making it more natural. The text mostly is written by a non-native speaker. You will correct any grammar, spelling, and punctuation errors and make it sound natural like a native speaker's writing.
+
+Here are some examples:
+Example 1:
+Provided text: Send me the report when you finish.
+Context: business context
+Output: Please send me the report once it’s complete.”
+Example 2:
+Provided text: I want to know about the meeting details..
+Context: business context
+Output: Could you please provide the meeting details?
+Example 3: 
+Provided text: This paper says that global warming is bad..
+Context: Academic Context
+Output: This paper argues that global warming has significant negative impacts.
+Example 4:
+Provided text: The experiment was done to see the results.
+Context: Academic Context
+Output: The experiment was conducted to analyze the results.
+Example 5:
+Provided text: We found that the hypothesis was true..
+Context: Academic Context
+Output: The results supported the hypothesis..
+
+Provided text: ${input}
+The text is in ${language} language.
+Here is the context of the text: ${context}
+Only give me the output, nothing else.
+Your output:
+`;
+};

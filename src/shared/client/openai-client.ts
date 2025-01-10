@@ -1,6 +1,7 @@
 import OpenAI from "openai";
-import promptTemplate from "../../utils/prompt";
+import { promptTemplate, makeItNaturalPromptTemplate } from "@/utils/prompt";
 import { TranslationRequest } from "@/app/api/translate/data.types";
+import { MakeItNaturalRequest } from "@/app/api/make-it-natural/data.types";
 
 const client = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -39,5 +40,21 @@ export const createTranslationPromptOpenAI = async ({
       chatCompletionTargetedLanguage1.choices[0].message.content,
     [targetedLanguage2]:
       chatCompletionTargetedLanguage2.choices[0].message.content,
+  };
+};
+
+export const createMakeItNaturalPOpenAI = async ({
+  text,
+  language,
+  context,
+  selectedModel,
+}: MakeItNaturalRequest) => {
+  const prompt = makeItNaturalPromptTemplate(text, language, context);
+  const chatCompletion = await client.chat.completions.create({
+    model: selectedModel,
+    messages: [{ role: "system", content: prompt }],
+  });
+  return {
+    result: chatCompletion.choices[0].message.content,
   };
 };

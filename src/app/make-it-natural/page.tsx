@@ -1,54 +1,23 @@
-"use client";
-
-import {
-  Box,
-  Heading,
-  Textarea,
-  Button,
-  VStack,
-  Select,
-  Text,
-  Checkbox,
-} from "@chakra-ui/react";
-import { Languages } from "@/utils";
-import { useEffect, useState } from "react";
+import { Box, Heading, Text, VStack } from "@chakra-ui/react";
+import { MakeItNaturalContainer } from "@/features/make-it-natural";
 export default function MakeItNaturalPage() {
-  const [hasMounted, setHasMounted] = useState(false);
-
-  useEffect(() => {
-    setHasMounted(true);
-  }, []);
-
-  if (!hasMounted) return null;
-
   return (
     <Box p={5}>
-      {/* Todo: need to add form control, form label, form error here */}
-      <form>
-        <VStack mb="4" gap="4" alignItems="flex-start" w="100%">
-          <Heading as="h1" size="lg">
-            Make it natural
-          </Heading>
+      <Box mb="4">
+        <Heading as="h1" size="lg" mb="4">
+          Make it natural
+        </Heading>
+        <VStack alignItems="flex-start" gap="1">
           <Text>
-            This tool is designed to help you make your text more natural like
-            native speakers writings.
+            This tool is designed to make your text sound more natural, like the
+            writing of native speakers
           </Text>
-          <Textarea placeholder="Enter your text here" height="3xs" />
-          <Select mr="4" w="fit-content" minW="300px">
-            {Object.values(Languages).map((language) => (
-              <option key={language} value={language}>
-                {language}
-              </option>
-            ))}
-          </Select>
-          <Text>Context of the text</Text>
-          <Textarea placeholder="Enter context here" height="100px" />
-          <Button type="submit">Make it natural</Button>
-          <Text>Result</Text>
-          <Checkbox>Auto copy</Checkbox>
-          <Textarea placeholder="Result" height="3xs" />
+          <Text fontSize="sm">
+            Paste or type and press Ctrl+Enter (or Cmd+Enter) to make it natural
+          </Text>
         </VStack>
-      </form>
+      </Box>
+      <MakeItNaturalContainer />
     </Box>
   );
 }
