@@ -34,7 +34,7 @@ export const MakeItNatural = () => {
   }, []);
 
   const handleMakeItNatural = (data: MakeItNaturalFormValues) => {
-    console.log(data);
+    // Send data to the server and return the result
   };
 
   if (!hasMounted) return null;
@@ -54,7 +54,7 @@ export const MakeItNatural = () => {
           </FormControl>
 
           <FormControl>
-            <FormLabel>Context of the text (optional)</FormLabel>
+            <FormLabel>Context of your text (optional)</FormLabel>
             <Textarea
               placeholder="Enter context here"
               height="50px"
@@ -73,6 +73,7 @@ export const MakeItNatural = () => {
               w="fit-content"
               minW="300px"
               {...register("language")}
+              isInvalid={!!errors.language}
             >
               {Object.values(Languages).map((language) => (
                 <option key={language} value={language}>
