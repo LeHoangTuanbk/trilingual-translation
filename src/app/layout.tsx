@@ -30,9 +30,6 @@ export const metadata: Metadata = {
     description: "Translate text quickly and accurately",
     images: ["/og-image.jpg"],
   },
-  other: {
-    "fb:app_id": "1020159995866472",
-  },
 };
 
 export default function RootLayout({
@@ -42,6 +39,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        {/* Open Graph meta tags */}
+        <meta property="fb:app_id" content="1020159995866472" />
+        {/* Other metadata */}
+      </head>
       <body>
         <Providers>
           <Box p={5}>
