@@ -17,7 +17,7 @@ const Languages = {
 
 type LanguageType = (typeof Languages)[keyof typeof Languages];
 
-const DEFAULT_MODEL = "gpt-4o";
+const DEFAULT_MODEL = ANTHROPIC_MODELS[2];
 
 const MODELS = [...OPENAI_MODELS, ...ANTHROPIC_MODELS];
 

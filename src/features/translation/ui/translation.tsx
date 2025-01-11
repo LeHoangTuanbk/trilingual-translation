@@ -8,62 +8,39 @@ import {
   Flex,
   Stack,
   Checkbox,
+  FormControl,
+  FormErrorMessage,
 } from "@chakra-ui/react";
-import { FieldErrors, UseFormRegister } from "react-hook-form";
-import { ClipboardEvent, FormEventHandler, KeyboardEvent } from "react";
-import { Languages, TranslationModeKeysType } from "@/utils";
-import type { TranslationFormValues } from "@/features/translation/api";
+import { Languages } from "@/utils";
 import { FaRegCopy, FaCheck } from "react-icons/fa6";
-type TranslationPresenterProps = {
-  register: UseFormRegister<TranslationFormValues>;
-  errors: FieldErrors<TranslationFormValues>;
-  input: string;
-  selectedModel: string;
-  isLoading: boolean;
-  models: string[];
-  onPaste: (e: ClipboardEvent<HTMLTextAreaElement>) => void;
-  onKeyDown: (e: KeyboardEvent<HTMLTextAreaElement>) => void;
-  onSubmit: FormEventHandler<HTMLFormElement>;
-  translation1: string;
-  translation2: string;
-  translation1Ref: React.RefObject<HTMLTextAreaElement>;
-  translation2Ref: React.RefObject<HTMLTextAreaElement>;
-  onAutoCopyChange1: (checked: boolean) => void;
-  isAutoCopy1: boolean;
-  isCopied1: boolean;
-  isCopied2: boolean;
-  handleCopy: (
-    ref: React.RefObject<HTMLTextAreaElement>,
-    setIsCopied: (isCopied: boolean) => void
-  ) => void;
-  setIsCopied1: (isCopied: boolean) => void;
-  setIsCopied2: (isCopied: boolean) => void;
-  inputRef: React.MutableRefObject<HTMLTextAreaElement | null>;
-};
+import { TranslationPresenterProps } from "./props";
 
-export const Translation = ({
-  register,
-  errors,
-  input,
-  selectedModel,
-  isLoading,
-  models,
-  onPaste,
-  onKeyDown,
-  onSubmit,
-  translation1,
-  translation2,
-  translation1Ref,
-  translation2Ref,
-  onAutoCopyChange1,
-  isAutoCopy1,
-  isCopied1,
-  isCopied2,
-  setIsCopied1,
-  setIsCopied2,
-  handleCopy,
-  inputRef,
-}: TranslationPresenterProps) => {
+export const Translation = ({ ...props }: TranslationPresenterProps) => {
+  // Todo: need to refactor: group props, divide into smaller components
+  const {
+    register,
+    errors,
+    input,
+    selectedModel,
+    isLoading,
+    models,
+    onPaste,
+    onKeyDown,
+    onSubmit,
+    translation1,
+    translation2,
+    translation1Ref,
+    translation2Ref,
+    onAutoCopyChange1,
+    isAutoCopy1,
+    isCopied1,
+    isCopied2,
+    setIsCopied1,
+    setIsCopied2,
+    handleCopy,
+    inputRef,
+  } = props;
+
   return (
     <form onSubmit={onSubmit}>
       <Heading as="h2" size="md" mb="2" w="100%">
@@ -87,25 +64,24 @@ export const Translation = ({
         Ctrl (Cmd) + 1: Japanese, Ctrl (Cmd) + 2: Vietnamese, Ctrl (Cmd) + 3:
         English
       </Text>
-
-      <Textarea
-        {...register("input")}
-        value={input}
-        onPaste={onPaste}
-        onKeyDown={onKeyDown}
-        placeholder="Enter your paragraph here"
-        height="3xs"
-        mb="2"
-        ref={(e) => {
-          register("input").ref(e);
-          inputRef.current = e;
-        }}
-      />
-      {errors.input && (
-        <Text color="red.500" mb="2">
-          {errors.input.message}
-        </Text>
-      )}
+      <FormControl isInvalid={!!errors.input}>
+        <Textarea
+          {...register("input")}
+          value={input}
+          onPaste={onPaste}
+          onKeyDown={onKeyDown}
+          placeholder="Enter your paragraph here"
+          height="3xs"
+          mb="2"
+          ref={(e) => {
+            register("input").ref(e);
+            inputRef.current = e;
+          }}
+        />
+        <FormErrorMessage mb="2">
+          {errors.input && errors.input.message}
+        </FormErrorMessage>
+      </FormControl>
 
       <Text fontSize="sm" mb="4">
         Paste or press Ctrl+Enter (or Cmd+Enter) to translate
@@ -161,6 +137,12 @@ export const Translation = ({
                   </option>
                 ))}
               </Select>
+              <Checkbox
+                onChange={() => onAutoCopyChange1(!isAutoCopy1)}
+                defaultChecked={isAutoCopy1}
+              >
+                Auto copy
+              </Checkbox>
               <Button
                 background="none"
                 borderRadius="md"
@@ -172,12 +154,6 @@ export const Translation = ({
                 <Box mr="2">{isCopied1 ? <FaCheck /> : <FaRegCopy />}</Box>
                 <Text>{isCopied1 ? "Copied" : "Copy"}</Text>
               </Button>
-              <Checkbox
-                onChange={() => onAutoCopyChange1(!isAutoCopy1)}
-                defaultChecked={isAutoCopy1}
-              >
-                Auto copy
-              </Checkbox>
             </Stack>
           </Text>
           {errors.targetedLanguage1 && (

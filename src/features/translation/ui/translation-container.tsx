@@ -170,33 +170,53 @@ export const TranslationContainer = () => {
     }
   }, [hasMounted, inputRef]);
 
+  const formProps = {
+    register,
+    errors,
+    onSubmit: handleSubmit(onTranslationSubmit),
+  };
+
+  const inputProps = {
+    input: watch("input"),
+    onKeyDown: handleKeyDown,
+    onPaste: handlePaste,
+    inputRef,
+  };
+
+  const modelProps = {
+    selectedModel: watch("selectedModel"),
+    isLoading: isSubmitting,
+    models: MODELS,
+  };
+
+  const translationProps = {
+    translation1,
+    translation2,
+    translation1Ref: translation1RefObject,
+    translation2Ref: translation2RefObject,
+    onAutoCopyChange1: handleAutoCopyChange1,
+    isAutoCopy1,
+    handleCopy,
+  };
+
+  const copyProps = {
+    isCopied1,
+    isCopied2,
+    setIsCopied1,
+    setIsCopied2,
+  };
+
   if (!hasMounted) {
     return null;
   }
 
   return (
     <Translation
-      register={register}
-      errors={errors}
-      input={watch("input")}
-      selectedModel={watch("selectedModel")}
-      isLoading={isSubmitting}
-      models={MODELS}
-      onKeyDown={handleKeyDown}
-      onPaste={handlePaste}
-      onSubmit={handleSubmit(onTranslationSubmit)}
-      translation1={translation1}
-      translation2={translation2}
-      translation1Ref={translation1RefObject}
-      translation2Ref={translation2RefObject}
-      onAutoCopyChange1={handleAutoCopyChange1}
-      isAutoCopy1={isAutoCopy1}
-      isCopied1={isCopied1}
-      setIsCopied1={setIsCopied1}
-      isCopied2={isCopied2}
-      setIsCopied2={setIsCopied2}
-      handleCopy={handleCopy}
-      inputRef={inputRef}
+      {...formProps}
+      {...inputProps}
+      {...modelProps}
+      {...translationProps}
+      {...copyProps}
     />
   );
 };
