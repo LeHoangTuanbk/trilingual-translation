@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { Languages, MODELS } from "@/utils";
 import { FaRegCopy, FaCheck } from "react-icons/fa6";
-import { MakeItNaturalProps } from "../api";
+import { MakeItNaturalProps } from "./props";
 
 export const MakeItNatural = ({ isPending, ...props }: MakeItNaturalProps) => {
   return (
