@@ -70,14 +70,12 @@ export const MakeItNatural = () => {
   const result = watch("result");
 
   const handleCopyResult = () => {
-    if (result) {
-      setIsCopied(true);
-      navigator.clipboard.writeText(result);
-      successToast("Copied to clipboard");
-      setTimeout(() => {
-        setIsCopied(false);
-      }, 2000);
-    }
+    setIsCopied(true);
+    navigator.clipboard.writeText(result || "");
+    successToast("Copied to clipboard");
+    setTimeout(() => {
+      setIsCopied(false);
+    }, 2000);
   };
 
   useEffect(() => {

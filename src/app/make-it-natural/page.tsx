@@ -1,5 +1,6 @@
-import { Box, Heading, Text, VStack } from "@chakra-ui/react";
+import { Box, Heading, Text, VStack, Link } from "@chakra-ui/react";
 import { MakeItNaturalContainer } from "@/features/make-it-natural";
+import NextLink from "next/link";
 export default function MakeItNaturalPage() {
   return (
     <Box p={5}>
@@ -7,6 +8,11 @@ export default function MakeItNaturalPage() {
         <Heading as="h1" size="lg" mb="4">
           Make it natural
         </Heading>
+        <Box mb="1">
+          <Link as={NextLink} href="/" color="blue.500">
+            Back to home
+          </Link>
+        </Box>
         <VStack alignItems="flex-start" gap="1">
           <Text>
             This tool is designed to make your text sound more natural, like the
