@@ -1,9 +1,8 @@
 "use client";
 
 import { MakeItNatural } from "./make-it-natural";
-
 import { DEFAULT_MODEL, Languages } from "@/utils";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   useMakeItNaturalForm,
   useMakeItNaturalQuery,
@@ -11,10 +10,12 @@ import {
 import { MakeItNaturalFormValues } from "../api/zod-schema";
 import { useToastHook } from "@/shared/toast";
 import { KeyboardEvent } from "react";
+import { useCopyFeature } from "@/shared/hooks/copy-hook";
+import { useTextAreaAdjustment } from "@/shared/hooks/text-area-adjustment";
+
 export const MakeItNaturalContainer = () => {
   const [hasMounted, setHasMounted] = useState(false);
-  const [isCopied, setIsCopied] = useState(false);
-  const [isAutoCopy, setIsAutoCopy] = useState(true);
+
   const {
     register,
     handleSubmit,
@@ -28,20 +29,15 @@ export const MakeItNaturalContainer = () => {
     selectedModel: DEFAULT_MODEL,
   });
 
-  const adjustResultHeight = (element1: HTMLTextAreaElement | null) => {
-    if (element1) {
-      element1.style.height = "auto";
-      element1.style.height = `${element1.scrollHeight}px`;
-    }
-  };
-  const inputRef = useRef<HTMLTextAreaElement | null>(null);
-  const resultRef = useRef<HTMLTextAreaElement | null>(null);
+  const result = watch("result");
+  const { mutate, isPending } = useMakeItNaturalQuery();
+  const { inputRef, resultRef, adjustResultHeight } = useTextAreaAdjustment();
+  const { isCopied, isAutoCopy, handleCopyResult, setIsAutoCopy } =
+    useCopyFeature(result || "");
 
   useEffect(() => {
     setHasMounted(true);
   }, []);
-
-  const { mutate, isPending } = useMakeItNaturalQuery();
   const { successToast } = useToastHook();
 
   const handleMakeItNatural = (data: MakeItNaturalFormValues) => {
@@ -56,22 +52,12 @@ export const MakeItNaturalContainer = () => {
       },
     });
   };
-  const result = watch("result");
-
-  const handleCopyResult = () => {
-    setIsCopied(true);
-    navigator.clipboard.writeText(result || "");
-    successToast("Copied to clipboard");
-    setTimeout(() => {
-      setIsCopied(false);
-    }, 2000);
-  };
 
   useEffect(() => {
     if (inputRef.current) {
       inputRef.current.focus();
     }
-  }, [hasMounted]);
+  }, [hasMounted, inputRef]);
 
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
@@ -82,19 +68,31 @@ export const MakeItNaturalContainer = () => {
 
   if (!hasMounted) return null;
 
+  const formProps = {
+    register,
+    errors,
+    onSubmit: handleSubmit(handleMakeItNatural),
+    onKeyDown: handleKeyDown,
+  };
+
+  const copyProps = {
+    isAutoCopy,
+    isCopied,
+    onCopyResult: handleCopyResult,
+    onAutoCopyChange: () => setIsAutoCopy(!isAutoCopy),
+  };
+
+  const refs = {
+    inputRef,
+    resultRef,
+  };
+
   return (
     <MakeItNatural
-      register={register}
-      errors={errors}
+      {...formProps}
+      {...copyProps}
+      {...refs}
       isPending={isPending}
-      isAutoCopy={isAutoCopy}
-      isCopied={isCopied}
-      inputRef={inputRef}
-      resultRef={resultRef}
-      onSubmit={handleSubmit(handleMakeItNatural)}
-      onKeyDown={handleKeyDown}
-      onCopyResult={handleCopyResult}
-      onAutoCopyChange={() => setIsAutoCopy(!isAutoCopy)}
     />
   );
 };
