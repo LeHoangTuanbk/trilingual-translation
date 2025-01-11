@@ -91,6 +91,7 @@ export const MakeItNatural = () => {
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
       e.preventDefault();
+
       handleSubmit(handleMakeItNatural)();
     }
   };
@@ -190,8 +191,6 @@ export const MakeItNatural = () => {
           <FormControl>
             <Textarea
               placeholder="Result"
-              height="3xs"
-              {...register("result")}
               ref={(e) => {
                 register("result").ref(e);
                 resultRef.current = e;

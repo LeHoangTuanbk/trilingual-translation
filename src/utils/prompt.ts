@@ -76,7 +76,7 @@ export const makeItNaturalPromptTemplate = (
   context?: string
 ) => {
   return `
-You're a language expert. You're given a ${language} text and you're tasked with making it more natural. The text mostly is written by a non-native speaker. You will correct any grammar, spelling, and punctuation errors and make it sound natural like a native speaker's writing.
+You're a language expert. You're given a ${language} text and you're tasked with making it more natural. The text mostly is written by a non-native speaker. You will correct any grammar, spelling, and punctuation errors and make it sound natural like a native speaker's writing. Please keep the original text format, including the line breaks, spaces, and other formatting elements.
 
 Here are some examples:
 Example 1:
@@ -96,14 +96,38 @@ Provided text: The experiment was done to see the results.
 Context: Academic Context
 Output: The experiment was conducted to analyze the results.
 Example 5:
-Provided text: We found that the hypothesis was true..
+Provided text: We found that the hypothesis was true.
 Context: Academic Context
-Output: The results supported the hypothesis..
+Output: The results supported the hypothesis.
+Example 6:
+Provided text: 
+Dear Mr. Smith,
 
-Provided text: ${input}
-The text is in ${language} language.
-Here is the context of the text: ${context}
-Only give me the output, nothing else.
+Thank you for your email.
+
+I will review the document 
+and get back to you soon.
+
+
+Best regards,
+Jane Doe
+Context: Business Context
+Output: 
+Dear Mr. Smith,
+
+Thank you for your email. I will review the document and get back to you soon.
+
+Best regards,  
+Jane Doe
+
+
+
+1. The text is in ${language} language.
+2. Provided text: 
+${input}
+3. Here is the context of the text: ${context}
+
+4. Only give me the output, nothing else.
 Your output:
 `;
 };
