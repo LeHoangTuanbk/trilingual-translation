@@ -13,96 +13,51 @@ import {
   Stack,
   FormErrorMessage,
 } from "@chakra-ui/react";
-import { DEFAULT_MODEL, Languages, MODELS } from "@/utils";
-import { useEffect, useRef, useState } from "react";
+import { Languages, MODELS } from "@/utils";
 import { FaRegCopy, FaCheck } from "react-icons/fa6";
-import {
-  useMakeItNaturalForm,
-  useMakeItNaturalQuery,
-} from "@/features/make-it-natural/api";
+
 import { MakeItNaturalFormValues } from "../api/zod-schema";
-import { useToastHook } from "@/shared/toast";
 import { KeyboardEvent } from "react";
-export const MakeItNatural = () => {
-  const [hasMounted, setHasMounted] = useState(false);
-  const [isCopied, setIsCopied] = useState(false);
-  const [isAutoCopy, setIsAutoCopy] = useState(true);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-    watch,
-  } = useMakeItNaturalForm({
-    text: "",
-    context: "business context",
-    language: Languages.English,
-    selectedModel: DEFAULT_MODEL,
-  });
+import { FieldErrors } from "react-hook-form";
+import { UseFormRegister } from "react-hook-form";
 
-  const adjustResultHeight = (element1: HTMLTextAreaElement | null) => {
-    if (element1) {
-      element1.style.height = "auto";
-      element1.style.height = `${element1.scrollHeight}px`;
-    }
-  };
-  const inputRef = useRef<HTMLTextAreaElement | null>(null);
-  const resultRef = useRef<HTMLTextAreaElement | null>(null);
-  useEffect(() => {
-    setHasMounted(true);
-  }, []);
+type MakeItNaturalProps = {
+  register: UseFormRegister<MakeItNaturalFormValues>;
+  errors: FieldErrors<MakeItNaturalFormValues>;
+  isPending: boolean;
+  isAutoCopy: boolean;
+  isCopied: boolean;
+  inputRef: React.MutableRefObject<HTMLTextAreaElement | null>;
+  resultRef: React.MutableRefObject<HTMLTextAreaElement | null>;
+  onSubmit: (e: React.FormEvent) => void;
+  onKeyDown: (e: KeyboardEvent<HTMLTextAreaElement>) => void;
+  onCopyResult: () => void;
+  onAutoCopyChange: () => void;
+};
 
-  const { mutate, isPending } = useMakeItNaturalQuery();
-  const { successToast } = useToastHook();
-
-  const handleMakeItNatural = (data: MakeItNaturalFormValues) => {
-    mutate(data, {
-      onSuccess: (data) => {
-        setValue("result", data.result);
-        adjustResultHeight(resultRef.current);
-        if (isAutoCopy) {
-          navigator.clipboard.writeText(data.result);
-          successToast("Copied to clipboard");
-        }
-      },
-    });
-  };
-  const result = watch("result");
-
-  const handleCopyResult = () => {
-    setIsCopied(true);
-    navigator.clipboard.writeText(result || "");
-    successToast("Copied to clipboard");
-    setTimeout(() => {
-      setIsCopied(false);
-    }, 2000);
-  };
-
-  useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, [hasMounted]);
-
-  if (!hasMounted) return null;
-
-  const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
-      e.preventDefault();
-
-      handleSubmit(handleMakeItNatural)();
-    }
-  };
+export const MakeItNatural = ({
+  register,
+  errors,
+  isPending,
+  isAutoCopy,
+  isCopied,
+  inputRef,
+  resultRef,
+  onSubmit,
+  onKeyDown,
+  onCopyResult,
+  onAutoCopyChange,
+}: MakeItNaturalProps) => {
   return (
     <>
-      <form onSubmit={handleSubmit(handleMakeItNatural)}>
+      <form onSubmit={onSubmit}>
         <VStack mb="4" gap="4" alignItems="flex-start" w="100%">
           <FormControl isInvalid={!!errors.text}>
             <Textarea
               placeholder="Enter your text here"
               minH="150px"
               {...register("text")}
-              onKeyDown={handleKeyDown}
+              onKeyDown={onKeyDown}
               ref={(e) => {
                 register("text").ref(e);
                 inputRef.current = e;
@@ -169,10 +124,7 @@ export const MakeItNatural = () => {
           </Stack>
           <HStack gap="4">
             <Text>Result</Text>
-            <Checkbox
-              onChange={() => setIsAutoCopy(!isAutoCopy)}
-              isChecked={isAutoCopy}
-            >
+            <Checkbox onChange={onAutoCopyChange} isChecked={isAutoCopy}>
               Auto copy
             </Checkbox>
             <Button
@@ -180,7 +132,7 @@ export const MakeItNatural = () => {
               borderRadius="md"
               _hover={{ background: "none" }}
               alignSelf="flex-start"
-              onClick={handleCopyResult}
+              onClick={onCopyResult}
             >
               <Box mr="2">{isCopied ? <FaCheck /> : <FaRegCopy />}</Box>
               <Text>{isCopied ? "Copied" : "Copy"}</Text>
