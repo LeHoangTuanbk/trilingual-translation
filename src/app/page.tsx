@@ -3,7 +3,7 @@ import { Box, Link, Heading } from "@chakra-ui/react";
 import NextLink from "next/link";
 const Home = () => {
   return (
-    <Box p="5">
+    <Box>
       <Heading as="h1" size="lg" mb="4">
         Trilingual Translator
       </Heading>

@@ -4,6 +4,8 @@ import "./globals.scss";
 const inter = Inter({ subsets: ["latin"] });
 import { Providers } from "./providers";
 import { Footer } from "@/components";
+import { CannotCopy } from "@/components/cannot-copy";
+import { Box, Container } from "@chakra-ui/react";
 
 export const metadata: Metadata = {
   title: "Trilingual translator",
@@ -19,8 +21,11 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Providers>
-          {children}
-          <Footer />
+          <Box p={5}>
+            {children}
+            <CannotCopy />
+            <Footer />
+          </Box>
         </Providers>
       </body>
     </html>
