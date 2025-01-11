@@ -1,17 +1,13 @@
 import { useState } from "react";
 
-import { useToastHook } from "@/shared/toast";
-
 export const useCopyFeature = (result: string) => {
   const [isCopied, setIsCopied] = useState(false);
   const [isAutoCopy, setIsAutoCopy] = useState(true);
-  const { successToast } = useToastHook();
 
-  const handleCopyResult = () => {
+  const handleCopyResult = async () => {
     if (navigator.clipboard) {
       setIsCopied(true);
-      navigator.clipboard.writeText(result || "");
-      successToast("Copied to clipboard");
+      await navigator.clipboard.writeText(result || "");
       setTimeout(() => {
         setIsCopied(false);
       }, 2000);
