@@ -10,19 +10,10 @@ import {
   Checkbox,
 } from "@chakra-ui/react";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
-import {
-  ClipboardEvent,
-  FormEventHandler,
-  KeyboardEvent,
-  useState,
-  useEffect,
-  useRef,
-} from "react";
+import { ClipboardEvent, FormEventHandler, KeyboardEvent } from "react";
 import { Languages, TranslationModeKeysType } from "@/utils";
 import type { TranslationFormValues } from "@/features/translation/api";
 import { FaRegCopy, FaCheck } from "react-icons/fa6";
-import { TranslationMode } from "@/utils";
-import NextLink from "next/link";
 type TranslationPresenterProps = {
   register: UseFormRegister<TranslationFormValues>;
   errors: FieldErrors<TranslationFormValues>;
@@ -37,9 +28,17 @@ type TranslationPresenterProps = {
   translation2: string;
   translation1Ref: React.RefObject<HTMLTextAreaElement>;
   translation2Ref: React.RefObject<HTMLTextAreaElement>;
-  onLanguageShortcut: (mode: TranslationModeKeysType) => void;
   onAutoCopyChange1: (checked: boolean) => void;
   isAutoCopy1: boolean;
+  isCopied1: boolean;
+  isCopied2: boolean;
+  handleCopy: (
+    ref: React.RefObject<HTMLTextAreaElement>,
+    setIsCopied: (isCopied: boolean) => void
+  ) => void;
+  setIsCopied1: (isCopied: boolean) => void;
+  setIsCopied2: (isCopied: boolean) => void;
+  inputRef: React.MutableRefObject<HTMLTextAreaElement | null>;
 };
 
 export const Translation = ({
@@ -56,58 +55,15 @@ export const Translation = ({
   translation2,
   translation1Ref,
   translation2Ref,
-  onLanguageShortcut,
   onAutoCopyChange1,
   isAutoCopy1,
+  isCopied1,
+  isCopied2,
+  setIsCopied1,
+  setIsCopied2,
+  handleCopy,
+  inputRef,
 }: TranslationPresenterProps) => {
-  const [isCopied1, setIsCopied1] = useState(false);
-  const [isCopied2, setIsCopied2] = useState(false);
-
-  const handleCopy = async (
-    ref: React.RefObject<HTMLTextAreaElement>,
-    setCopied: (value: boolean) => void
-  ) => {
-    if (ref.current) {
-      await navigator.clipboard.writeText(ref.current.value);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    }
-  };
-
-  const [hasMounted, setHasMounted] = useState(false);
-
-  useEffect(() => {
-    setHasMounted(true);
-  }, []);
-
-  useEffect(() => {
-    const handleKeyDown = (e: globalThis.KeyboardEvent) => {
-      const isMac = /Mac|iPod|iPhone|iPad/.test(navigator.userAgent);
-      const modifierKey = isMac ? e.metaKey : e.ctrlKey;
-      if (modifierKey) {
-        onLanguageShortcut(e.key as TranslationModeKeysType);
-        if (TranslationMode[e.key as TranslationModeKeysType]) {
-          e.preventDefault();
-        }
-      }
-    };
-
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [onLanguageShortcut]);
-
-  const inputRef = useRef<HTMLTextAreaElement | null>(null);
-
-  useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, [hasMounted]);
-
-  if (!hasMounted) {
-    return null;
-  }
-
   return (
     <form onSubmit={onSubmit}>
       <Heading as="h2" size="md" mb="2" w="100%">
