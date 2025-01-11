@@ -1,3 +1,4 @@
+// Todo: need to refactor to dictionary, not array like this
 const OPENAI_MODELS = ["gpt-4o-mini", "gpt-4o"];
 
 const ANTHROPIC_MODELS = [
@@ -17,7 +18,7 @@ const Languages = {
 
 type LanguageType = (typeof Languages)[keyof typeof Languages];
 
-const DEFAULT_MODEL = "gpt-4o";
+const DEFAULT_MODEL = ANTHROPIC_MODELS[2];
 
 const MODELS = [...OPENAI_MODELS, ...ANTHROPIC_MODELS];
 

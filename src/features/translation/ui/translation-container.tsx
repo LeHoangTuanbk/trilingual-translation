@@ -43,9 +43,6 @@ export const TranslationContainer = () => {
   const { handleTranslate } = useTranslation();
   const { successToast } = useToastHook();
 
-  const inputValue = watch("input");
-  const selectedModelValue = watch("selectedModel");
-
   const translation1RefObject = useRef<HTMLTextAreaElement>(null);
   const translation2RefObject = useRef<HTMLTextAreaElement>(null);
 
@@ -125,25 +122,98 @@ export const TranslationContainer = () => {
   const handleAutoCopyChange1 = (checked: boolean) => {
     setIsAutoCopy1(checked);
   };
+  // Todo: need to refactor: use copy hook
+  const [isCopied1, setIsCopied1] = useState(false);
+  const [isCopied2, setIsCopied2] = useState(false);
+
+  const handleCopy = async (
+    ref: React.RefObject<HTMLTextAreaElement>,
+    setCopied: (value: boolean) => void
+  ) => {
+    if (ref.current) {
+      await navigator.clipboard.writeText(ref.current.value);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (e: globalThis.KeyboardEvent) => {
+      const isMac = /Mac|iPod|iPhone|iPad/.test(navigator.userAgent);
+      const modifierKey = isMac ? e.metaKey : e.ctrlKey;
+      if (modifierKey) {
+        handleLanguageShortcut(e.key as TranslationModeKeysType);
+        if (TranslationMode[e.key as TranslationModeKeysType]) {
+          e.preventDefault();
+        }
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [handleLanguageShortcut]);
+
+  const inputRef = useRef<HTMLTextAreaElement | null>(null);
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [hasMounted, inputRef]);
+
+  const formProps = {
+    register,
+    errors,
+    onSubmit: handleSubmit(onTranslationSubmit),
+  };
+
+  const inputProps = {
+    input: watch("input"),
+    onKeyDown: handleKeyDown,
+    onPaste: handlePaste,
+    inputRef,
+  };
+
+  const modelProps = {
+    selectedModel: watch("selectedModel"),
+    isLoading: isSubmitting,
+    models: MODELS,
+  };
+
+  const translationProps = {
+    translation1,
+    translation2,
+    translation1Ref: translation1RefObject,
+    translation2Ref: translation2RefObject,
+    onAutoCopyChange1: handleAutoCopyChange1,
+    isAutoCopy1,
+    handleCopy,
+  };
+
+  const copyProps = {
+    isCopied1,
+    isCopied2,
+    setIsCopied1,
+    setIsCopied2,
+  };
+
+  if (!hasMounted) {
+    return null;
+  }
 
   return (
     <Translation
-      register={register}
-      errors={errors}
-      input={inputValue}
-      selectedModel={selectedModelValue}
-      isLoading={isSubmitting}
-      models={MODELS}
-      onKeyDown={handleKeyDown}
-      onPaste={handlePaste}
-      onSubmit={submitForm}
-      translation1={translation1}
-      translation2={translation2}
-      translation1Ref={translation1RefObject}
-      translation2Ref={translation2RefObject}
-      onLanguageShortcut={handleLanguageShortcut}
-      onAutoCopyChange1={handleAutoCopyChange1}
-      isAutoCopy1={isAutoCopy1}
+      {...formProps}
+      {...inputProps}
+      {...modelProps}
+      {...translationProps}
+      {...copyProps}
     />
   );
 };
