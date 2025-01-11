@@ -102,7 +102,7 @@ export const MakeItNatural = () => {
           <FormControl isInvalid={!!errors.text}>
             <Textarea
               placeholder="Enter your text here"
-              height="150px"
+              minH="150px"
               {...register("text")}
               onKeyDown={handleKeyDown}
               ref={(e) => {
@@ -141,7 +141,7 @@ export const MakeItNatural = () => {
             </FormLabel>
             <Textarea
               placeholder="Enter context here"
-              height="50px"
+              minH="50px"
               {...register("context")}
             />
           </FormControl>
@@ -191,6 +191,7 @@ export const MakeItNatural = () => {
           <FormControl>
             <Textarea
               placeholder="Result"
+              minH="3xs"
               ref={(e) => {
                 register("result").ref(e);
                 resultRef.current = e;
