@@ -19,21 +19,6 @@ import { useTranslation } from "@/features/translation/api";
 import { TranslationModeKeysType } from "@/utils";
 import { useToastHook } from "@/shared/toast";
 
-const handleCopyTextFallback = (text: string) => {
-  const textArea = document.createElement("textarea");
-  textArea.value = text;
-  document.body.appendChild(textArea);
-  textArea.style.position = "fixed"; // Đảm bảo textarea không gây ảnh hưởng
-  textArea.style.opacity = "0";
-  textArea.select();
-  try {
-    document.execCommand("copy");
-  } catch (err) {
-    console.error("Fallback: Unable to copy", err);
-  }
-  document.body.removeChild(textArea);
-};
-
 export const TranslationContainer = () => {
   const {
     register,
@@ -56,7 +41,7 @@ export const TranslationContainer = () => {
   const [isAutoCopy1, setIsAutoCopy1] = useState(true);
 
   const { handleTranslate } = useTranslation();
-  const { successToast } = useToastHook();
+  const { successToast, errorToast } = useToastHook();
 
   const translation1RefObject = useRef<HTMLTextAreaElement>(null);
   const translation2RefObject = useRef<HTMLTextAreaElement>(null);
@@ -73,9 +58,12 @@ export const TranslationContainer = () => {
     updateTranslation(translation1Text, translation2Text);
 
     if (isAutoCopy1) {
-      // await navigator.clipboard.writeText(translation1Text);
-      handleCopyTextFallback(translation1Text);
-      successToast("Copied to clipboard");
+      if (navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(translation1Text);
+        successToast("Copied to clipboard");
+        return;
+      }
+      errorToast("Cannot copy to clipboard. Please copy manually.");
     }
   };
 
@@ -97,7 +85,6 @@ export const TranslationContainer = () => {
     setTranslation1("Loading...");
     setTranslation2("Loading...");
   };
-
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
       e.preventDefault();

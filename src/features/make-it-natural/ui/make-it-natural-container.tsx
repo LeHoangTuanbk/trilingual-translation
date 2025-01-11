@@ -38,7 +38,7 @@ export const MakeItNaturalContainer = () => {
   useEffect(() => {
     setHasMounted(true);
   }, []);
-  const { successToast } = useToastHook();
+  const { successToast, errorToast } = useToastHook();
 
   const handleMakeItNatural = (data: MakeItNaturalFormValues) => {
     mutate(data, {
@@ -46,10 +46,12 @@ export const MakeItNaturalContainer = () => {
         setValue("result", data.result);
         adjustResultHeight(resultRef.current);
         if (isAutoCopy) {
-          if (navigator.clipboard) {
+          if (navigator.clipboard.writeText) {
             await navigator.clipboard.writeText(data.result);
             successToast("Copied to clipboard");
+            return;
           }
+          errorToast("Cannot copy to clipboard. Please copy manually.");
         }
       },
     });
