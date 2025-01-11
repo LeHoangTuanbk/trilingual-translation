@@ -141,7 +141,7 @@ export const MakeItNatural = () => {
             </FormLabel>
             <Textarea
               placeholder="Enter context here"
-              minH="50px"
+              minH="40px"
               {...register("context")}
             />
           </FormControl>
