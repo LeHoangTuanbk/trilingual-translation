@@ -7,4 +7,5 @@ export type MakeItNaturalRequest = {
 
 export type MakeItNaturalResponse = {
   result: string | null;
+  error: string | null;
 };
