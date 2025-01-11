@@ -43,9 +43,6 @@ export const TranslationContainer = () => {
   const { handleTranslate } = useTranslation();
   const { successToast } = useToastHook();
 
-  const inputValue = watch("input");
-  const selectedModelValue = watch("selectedModel");
-
   const translation1RefObject = useRef<HTMLTextAreaElement>(null);
   const translation2RefObject = useRef<HTMLTextAreaElement>(null);
 
@@ -125,7 +122,7 @@ export const TranslationContainer = () => {
   const handleAutoCopyChange1 = (checked: boolean) => {
     setIsAutoCopy1(checked);
   };
-
+  // Todo: need to refactor: use copy hook
   const [isCopied1, setIsCopied1] = useState(false);
   const [isCopied2, setIsCopied2] = useState(false);
 

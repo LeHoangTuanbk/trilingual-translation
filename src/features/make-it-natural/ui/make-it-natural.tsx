@@ -114,6 +114,7 @@ export const MakeItNatural = ({ isPending, ...props }: MakeItNaturalProps) => {
           <Textarea
             placeholder="Result"
             minH="3xs"
+            value={isPending ? "Loading..." : undefined}
             ref={(e) => {
               props.register("result").ref(e);
               props.resultRef.current = e;
