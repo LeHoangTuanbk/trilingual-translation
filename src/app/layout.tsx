@@ -10,6 +10,8 @@ export const metadata: Metadata = {
   description: "Translate text quickly and accurately",
   openGraph: {
     title: "Trilingual translator",
+    siteName: "Trilingual translator",
+    url: "https://trilintran.vercel.app/",
     description: "Translate text quickly and accurately",
     images: [
       {
@@ -27,6 +29,9 @@ export const metadata: Metadata = {
     title: "Trilingual translator",
     description: "Translate text quickly and accurately",
     images: ["/og-image.jpg"],
+  },
+  other: {
+    "fb:app_id": "1020159995866472",
   },
 };
 
