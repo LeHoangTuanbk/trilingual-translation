@@ -80,6 +80,23 @@ Về câu chuyện thứ 80 có tựa đề "Sự khởi đầu của sự việ
 Dù vậy, tôi vẫn muốn giữ lại như một ký ức về sự cố gắng của bản thân. 
 Nhân tiện, tôi đã bắt đầu viết từ tháng 8 năm 2024. Quả là một khoảng thời gian dài!
 
+Example 9:
+Japanese: 
+■第一稿
+第一稿では楼蘭の語りに合わせて絵のみの回想を入れるという形にして、47ページ使って昔語～楼蘭の最期まで描いていました。
+
+しかし回想なしでひたすらセリフでのみ進むので読んでいて頭に入ってこないのと、時系列順に語っているわけではないのでいつの話をしているのか混乱してしまうかな…ということで、第二稿では思い切って子昌・神美の話を時系列順にがっつり漫画でやってみようということになりました。
+English: 
+■ First Draft  
+In the first draft, I aligned with Rouran's narrative and included only illustrations for the flashback, using 47 pages to depict everything from ancient tales to Rouran's demise.
+
+However, since it progresses solely through dialogue without any flashbacks, it becomes difficult to follow the story, and because it's not told in chronological order, it might be confusing as to when the events are taking place... Therefore, in the second draft, we boldly decided to depict the story of Koshou and Shinmi in chronological order through manga.
+Vietnamese: 
+■Bản thảo đầu tiên
+Trong bản thảo đầu tiên, tôi đã làm theo lời kể của Loulan với hình thức chỉ đưa vào hình ảnh hồi tưởng và sử dụng 47 trang để miêu tả từ những câu chuyện cổ đến cái kết của Loulan.
+
+Tuy nhiên, việc để câu chuyện tiến triển chỉ bằng lời thoại mà không có hồi tưởng khiến người đọc không nắm bắt được nội dung, và vì không kể theo trình tự thời gian nên có thể sẽ gây nhầm lẫn về thời điểm của câu chuyện... Do đó, ở bản thảo thứ hai, tôi đã quyết định thử miêu tả triệt để câu chuyện của Tử Xương và Thần Mỹ theo trình tự thời gian thông qua truyện tranh.
+
 1. Provided ${originalLanguage} text: 
 ${input}
 
