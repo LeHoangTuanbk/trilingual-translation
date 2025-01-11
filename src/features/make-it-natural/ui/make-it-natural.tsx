@@ -14,7 +14,7 @@ import {
   FormErrorMessage,
 } from "@chakra-ui/react";
 import { DEFAULT_MODEL, Languages, MODELS } from "@/utils";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaRegCopy, FaCheck } from "react-icons/fa6";
 import {
   useMakeItNaturalForm,
@@ -39,6 +39,15 @@ export const MakeItNatural = () => {
     language: Languages.English,
     selectedModel: DEFAULT_MODEL,
   });
+
+  const adjustResultHeight = (element1: HTMLTextAreaElement | null) => {
+    if (element1) {
+      element1.style.height = "auto";
+      element1.style.height = `${element1.scrollHeight}px`;
+    }
+  };
+  const inputRef = useRef<HTMLTextAreaElement | null>(null);
+  const resultRef = useRef<HTMLTextAreaElement | null>(null);
   useEffect(() => {
     setHasMounted(true);
   }, []);
@@ -50,6 +59,7 @@ export const MakeItNatural = () => {
     mutate(data, {
       onSuccess: (data) => {
         setValue("result", data.result);
+        adjustResultHeight(resultRef.current);
         if (isAutoCopy) {
           navigator.clipboard.writeText(data.result);
           successToast("Copied to clipboard");
@@ -70,6 +80,12 @@ export const MakeItNatural = () => {
     }
   };
 
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [hasMounted]);
+
   if (!hasMounted) return null;
 
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
@@ -88,6 +104,10 @@ export const MakeItNatural = () => {
               height="150px"
               {...register("text")}
               onKeyDown={handleKeyDown}
+              ref={(e) => {
+                register("text").ref(e);
+                inputRef.current = e;
+              }}
             />
             {errors.text && (
               <FormErrorMessage>{errors.text.message}</FormErrorMessage>
@@ -172,6 +192,11 @@ export const MakeItNatural = () => {
               placeholder="Result"
               height="3xs"
               {...register("result")}
+              ref={(e) => {
+                register("result").ref(e);
+                resultRef.current = e;
+              }}
+              readOnly
             />
           </FormControl>
         </VStack>
