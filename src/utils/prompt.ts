@@ -63,9 +63,27 @@ Korean: 안녕하세요
 Chinese: 你好
 Spanish: Hola
 
-Provided ${originalLanguage} text: ${input}
+Example 8:
+Japanese: 
+2024年12月に『薬屋のひとりごと-猫猫の後宮謎解き手帳-』19巻が発売されました。
+そちらに収録されている80話「事の始まり」について、ネームに苦戦した件を記事にしようと思いながらすっかり遅くなって勿体ぶったような感じになってしまって、いやそんな御大層なものではない…とちょっと公開が恥ずかしくなってきました。
+でも自分のよう頑張った記録としても残しておきたい気持ち。
+ちなみに書き始めたのは2024年8月でした。寝かしたなあ！！
+English: 
+In December 2024, volume 19 of "The Apothecary Diaries - Cat Cat's Ming Mansion Mystery Notebook" was released. 
+As for the 80th episode "The Beginning of the Matter" included in it, I had intended to write an article about struggling with the name, but I kept delaying it, making it seem unnecessarily grandiose. I now feel a bit embarrassed to publish it. 
+But I still want to keep it as a record of my efforts. 
+By the way, I started writing it back in August 2024. I really let it sit for a while!
+Vietnamese: 
+Vào tháng 12 năm 2024, tập 19 của "Những câu chuyện của người bán thuốc - Nhật ký giải câu đố hậu cung của Mao Mao" đã được phát hành. 
+Về câu chuyện thứ 80 có tựa đề "Sự khởi đầu của sự việc" được thu thập trong đó, tôi đã nghĩ đến việc viết bài về vấn đề gặp khó khăn khi thực hiện tên cho tác phẩm đó, nhưng đã trễ và cảm thấy như một điều tiếc nuối mặc dù thật sự không phải là cái gì lớn lao... nên tôi cảm thấy hơi ngại khi công khai. 
+Dù vậy, tôi vẫn muốn giữ lại như một ký ức về sự cố gắng của bản thân. 
+Nhân tiện, tôi đã bắt đầu viết từ tháng 8 năm 2024. Quả là một khoảng thời gian dài!
 
-${targetedLanguage} translation output:`;
+1. Provided ${originalLanguage} text: 
+${input}
+
+2. ${targetedLanguage} translation output:`;
 
   return promptTemplate;
 };
