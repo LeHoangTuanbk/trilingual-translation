@@ -13,7 +13,8 @@ export default function MakeItNaturalPage() {
             writing of native speakers
           </Text>
           <Text fontSize="sm">
-            Paste or type and press Ctrl+Enter (or Cmd+Enter) to make it natural
+            Shortcut: type and press Ctrl+Enter (or Cmd+Enter) to make it
+            natural
           </Text>
         </VStack>
       </Box>
