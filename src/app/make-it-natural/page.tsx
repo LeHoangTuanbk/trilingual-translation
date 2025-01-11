@@ -3,7 +3,7 @@ import { MakeItNaturalContainer } from "@/features/make-it-natural";
 import NextLink from "next/link";
 export default function MakeItNaturalPage() {
   return (
-    <Box p={5}>
+    <Box>
       <Box mb="4">
         <Heading as="h1" size="lg" mb="4">
           Make it natural

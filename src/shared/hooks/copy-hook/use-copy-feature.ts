@@ -8,12 +8,14 @@ export const useCopyFeature = (result: string) => {
   const { successToast } = useToastHook();
 
   const handleCopyResult = () => {
-    setIsCopied(true);
-    navigator.clipboard.writeText(result || "");
-    successToast("Copied to clipboard");
-    setTimeout(() => {
-      setIsCopied(false);
-    }, 2000);
+    if (navigator.clipboard) {
+      setIsCopied(true);
+      navigator.clipboard.writeText(result || "");
+      successToast("Copied to clipboard");
+      setTimeout(() => {
+        setIsCopied(false);
+      }, 2000);
+    }
   };
 
   return {

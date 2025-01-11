@@ -19,6 +19,21 @@ import { useTranslation } from "@/features/translation/api";
 import { TranslationModeKeysType } from "@/utils";
 import { useToastHook } from "@/shared/toast";
 
+const handleCopyTextFallback = (text: string) => {
+  const textArea = document.createElement("textarea");
+  textArea.value = text;
+  document.body.appendChild(textArea);
+  textArea.style.position = "fixed"; // Đảm bảo textarea không gây ảnh hưởng
+  textArea.style.opacity = "0";
+  textArea.select();
+  try {
+    document.execCommand("copy");
+  } catch (err) {
+    console.error("Fallback: Unable to copy", err);
+  }
+  document.body.removeChild(textArea);
+};
+
 export const TranslationContainer = () => {
   const {
     register,
@@ -58,7 +73,8 @@ export const TranslationContainer = () => {
     updateTranslation(translation1Text, translation2Text);
 
     if (isAutoCopy1) {
-      await navigator.clipboard.writeText(translation1Text);
+      // await navigator.clipboard.writeText(translation1Text);
+      handleCopyTextFallback(translation1Text);
       successToast("Copied to clipboard");
     }
   };
@@ -131,9 +147,11 @@ export const TranslationContainer = () => {
     setCopied: (value: boolean) => void
   ) => {
     if (ref.current) {
-      await navigator.clipboard.writeText(ref.current.value);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      if (navigator.clipboard) {
+        await navigator.clipboard.writeText(ref.current.value);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      }
     }
   };
 

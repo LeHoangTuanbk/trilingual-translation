@@ -42,12 +42,14 @@ export const MakeItNaturalContainer = () => {
 
   const handleMakeItNatural = (data: MakeItNaturalFormValues) => {
     mutate(data, {
-      onSuccess: (data) => {
+      onSuccess: async (data) => {
         setValue("result", data.result);
         adjustResultHeight(resultRef.current);
         if (isAutoCopy) {
-          navigator.clipboard.writeText(data.result);
-          successToast("Copied to clipboard");
+          if (navigator.clipboard) {
+            await navigator.clipboard.writeText(data.result);
+            successToast("Copied to clipboard");
+          }
         }
       },
     });
