@@ -22,7 +22,7 @@ import {
 } from "@/features/make-it-natural/api";
 import { MakeItNaturalFormValues } from "../api/zod-schema";
 import { useToastHook } from "@/shared/toast";
-
+import { KeyboardEvent } from "react";
 export const MakeItNatural = () => {
   const [hasMounted, setHasMounted] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
@@ -71,6 +71,13 @@ export const MakeItNatural = () => {
   };
 
   if (!hasMounted) return null;
+
+  const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
+      e.preventDefault();
+      handleSubmit(handleMakeItNatural)();
+    }
+  };
   return (
     <>
       <form onSubmit={handleSubmit(handleMakeItNatural)}>
@@ -80,6 +87,7 @@ export const MakeItNatural = () => {
               placeholder="Enter your text here"
               height="150px"
               {...register("text")}
+              onKeyDown={handleKeyDown}
             />
             {errors.text && (
               <FormErrorMessage>{errors.text.message}</FormErrorMessage>
