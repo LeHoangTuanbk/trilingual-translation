@@ -18,6 +18,7 @@ import { MODELS, Languages, DEFAULT_MODEL, TranslationMode } from "@/utils";
 import { useTranslation } from "@/features/translation/api";
 import { TranslationModeKeysType } from "@/utils";
 import { useToastHook } from "@/shared/toast";
+import { isMobileDevice } from "@/utils";
 
 export const TranslationContainer = () => {
   const {
@@ -38,7 +39,7 @@ export const TranslationContainer = () => {
   });
   const [translation1, setTranslation1] = useState("");
   const [translation2, setTranslation2] = useState("");
-  const [isAutoCopy1, setIsAutoCopy1] = useState(true);
+  const [isAutoCopy1, setIsAutoCopy1] = useState(!isMobileDevice());
 
   const { handleTranslate } = useTranslation();
   const { successToast, errorToast } = useToastHook();
@@ -58,12 +59,15 @@ export const TranslationContainer = () => {
     updateTranslation(translation1Text, translation2Text);
 
     if (isAutoCopy1) {
-      if (navigator.clipboard.writeText) {
-        await navigator.clipboard.writeText(translation1Text);
-        successToast("Copied to clipboard");
+      if (!navigator.clipboard.writeText) {
+        errorToast(
+          "Cannot automatically copy to clipboard. Please copy manually."
+        );
         return;
       }
-      errorToast("Cannot copy to clipboard. Please copy manually.");
+      await navigator.clipboard.writeText(translation1Text);
+      successToast("Copied to clipboard");
+      return;
     }
   };
 
@@ -134,11 +138,15 @@ export const TranslationContainer = () => {
     setCopied: (value: boolean) => void
   ) => {
     if (ref.current) {
-      if (navigator.clipboard) {
-        await navigator.clipboard.writeText(ref.current.value);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
+      if (!navigator.clipboard.writeText) {
+        errorToast(
+          "Cannot automatically copy to clipboard. Please copy manually."
+        );
+        return;
       }
+      await navigator.clipboard.writeText(ref.current.value);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
     }
   };
 

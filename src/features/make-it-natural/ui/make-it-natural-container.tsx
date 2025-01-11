@@ -52,6 +52,7 @@ export const MakeItNaturalContainer = () => {
             return;
           }
           errorToast("Cannot copy to clipboard. Please copy manually.");
+          return;
         }
       },
     });
