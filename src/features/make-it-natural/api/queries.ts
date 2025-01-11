@@ -29,7 +29,6 @@ export const useMakeItNaturalQuery = () => {
     }: MakeItNaturalRequest) =>
       makeItNaturalFn(text, language, selectedModel, context),
     onError: () => {
-      // Todo: Need to confirm error form server here
       errorToast("Error", "Please try again later or choose another model");
     },
   });

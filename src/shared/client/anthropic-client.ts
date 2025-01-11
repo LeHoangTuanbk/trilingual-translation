@@ -1,12 +1,12 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { promptTemplate, makeItNaturalPromptTemplate } from "@/utils/prompt";
+import { TranslationRequest } from "@/app/api/translate/data.types";
+import { TextBlock } from "@anthropic-ai/sdk/resources/messages.mjs";
+import { MakeItNaturalRequest } from "@/app/api/make-it-natural/data.types";
 
 const client = new Anthropic({
   apiKey: process.env["ANTHROPIC_API_KEY"],
 });
-
-import { TranslationRequest } from "@/app/api/translate/data.types";
-import { TextBlock } from "@anthropic-ai/sdk/resources/messages.mjs";
 
 export const createTranslationPromptAnthropic = async ({
   input,
@@ -54,5 +54,23 @@ export const createTranslationPromptAnthropic = async ({
     [targetedLanguage2]: (
       chatCompletionTargetedLanguage2.content[0] as TextBlock
     ).text,
+  };
+};
+
+export const createMakeItNaturalPromptAnthropic = async ({
+  text,
+  language,
+  selectedModel,
+  context,
+}: MakeItNaturalRequest) => {
+  const prompt = makeItNaturalPromptTemplate(text, language, context);
+  const chatCompletion = await client.messages.create({
+    max_tokens: 4096,
+    model: selectedModel,
+    messages: [{ role: "user", content: prompt }],
+  });
+  return {
+    result: (chatCompletion.content[0] as TextBlock).text,
+    error: null,
   };
 };

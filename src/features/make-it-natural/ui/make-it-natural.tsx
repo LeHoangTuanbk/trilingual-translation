@@ -47,9 +47,9 @@ export const MakeItNatural = () => {
   const handleMakeItNatural = (data: MakeItNaturalFormValues) => {
     mutate(data, {
       onSuccess: (data) => {
-        setValue("result", data);
+        setValue("result", data.result);
         if (isCopied) {
-          navigator.clipboard.writeText(data);
+          navigator.clipboard.writeText(data.result);
           successToast("Copied to clipboard");
         }
       },

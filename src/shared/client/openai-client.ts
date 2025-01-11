@@ -56,5 +56,6 @@ export const createMakeItNaturalPOpenAI = async ({
   });
   return {
     result: chatCompletion.choices[0].message.content,
+    error: null,
   };
 };
