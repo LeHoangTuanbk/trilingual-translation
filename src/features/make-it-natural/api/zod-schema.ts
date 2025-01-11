@@ -3,8 +3,8 @@ import { Languages, MODELS } from "@/utils";
 export const makeItNaturalSchema = z.object({
   text: z
     .string()
-    .min(5, "The app performs better with 5 or more words.")
-    .max(1000, "The app performs better with 1000 or less words."),
+    .min(10, "The app performs better with 10 or more characters.")
+    .max(5000, "The app performs better with 5000 or less characters."),
   context: z.string(),
   language: z.enum(Object.values(Languages) as [string, ...string[]]),
   selectedModel: z.enum(MODELS as unknown as [string, ...string[]]),
