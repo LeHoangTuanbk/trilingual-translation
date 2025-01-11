@@ -59,7 +59,7 @@ export const TranslationContainer = () => {
     updateTranslation(translation1Text, translation2Text);
 
     if (isAutoCopy1) {
-      if (!navigator.clipboard.writeText) {
+      if (!navigator.clipboard) {
         errorToast(
           "Cannot automatically copy to clipboard. Please copy manually."
         );
@@ -138,7 +138,7 @@ export const TranslationContainer = () => {
     setCopied: (value: boolean) => void
   ) => {
     if (ref.current) {
-      if (!navigator.clipboard.writeText) {
+      if (!navigator.clipboard) {
         errorToast(
           "Cannot automatically copy to clipboard. Please copy manually."
         );

@@ -10,7 +10,7 @@ export const useCopyFeature = (result: string) => {
 
   const handleCopyResult = async () => {
     // Todo: need to refactor the copy feature
-    if (!navigator.clipboard?.writeText) {
+    if (!navigator.clipboard) {
       errorToast(
         "Cannot automatically copy to clipboard. Please copy manually."
       );
