@@ -26,11 +26,13 @@ import { useToastHook } from "@/shared/toast";
 export const MakeItNatural = () => {
   const [hasMounted, setHasMounted] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
+  const [isAutoCopy, setIsAutoCopy] = useState(true);
   const {
     register,
     handleSubmit,
     formState: { errors },
     setValue,
+    watch,
   } = useMakeItNaturalForm({
     text: "",
     context: "business context",
@@ -48,12 +50,24 @@ export const MakeItNatural = () => {
     mutate(data, {
       onSuccess: (data) => {
         setValue("result", data.result);
-        if (isCopied) {
+        if (isAutoCopy) {
           navigator.clipboard.writeText(data.result);
           successToast("Copied to clipboard");
         }
       },
     });
+  };
+  const result = watch("result");
+
+  const handleCopyResult = () => {
+    if (result) {
+      setIsCopied(true);
+      navigator.clipboard.writeText(result);
+      successToast("Copied to clipboard");
+      setTimeout(() => {
+        setIsCopied(false);
+      }, 2000);
+    }
   };
 
   if (!hasMounted) return null;
@@ -128,7 +142,10 @@ export const MakeItNatural = () => {
           </Stack>
           <HStack gap="4">
             <Text>Result</Text>
-            <Checkbox onChange={() => setIsCopied(!isCopied)}>
+            <Checkbox
+              onChange={() => setIsAutoCopy(!isAutoCopy)}
+              isChecked={isAutoCopy}
+            >
               Auto copy
             </Checkbox>
             <Button
@@ -136,9 +153,7 @@ export const MakeItNatural = () => {
               borderRadius="md"
               _hover={{ background: "none" }}
               alignSelf="flex-start"
-              onClick={() => {
-                setIsCopied(!isCopied);
-              }}
+              onClick={handleCopyResult}
             >
               <Box mr="2">{isCopied ? <FaCheck /> : <FaRegCopy />}</Box>
               <Text>{isCopied ? "Copied" : "Copy"}</Text>
