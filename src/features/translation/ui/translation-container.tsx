@@ -18,7 +18,7 @@ import { MODELS, Languages, DEFAULT_MODEL, TranslationMode } from "@/utils";
 import { useTranslation } from "@/features/translation/api";
 import { TranslationModeKeysType } from "@/utils";
 import { useToastHook } from "@/shared/toast";
-
+import { isMobileDevice } from "@/utils";
 export const TranslationContainer = () => {
   const {
     register,
@@ -38,7 +38,7 @@ export const TranslationContainer = () => {
   });
   const [translation1, setTranslation1] = useState("");
   const [translation2, setTranslation2] = useState("");
-  const [isAutoCopy1, setIsAutoCopy1] = useState(true);
+  const [isAutoCopy1, setIsAutoCopy1] = useState(!isMobileDevice());
 
   const { handleTranslate } = useTranslation();
   const { successToast, errorToast } = useToastHook();

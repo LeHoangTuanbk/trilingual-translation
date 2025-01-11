@@ -8,3 +8,4 @@ export {
   TranslationMode,
   type TranslationModeKeysType,
 } from "./consts";
+export { isMobileDevice } from "./is-mobile-device";

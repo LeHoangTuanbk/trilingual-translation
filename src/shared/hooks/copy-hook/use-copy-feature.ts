@@ -1,8 +1,8 @@
 import { useState } from "react";
-
+import { isMobileDevice } from "@/utils";
 export const useCopyFeature = (result: string) => {
   const [isCopied, setIsCopied] = useState(false);
-  const [isAutoCopy, setIsAutoCopy] = useState(true);
+  const [isAutoCopy, setIsAutoCopy] = useState(!isMobileDevice());
 
   const handleCopyResult = async () => {
     if (navigator.clipboard) {
