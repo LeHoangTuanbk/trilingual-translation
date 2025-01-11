@@ -46,13 +46,14 @@ export const MakeItNaturalContainer = () => {
         setValue("result", data.result);
         adjustResultHeight(resultRef.current);
         if (isAutoCopy) {
-          if (navigator.clipboard.writeText) {
-            await navigator.clipboard.writeText(data.result);
-            successToast("Copied to clipboard");
+          if (!navigator.clipboard.writeText) {
+            errorToast(
+              "Cannot automatically copy to clipboard. Please copy manually."
+            );
             return;
           }
-          errorToast("Cannot copy to clipboard. Please copy manually.");
-          return;
+          await navigator.clipboard.writeText(data.result);
+          successToast("Copied to clipboard");
         }
       },
     });
