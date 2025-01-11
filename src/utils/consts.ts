@@ -1,3 +1,4 @@
+// Todo: need to refactor to dictionary, not array like this
 const OPENAI_MODELS = ["gpt-4o-mini", "gpt-4o"];
 
 const ANTHROPIC_MODELS = [
