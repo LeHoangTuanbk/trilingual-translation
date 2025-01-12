@@ -18,6 +18,31 @@
 
 ## 4. Launch
 
+### Prerequisites
+
+- Node.js 16.x or higher
+- npm 7.x or higher
+
+### Environment Setup
+
+1. Copy the example environment file:
+
+```bash
+cp .env.example .env.local
+
+```
+
+2. Update the environment variables in `.env.local`
+
+Get the api key here:
+
+- OpenAI API Key: [OpenAI API Key](https://platform.openai.com/api-keys)
+- Anthropic API Key: [Anthropic API Key](https://console.anthropic.com/settings/keys)
+
+3. Run the development server:
+
+### Installation
+
 ```bash
 git clone https://github.com/LeHoangTuanbk/trilingual-translation
 cd trilingual-translation
