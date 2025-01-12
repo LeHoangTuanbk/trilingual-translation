@@ -2,12 +2,19 @@
 import { Text, Box } from "@chakra-ui/react";
 import { isMobileDevice } from "@/utils";
 import { useState, useEffect } from "react";
-export const CannotCopy = () => {
+
+const useMobileDetection = () => {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     setIsMobile(!!isMobileDevice());
   }, []);
+
+  return isMobile;
+};
+
+export const CannotCopy = () => {
+  const isMobile = useMobileDetection();
   return (
     <Box display={isMobile ? "block" : "none"}>
       <Text fontSize="sm">
