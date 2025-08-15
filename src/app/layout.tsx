@@ -46,11 +46,8 @@ export default function RootLayout({
       </head>
       <body>
         <Providers>
-          <Box p={5}>
-            {children}
-            <CannotCopy />
-            <Footer />
-          </Box>
+          {children}
+          <CannotCopy />
         </Providers>
       </body>
     </html>
