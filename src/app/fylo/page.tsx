@@ -1,18 +1,79 @@
+const featureItemRow1 = [
+  {
+    imgSrc: "fylo/images/icon-access-anywhere.svg",
+    title: "Access your file from anywhere",
+    description:
+      " The ability to use a smartphone, tablet, or computer to access your account means your files follow you everywhere.",
+  },
+  {
+    imgSrc: "fylo/images/icon-security.svg",
+    title: "Security you can trust",
+    description:
+      " 2-factor authentication and user-controlled encryption are just a couple of the security features we allow to help secure your files.",
+  },
+];
+
+const featureItemRow2 = [
+  {
+    imgSrc: "fylo/images/icon-collaboration.svg",
+    title: "Access your file from anywhere",
+    description:
+      " The ability to use a smartphone, tablet, or computer to access your account means your files follow you everywhere.",
+  },
+  {
+    imgSrc: "fylo/images/icon-any-file.svg",
+    title: "Security you can trust",
+    description:
+      " 2-factor authentication and user-controlled encryption are just a couple of the security features we allow to help secure your files.",
+  },
+];
+
+const testimonialsInfo = [
+  {
+    content:
+      "Fylo has improved our team productivity by an order of magnitude. Since making the switch our team has become a well-oiled collaboration machine.",
+    user: {
+      image: "fylo/images/profile-1.jpg",
+      name: "Satish Patel",
+      role: "Founder & CEO. Huddle",
+    },
+  },
+  {
+    content:
+      "Fylo has improved our team productivity by an order of magnitude. Since making the switch our team has become a well-oiled collaboration machine.",
+    user: {
+      image: "fylo/images/profile-2.jpg",
+      name: "Bruce McKenzie",
+      role: "Founder & CEO. Huddle 2",
+    },
+  },
+  {
+    content:
+      "Fylo has improved our team productivity by an order of magnitude. Since making the switch our team has become a well-oiled collaboration machine.",
+    user: {
+      image: "fylo/images/profile-3.jpg",
+      name: "Eva Boyd",
+      role: "Founder & CEO. Huddle 3",
+    },
+  },
+];
+
 const fylo = () => {
   return (
     <div className="font-sans">
       {/* Header */}
       <header className="container flex flex-col items-center justify-between px-6 mx-auto mt-10 md:flex-row md:h-20">
         {/* Dynamic Logo */}
-        <div className="w-48 h-20 bg-no-repeat bg-center bg-contain bg-logo-light-mode dark:bg-logo-dark-mode"></div>
+        <div className="w-48 h-20 bg-center bg-no-repeat bg-contain bg-logo-light-mode dark:bg-logo-dark-mode"></div>
         {/* Menu */}
-        <div className="flex items-center justify-center space-x-4 md:space-x-10 mt-4 md:mt-0">
+        <div className="flex items-center justify-center mt-4 space-x-4 md:space-x-10 md:mt-0">
           <a href="#features" className="hover:text-accentCyan">
             Features
           </a>
           <a href="#testimonials" className="hover:text-accentCyan">
             Testimonials
           </a>
+          {/* Dark/Light Mode Button */}
           <button
             id="theme-toggle"
             className="p-2 text-sm text-gray-500 rounded-lg dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700"
@@ -41,8 +102,244 @@ const fylo = () => {
             </svg>
           </button>
         </div>
-        {/* Dark/Light Mode Button */}
       </header>
+
+      {/* Hero section */}
+      <section
+        id="hero"
+        className="bg-bottom bg-no-repeat bg-contain bg-curvy-light-mode dark:bg-curvy-dark-mode"
+      >
+        <div className="container px-6 mx-auto text-center md:pt-20 pb-52">
+          <img src="fylo/images/illustration-intro.png" className="mx-auto" />
+          <h1 className="max-w-2xl mx-auto mb-10 text-3xl font-bold leading-normal mt-14 md:text-4xl">
+            All your files in one secure location, assessible anywhere.
+          </h1>
+          <p className="max-w-sm mx-auto mb-10 text-sm md:max-w-xl md:text-lg">
+            Fylo stores all your most important files in one secure location.
+            Access them wherever you need, share and collaborate with friends
+            family, and co-workers.
+          </p>
+          <button className="p-3 rounded-full w-52 bg-accentCyan hover:scale-95">
+            Get started
+          </button>
+        </div>
+      </section>
+
+      {/* Feature section */}
+      <section id="features" className="pt-12 bg-gray-50 dark:bg-darkBlue1">
+        {/* Feature container */}
+        <div className="container px-6 pb-32 mx-auto">
+          {/* First Row */}
+          <div className="flex flex-col text-center spacey-y-24 md:flex-row md:spacey-y-0">
+            {featureItemRow1.map((item) => {
+              return (
+                <div
+                  className="flex flex-col items-center space-y-2 md:w-1/2"
+                  key={item.imgSrc}
+                >
+                  <div className="flex items-center justify-center h-24 mb-6">
+                    <img src={item.imgSrc} alt="access anywhere" />
+                  </div>
+                  <h3 className="text-xl font-bold">{item.title}</h3>
+                  <div className="max-w-md">{item.description}</div>
+                </div>
+              );
+            })}
+          </div>
+          {/* Second Row */}
+          <div className="flex flex-col text-center spacey-y-24 md:flex-row md:spacey-y-0">
+            {featureItemRow2.map((item) => {
+              return (
+                <div
+                  className="flex flex-col items-center space-y-2 md:w-1/2"
+                  key={item.imgSrc}
+                >
+                  <div className="flex items-center justify-center h-24 mb-6">
+                    <img src={item.imgSrc} alt="access anywhere" />
+                  </div>
+                  <h3 className="text-xl font-bold">{item.title}</h3>
+                  <div className="max-w-md">{item.description}</div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Productive section */}
+      <section id="productive" className="bg-white dark:bg-darkBlue">
+        {/* Productive container */}
+        <div className="container flex flex-col items-center px-6 pt-24 pb-32 mx-auto md:flex-row md:space-x-16">
+          {/* Image */}
+          <div className="md:w-1/2">
+            <img
+              src="fylo/images/illustration-stay-productive.png"
+              alt=""
+              className="mb-10"
+            />
+          </div>
+          {/* Content */}
+          <div className="flex flex-col items-start md:w-1/2">
+            <div className="flex flex-col space-y-5">
+              <h4 className="max-w-md text-xl font-bold md:text-4xl">
+                Stay productive, wherever you are
+              </h4>
+              <p className="text-md md:text-lg">
+                Never let location be an issue when accessing your files. Fylo
+                has you covered for all of your file storage needs.
+              </p>
+            </div>
+            <div className="block mt-4">
+              <a
+                href="#"
+                className="border-b border-accentCyan text-accentCyan"
+              >
+                See how Fylo works
+                <img
+                  src="fylo/images/icon-arrow.svg"
+                  className="inline pb-2 ml-1"
+                />
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+      {/* Testimonials Section */}
+      <section id="testimonials" className="bg-gray-50 dark:bg-darkBlue">
+        {/* Testimonial Container */}
+        <div className="container px-6 pt-12 mx-auto pb-80 mb:pb-96">
+          {/* Boxes Container */}
+          <div className="relative flex flex-col w-full space-y-6 md:flex-row md:space-y-0 md:space-x-12">
+            {/* Quotes Image */}
+            <img
+              src="fylo/images/bg-quotes.png"
+              alt=""
+              className="absolute w-10 left-1 -top-2 md:-top-16 md:w-20"
+            />
+            {testimonialsInfo.map((item) => {
+              return (
+                <div
+                  className="flex flex-col p-10 space-y-6 bg-gray-100 rounded-lg dark:bg-darkBlue3 md:w-1/3"
+                  key={item.user.image}
+                >
+                  <p className="text-sm leading-5 md:text-lg">{item.content}</p>
+                  <div className="flex space-x-4">
+                    <img
+                      src={item.user.image}
+                      alt=""
+                      className="w-10 h-10 rounded-full"
+                    />
+                    <div>
+                      <h5 className="text-sm font-semibold">
+                        {item.user.name}
+                      </h5>
+                      <p className="text-xs font-extralight">
+                        {item.user.role}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Early access today */}
+      <section
+        id="early-access"
+        className="relative px-6 dark:bg-darkBlue2 md:px-0"
+      >
+        <div className="relative max-w-4xl p-10 px-6 mx-auto space-y-6 text-center bg-gray-200 rounded-lg -top-40 dark:bg-darkBlue1 md:px-16">
+          <h5 className="text-2xl font-bold">Get early access today</h5>
+          <p className="text-sm">
+            It only takes a minute to sign up and our free starter tier is
+            extremely generous. If you have any questions, our support team
+            would be happy to help you.
+          </p>
+          <div className="flex flex-col items-start space-y-6 md:flex-row md:space-y-0 md:space-x-6">
+            <div className="w-full md:flex-1">
+              <input
+                type="text"
+                className="w-full px-10 py-3 rounded-full focus:outline-none"
+                placeholder="email@example.com"
+              />
+            </div>
+            <button className="w-full p-3 px-6 rounded-full bg-accentCyan md:w-56 hover:scale-95">
+              Get Started For Free
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="text-white bg-darkBlue2">
+        <div className="container px-5 pt-12 pb-10 mx-auto">
+          <div className="flex flex-col justify-between space-y-24 md:flex-row md:space-y-0">
+            {/* Email & Phone */}
+            <div className="mt-10 space-y-6">
+              <div className="flex items-center space-x-3 md:-mt-10">
+                <div className="w-6">
+                  <img
+                    src="fylo/images/icon-phone.svg"
+                    alt=""
+                    className="scale-10"
+                  />
+                </div>
+                <div>+1-543-123-4567</div>
+              </div>
+              <div className="flex items-center space-x-3">
+                <div className="w-6">
+                  <img
+                    src="fylo/images/icon-email.svg"
+                    alt=""
+                    className="scale-10"
+                  />
+                </div>
+                <div>example@gmail.com</div>
+              </div>
+            </div>
+            {/* Menus */}
+            <div className="flex flex-col space-y-10 text-xl md:text-base md:space-x-20 md:space-y-0 md:flex-row">
+              <div className="flex flex-col space-y-3 ">
+                <a href="#">About</a>
+                <a href="#">Jobs</a>
+                <a href="#">Press</a>
+                <a href="#">Blog</a>
+              </div>
+              <div className="flex flex-col space-y-3">
+                <a href="#">Contact Us</a>
+                <a href="#">Terms</a>
+                <a href="#">Privacy</a>
+              </div>
+            </div>
+            {/* Social */}
+            <div className="flex justify-center pb-10 space-x-3">
+              <a href="#">
+                <img
+                  src="fylo/images/facebook.svg"
+                  alt=""
+                  className="p-2 rounded-full bg-darkBlue ficon"
+                />
+              </a>
+              <a href="#">
+                <img
+                  src="fylo/images/twitter.svg"
+                  alt=""
+                  className="p-2 rounded-full bg-darkBlue ficon"
+                />
+              </a>
+              <a href="#">
+                <img
+                  src="fylo/images/instagram.svg"
+                  alt=""
+                  className="p-2 rounded-full bg-darkBlue ficon"
+                />
+              </a>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };
