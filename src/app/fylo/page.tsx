@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 const featureItemRow1 = [
   {
     imgSrc: "fylo/images/icon-access-anywhere.svg",
@@ -110,7 +112,13 @@ const fylo = () => {
         className="bg-bottom bg-no-repeat bg-contain bg-curvy-light-mode dark:bg-curvy-dark-mode"
       >
         <div className="container px-6 mx-auto text-center md:pt-20 pb-52">
-          <img src="fylo/images/illustration-intro.png" className="mx-auto" />
+          <Image
+            src="/fylo/images/illustration-intro.png"
+            alt="File storage illustration"
+            width={500}
+            height={400}
+            className="mx-auto"
+          />
           <h1 className="max-w-2xl mx-auto mb-10 text-3xl font-bold leading-normal mt-14 md:text-4xl">
             All your files in one secure location, assessible anywhere.
           </h1>
@@ -130,7 +138,7 @@ const fylo = () => {
         {/* Feature container */}
         <div className="container px-6 pb-32 mx-auto">
           {/* First Row */}
-          <div className="flex flex-col text-center spacey-y-24 md:flex-row md:spacey-y-0">
+          <div className="flex flex-col mb-24 space-y-24 text-center md:flex-row md:space-y-0">
             {featureItemRow1.map((item) => {
               return (
                 <div
@@ -138,7 +146,12 @@ const fylo = () => {
                   key={item.imgSrc}
                 >
                   <div className="flex items-center justify-center h-24 mb-6">
-                    <img src={item.imgSrc} alt="access anywhere" />
+                    <Image
+                      src={`/${item.imgSrc}`}
+                      alt={item.title}
+                      width={80}
+                      height={80}
+                    />
                   </div>
                   <h3 className="text-xl font-bold">{item.title}</h3>
                   <div className="max-w-md">{item.description}</div>
@@ -147,7 +160,7 @@ const fylo = () => {
             })}
           </div>
           {/* Second Row */}
-          <div className="flex flex-col text-center spacey-y-24 md:flex-row md:spacey-y-0">
+          <div className="flex flex-col space-y-24 text-center md:flex-row md:space-y-0">
             {featureItemRow2.map((item) => {
               return (
                 <div
@@ -155,7 +168,12 @@ const fylo = () => {
                   key={item.imgSrc}
                 >
                   <div className="flex items-center justify-center h-24 mb-6">
-                    <img src={item.imgSrc} alt="access anywhere" />
+                    <Image
+                      src={`/${item.imgSrc}`}
+                      alt={item.title}
+                      width={80}
+                      height={80}
+                    />
                   </div>
                   <h3 className="text-xl font-bold">{item.title}</h3>
                   <div className="max-w-md">{item.description}</div>
@@ -172,9 +190,11 @@ const fylo = () => {
         <div className="container flex flex-col items-center px-6 pt-24 pb-32 mx-auto md:flex-row md:space-x-16">
           {/* Image */}
           <div className="md:w-1/2">
-            <img
-              src="fylo/images/illustration-stay-productive.png"
-              alt=""
+            <Image
+              src="/fylo/images/illustration-stay-productive.png"
+              alt="Stay productive illustration"
+              width={600}
+              height={400}
               className="mb-10"
             />
           </div>
@@ -195,8 +215,11 @@ const fylo = () => {
                 className="border-b border-accentCyan text-accentCyan"
               >
                 See how Fylo works
-                <img
-                  src="fylo/images/icon-arrow.svg"
+                <Image
+                  src="/fylo/images/icon-arrow.svg"
+                  alt="Arrow icon"
+                  width={20}
+                  height={20}
                   className="inline pb-2 ml-1"
                 />
               </a>
@@ -211,9 +234,11 @@ const fylo = () => {
           {/* Boxes Container */}
           <div className="relative flex flex-col w-full space-y-6 md:flex-row md:space-y-0 md:space-x-12">
             {/* Quotes Image */}
-            <img
-              src="fylo/images/bg-quotes.png"
-              alt=""
+            <Image
+              src="/fylo/images/bg-quotes.png"
+              alt="Quote decoration"
+              width={80}
+              height={60}
               className="absolute w-10 left-1 -top-2 md:-top-16 md:w-20"
             />
             {testimonialsInfo.map((item) => {
@@ -224,9 +249,11 @@ const fylo = () => {
                 >
                   <p className="text-sm leading-5 md:text-lg">{item.content}</p>
                   <div className="flex space-x-4">
-                    <img
-                      src={item.user.image}
-                      alt=""
+                    <Image
+                      src={`/${item.user.image}`}
+                      alt={`${item.user.name} profile`}
+                      width={40}
+                      height={40}
                       className="w-10 h-10 rounded-full"
                     />
                     <div>
@@ -280,9 +307,11 @@ const fylo = () => {
             <div className="mt-10 space-y-6">
               <div className="flex items-center space-x-3 md:-mt-10">
                 <div className="w-6">
-                  <img
-                    src="fylo/images/icon-phone.svg"
-                    alt=""
+                  <Image
+                    src="/fylo/images/icon-phone.svg"
+                    alt="Phone icon"
+                    width={24}
+                    height={24}
                     className="scale-10"
                   />
                 </div>
@@ -290,9 +319,11 @@ const fylo = () => {
               </div>
               <div className="flex items-center space-x-3">
                 <div className="w-6">
-                  <img
-                    src="fylo/images/icon-email.svg"
-                    alt=""
+                  <Image
+                    src="/fylo/images/icon-email.svg"
+                    alt="Email icon"
+                    width={24}
+                    height={24}
                     className="scale-10"
                   />
                 </div>
@@ -316,23 +347,29 @@ const fylo = () => {
             {/* Social */}
             <div className="flex justify-center pb-10 space-x-3">
               <a href="#">
-                <img
-                  src="fylo/images/facebook.svg"
-                  alt=""
+                <Image
+                  src="/fylo/images/facebook.svg"
+                  alt="Facebook"
+                  width={40}
+                  height={40}
                   className="p-2 rounded-full bg-darkBlue ficon"
                 />
               </a>
               <a href="#">
-                <img
-                  src="fylo/images/twitter.svg"
-                  alt=""
+                <Image
+                  src="/fylo/images/twitter.svg"
+                  alt="Twitter"
+                  width={40}
+                  height={40}
                   className="p-2 rounded-full bg-darkBlue ficon"
                 />
               </a>
               <a href="#">
-                <img
-                  src="fylo/images/instagram.svg"
-                  alt=""
+                <Image
+                  src="/fylo/images/instagram.svg"
+                  alt="Instagram"
+                  width={40}
+                  height={40}
                   className="p-2 rounded-full bg-darkBlue ficon"
                 />
               </a>
