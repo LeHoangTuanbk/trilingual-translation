@@ -3,30 +3,30 @@ import Image from "next/image";
 const featureItemRow1 = [
   {
     imgSrc: "fylo/images/icon-access-anywhere.svg",
-    title: "Access your file from anywhere",
+    title: "Access your files anywhere",
     description:
-      " The ability to use a smartphone, tablet, or computer to access your account means your files follow you everywhere.",
+      "The ability to use a smartphone, tablet, or computer to access your account means your files follow you everywhere.",
   },
   {
     imgSrc: "fylo/images/icon-security.svg",
     title: "Security you can trust",
     description:
-      " 2-factor authentication and user-controlled encryption are just a couple of the security features we allow to help secure your files.",
+      "2-factor authentication and user-controlled encryption are just a couple of the security features we allow to help secure your files.",
   },
 ];
 
 const featureItemRow2 = [
   {
     imgSrc: "fylo/images/icon-collaboration.svg",
-    title: "Access your file from anywhere",
+    title: "Real-time collaboration",
     description:
-      " The ability to use a smartphone, tablet, or computer to access your account means your files follow you everywhere.",
+      "Securely share files and folders with friends, family and colleagues for live collaboration. No email attachments required.",
   },
   {
     imgSrc: "fylo/images/icon-any-file.svg",
-    title: "Security you can trust",
+    title: "Store any type of file",
     description:
-      " 2-factor authentication and user-controlled encryption are just a couple of the security features we allow to help secure your files.",
+      "Whether you're sharing holidays photos or work documents, Fylo has you covered allowing for all file types to be securely stored and shared.",
   },
 ];
 
@@ -37,25 +37,25 @@ const testimonialsInfo = [
     user: {
       image: "fylo/images/profile-1.jpg",
       name: "Satish Patel",
-      role: "Founder & CEO. Huddle",
+      role: "Founder & CEO, Huddle",
     },
   },
   {
     content:
-      "Fylo has improved our team productivity by an order of magnitude. Since making the switch our team has become a well-oiled collaboration machine.",
+      "Fylo has given us centralized storage with great security. The security features give me peace of mind that our company data is protected.",
     user: {
       image: "fylo/images/profile-2.jpg",
       name: "Bruce McKenzie",
-      role: "Founder & CEO. Huddle 2",
+      role: "Founder & CEO, Huddle",
     },
   },
   {
     content:
-      "Fylo has improved our team productivity by an order of magnitude. Since making the switch our team has become a well-oiled collaboration machine.",
+      "Fylo has the best team I've ever worked with. They understand what we need and always deliver exactly what we're looking for.",
     user: {
       image: "fylo/images/profile-3.jpg",
-      name: "Eva Boyd",
-      role: "Founder & CEO. Huddle 3",
+      name: "Iva Boyd",
+      role: "Founder & CEO, Huddle",
     },
   },
 ];
