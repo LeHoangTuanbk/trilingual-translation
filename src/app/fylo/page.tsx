@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 const featureItemRow1 = [
   {
@@ -60,7 +63,40 @@ const testimonialsInfo = [
   },
 ];
 
-const fylo = () => {
+const themeConst = {
+  dark: "dark",
+  light: "light",
+} as const;
+
+export type themeValue = (typeof themeConst)[keyof typeof themeConst];
+
+const Fylo = () => {
+  const [theme, setTheme] = useState<themeValue>(themeConst.light);
+  useEffect(() => {
+    const theme = localStorage.getItem("color-theme");
+    const preferColorScheme = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    ).matches;
+    if (theme === themeConst.dark || (!theme && preferColorScheme)) {
+      document.documentElement.classList.add(themeConst.dark);
+      setTheme(themeConst.dark);
+    } else {
+      document.documentElement.classList.remove(themeConst.dark);
+      setTheme(themeConst.light);
+    }
+  }, []);
+  const toggleMode = () => {
+    if (theme === themeConst.dark) {
+      setTheme(themeConst.light);
+      localStorage.setItem("color-theme", themeConst.light);
+      document.documentElement.classList.remove(themeConst.dark);
+    } else {
+      setTheme(themeConst.dark);
+      localStorage.setItem("color-theme", themeConst.dark);
+      document.documentElement.classList.add(themeConst.dark);
+    }
+  };
+
   return (
     <div className="font-sans">
       {/* Header */}
@@ -79,29 +115,33 @@ const fylo = () => {
           <button
             id="theme-toggle"
             className="p-2 text-sm text-gray-500 rounded-lg dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700"
+            onClick={toggleMode}
           >
-            <svg
-              id="theme-toggle-dark-icon"
-              className="hidden w-5 h-5 "
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
-            </svg>
-            <svg
-              id="theme-toggle-light-icon"
-              className="w-5 h-5 "
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-              ></path>
-            </svg>
+            {theme === themeConst.dark ? (
+              <svg
+                id="theme-toggle-dark-icon"
+                className="w-5 h-5 "
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+              </svg>
+            ) : (
+              <svg
+                id="theme-toggle-light-icon"
+                className="w-5 h-5 "
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+            )}
           </button>
         </div>
       </header>
@@ -381,4 +421,4 @@ const fylo = () => {
   );
 };
 
-export default fylo;
+export default Fylo;
