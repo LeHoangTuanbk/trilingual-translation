@@ -1,3 +1,5 @@
+import { ThemeScript } from './theme-script';
+
 export default function FyloLayout({
   children,
 }: {
@@ -9,6 +11,7 @@ export default function FyloLayout({
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Fylo - Cloud Storage</title>
+        <ThemeScript />
       </head>
       <body className="dark:bg-darkBlue dark:text-white font-opensans transition-colors duration-300">
         {children}
