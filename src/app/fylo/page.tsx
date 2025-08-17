@@ -71,7 +71,8 @@ const themeConst = {
 export type themeValue = (typeof themeConst)[keyof typeof themeConst];
 
 const Fylo = () => {
-  const [theme, setTheme] = useState<themeValue>(themeConst.light);
+  const [isDark, setIsDark] = useState(false);
+
   useEffect(() => {
     const theme = localStorage.getItem("color-theme");
     const preferColorScheme = window.matchMedia(
@@ -79,21 +80,25 @@ const Fylo = () => {
     ).matches;
     if (theme === themeConst.dark || (!theme && preferColorScheme)) {
       document.documentElement.classList.add(themeConst.dark);
-      setTheme(themeConst.dark);
+      setIsDark(true);
     } else {
       document.documentElement.classList.remove(themeConst.dark);
-      setTheme(themeConst.light);
+      setIsDark(false);
     }
   }, []);
+
   const toggleMode = () => {
-    if (theme === themeConst.dark) {
-      setTheme(themeConst.light);
+    const isDarkTheme = document.documentElement.classList.contains(
+      themeConst.dark
+    );
+    if (isDarkTheme) {
       localStorage.setItem("color-theme", themeConst.light);
       document.documentElement.classList.remove(themeConst.dark);
+      setIsDark(false);
     } else {
-      setTheme(themeConst.dark);
       localStorage.setItem("color-theme", themeConst.dark);
       document.documentElement.classList.add(themeConst.dark);
+      setIsDark(true);
     }
   };
 
@@ -117,7 +122,7 @@ const Fylo = () => {
             className="p-2 text-sm text-gray-500 rounded-lg dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700"
             onClick={toggleMode}
           >
-            {theme === themeConst.dark ? (
+            {isDark ? (
               <svg
                 id="theme-toggle-dark-icon"
                 className="w-5 h-5 "
