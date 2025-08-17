@@ -103,7 +103,7 @@ const Fylo = () => {
   };
 
   return (
-    <div className="font-sans">
+    <>
       {/* Header */}
       <header className="container flex flex-col items-center justify-between px-6 mx-auto mt-10 md:flex-row md:h-20">
         {/* Dynamic Logo */}
@@ -122,7 +122,7 @@ const Fylo = () => {
             className="p-2 text-sm text-gray-500 rounded-lg dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700"
             onClick={toggleMode}
           >
-            {isDark ? (
+            {!isDark ? (
               <svg
                 id="theme-toggle-dark-icon"
                 className="w-5 h-5 "
@@ -422,7 +422,7 @@ const Fylo = () => {
           </div>
         </div>
       </footer>
-    </div>
+    </>
   );
 };
 
